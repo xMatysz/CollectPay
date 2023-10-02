@@ -5,15 +5,19 @@ namespace CollectPay.Domain.BillAggregate;
 
 public class Bill : AggregateRoot
 {
-    private List<Payment> _payments;
+    private readonly List<Payment> _payments = new ();
+    private readonly List<Guid> _buddyIds;
 
     public string Name { get; }
-    public List<Guid> BuddyIds { get; }
+
+    public IReadOnlyList<Guid> BuddyIds => _buddyIds.AsReadOnly();
+
+    public IReadOnlyList<Payment> Payments => _payments.AsReadOnly();
 
     public Bill(string name, List<Guid> buddyIds)
     {
         Name = name;
-        BuddyIds = buddyIds;
+        _buddyIds = buddyIds;
     }
 
     private void AddPayment(Payment newPayment)
@@ -23,7 +27,22 @@ public class Bill : AggregateRoot
 
     private void DeletePayment(Guid id)
     {
-        var itemToRemove = _payments.First(x => x.Id == id);
+        var itemToRemove = _payments.FirstOrDefault(x => x.Id == id);
         _payments.Remove(itemToRemove);
+
+        if (itemToRemove is null)
+        {
+
+        }
+    }
+
+    private void AddBuddy(Guid buddyId)
+    {
+        _buddyIds.Add(buddyId);
+    }
+
+    private void RemoveBuddy(Guid buddyId)
+    {
+        _buddyIds.Remove(buddyId);
     }
 }

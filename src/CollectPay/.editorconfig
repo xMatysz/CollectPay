@@ -1,0 +1,77 @@
+root = true
+
+[*.cs]
+
+indent_size = tab
+indent_style = tab
+
+# Interfaces
+dotnet_naming_symbols.interfaces.applicable_kinds = interface
+dotnet_naming_symbols.interfaces.applicable_accessibilities = *
+
+dotnet_naming_style.interfaceStyle.capitalization = pascal_case
+dotnet_naming_style.interfaceStyle.required_prefix	 = I
+
+dotnet_naming_rule.interfaces_starts_with_i.symbols = interfaces
+dotnet_naming_rule.interfaces_starts_with_i.style = interfaceStyle
+dotnet_naming_rule.interfaces_starts_with_i.severity = error
+
+# Define the 'private_fields' symbol group:
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+
+# Define the 'private_static_fields' symbol group
+dotnet_naming_symbols.private_static_fields.applicable_kinds = field
+dotnet_naming_symbols.private_static_fields.applicable_accessibilities = private
+dotnet_naming_symbols.private_static_fields.required_modifiers = const
+
+# Define the 'underscored' naming style
+dotnet_naming_style.underscored.capitalization = camel_case
+dotnet_naming_style.underscored.required_prefix = _
+
+# Define the 'private_fields_underscored' naming rule
+dotnet_naming_rule.private_fields_underscored.symbols = private_fields
+dotnet_naming_rule.private_fields_underscored.style = underscored
+dotnet_naming_rule.private_fields_underscored.severity = error
+
+# Define the 'private_static_fields_none' naming rule
+dotnet_naming_rule.private_static_fields_none.symbols = private_static_fields
+dotnet_naming_rule.private_static_fields_none.style = underscored
+dotnet_naming_rule.private_static_fields_none.severity = error
+
+# Public properties
+dotnet_naming_symbols.public_properties.applicable_kinds = property
+dotnet_naming_symbols.public_properties.applicable_accessibilities = public
+
+dotnet_naming_style.public_properties_style.capitalization = pascal_case
+
+dotnet_naming_rule.public_property_pascalcase.symbols = public_properties
+dotnet_naming_rule.public_property_pascalcase.style = public_properties_style
+dotnet_naming_rule.public_property_pascalcase.severity = error
+
+
+# this and Me preferences (IDE0003 and IDE0009)
+dotnet_style_qualification_for_field = false:error
+dotnet_style_qualification_for_property = false:error
+dotnet_style_qualification_for_method = false:error
+dotnet_style_qualification_for_event = false:error
+
+# Remove unnecessary using directives
+dotnet_diagnostic.IDE0005.severity = error
+
+# 'var' preferences (IDE0007 and IDE0008)
+csharp_style_var_for_built_in_types = true:error
+csharp_style_var_when_type_is_apparent = true:error
+csharp_style_var_elsewhere = true:error
+
+# Add missing cases to switch statement (IDE0010)
+dotnet_diagnostic.IDE0010.severity = warning
+
+# Add braces (IDE0011)
+csharp_prefer_braces = true:error;
+
+# Remove unused private member (IDE0051)
+dotnet_diagnostic.IDE0051.severity = hint
+
+# Elements Must Be Documented
+dotnet_diagnostic.CS1591.severity = none

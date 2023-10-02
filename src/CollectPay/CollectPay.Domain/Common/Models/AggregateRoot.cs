@@ -7,7 +7,7 @@ public class AggregateRoot : Entity
     {
     }
 
-    protected readonly List<IDomainEvent> _domainEvents = new();
+    private readonly List<IDomainEvent> _domainEvents = new();
 
     public List<IDomainEvent> PopDomainEvents()
     {
@@ -17,5 +17,7 @@ public class AggregateRoot : Entity
         return copy;
     }
 
-    protected AggregateRoot() { }
+    protected AggregateRoot()
+    {
+    }
 }
