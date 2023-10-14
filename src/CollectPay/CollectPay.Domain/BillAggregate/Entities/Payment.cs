@@ -5,19 +5,19 @@ namespace CollectPay.Domain.BillAggregate.Entities;
 
 public sealed class Payment : Entity
 {
-	public Guid Creator { get; set; }
+	public Guid CreatorId { get; set; }
     public bool IsCreatorIncluded { get; set; }
     public decimal Amount { get; set; }
     public string Currency { get; set; }
-    public List<Guid> BuddyIds { get; set; }
+    public List<Guid> DebtorIds { get; set; }
 
-    private Payment(Guid creator, bool isCreatorIncluded, decimal amount, string currency, List<Guid> buddyIds)
+    private Payment(Guid creatorId, bool isCreatorIncluded, decimal amount, string currency, List<Guid> debtorIds)
     {
-	    Creator = creator;
+	    CreatorId = creatorId;
 	    IsCreatorIncluded = isCreatorIncluded;
 	    Amount = amount;
 	    Currency = currency;
-	    BuddyIds = buddyIds;
+	    DebtorIds = debtorIds;
     }
 
     public static ErrorOr<Payment> Create(Guid creator, bool isCreatorIncluded, decimal amount, string currency, List<Guid> buddyIds)
