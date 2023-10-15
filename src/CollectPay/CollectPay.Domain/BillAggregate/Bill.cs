@@ -7,10 +7,10 @@ namespace CollectPay.Domain.BillAggregate;
 
 public class Bill : AggregateRoot
 {
-    private readonly List<Payment> _payments;
     private readonly List<Guid> _buddyIds;
+    private readonly List<Payment> _payments = new();
     private readonly DebtCalculatorService _debtCalculator = new();
-    private List<Debt> _debts;
+    private List<Debt> _debts = new();
 
     public Guid CreatorId { get; }
     public string Name { get; }
@@ -23,8 +23,6 @@ public class Bill : AggregateRoot
 	    CreatorId = creatorId;
         Name = name;
         _buddyIds = buddyIds;
-
-        _payments = new List<Payment>();
     }
 
     public void AddBuddy(Guid buddyId)
