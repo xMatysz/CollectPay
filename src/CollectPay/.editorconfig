@@ -71,7 +71,7 @@ dotnet_diagnostic.IDE0010.severity = warning
 csharp_prefer_braces = true:error;
 
 # Remove unused private member (IDE0051)
-dotnet_diagnostic.IDE0051.severity = hint
+dotnet_diagnostic.IDE0051.severity = warning
 
 # Elements Must Be Documented
 dotnet_diagnostic.CS1591.severity = none
