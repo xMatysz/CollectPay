@@ -18,7 +18,7 @@ public class WhenAddingPayment
 	}
 
 	[Fact]
-	public void ShouldAssignDebts()
+	public void ShouldGenerateDebts()
 	{
 		var creatorId = Guid.NewGuid();
 		var debtorId = Guid.NewGuid();
