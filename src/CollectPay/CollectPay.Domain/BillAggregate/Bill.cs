@@ -10,13 +10,11 @@ public class Bill : AggregateRoot
     private readonly List<Guid> _buddyIds;
     private readonly List<Payment> _payments = new();
     private readonly DebtCalculatorService _debtCalculator = new();
-    private List<Debt> _debts = new();
 
     public Guid CreatorId { get; }
     public string Name { get; }
     public IReadOnlyList<Guid> BuddyIds => _buddyIds.AsReadOnly();
     public IReadOnlyList<Payment> Payments => _payments.AsReadOnly();
-    public IReadOnlyCollection<Debt> Debts => _debts.AsReadOnly();
 
     public Bill(Guid creatorId, string name, List<Guid> buddyIds)
     {
@@ -38,20 +36,16 @@ public class Bill : AggregateRoot
     public void AddPayment(Payment newPayment)
     {
         _payments.Add(newPayment);
-
-        CalculateDebts();
     }
 
     public void DeletePayment(Guid id)
     {
         var itemToRemove = _payments.FirstOrDefault(x => x.Id == id);
         _payments.Remove(itemToRemove);
-
-        CalculateDebts();
     }
 
-    private void CalculateDebts()
+    public IReadOnlyCollection<Debt> CalculateDebts()
     {
-	    _debts = _debtCalculator.Recalculate(Payments);
+	    return _debtCalculator.Recalculate(Payments).AsReadOnly();
     }
 }

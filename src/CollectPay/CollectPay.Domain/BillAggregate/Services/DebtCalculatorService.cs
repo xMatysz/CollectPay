@@ -5,7 +5,7 @@ namespace CollectPay.Domain.BillAggregate.Services;
 public class DebtCalculatorService
 {
 	private readonly Dictionary<Guid, decimal> _balance = new();
-	private List<Debt> _allDebts = new();
+	private readonly List<Debt> _allDebts = new();
 
 	public List<Debt> Recalculate(IReadOnlyList<Payment> payments)
 	{

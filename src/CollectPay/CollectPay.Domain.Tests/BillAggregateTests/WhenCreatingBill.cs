@@ -15,6 +15,5 @@ public class WhenCreatingBill
 		bill.CreatorId.Should().Be(creatorId);
 		bill.Name.Should().Be(billName);
 		bill.Payments.Should().BeEmpty();
-		bill.Debts.Should().BeEmpty();
 	}
 }

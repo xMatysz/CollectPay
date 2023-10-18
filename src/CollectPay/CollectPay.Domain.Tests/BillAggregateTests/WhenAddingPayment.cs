@@ -32,8 +32,9 @@ public class WhenAddingPayment
 		_bill.AddPayment(payment);
 
 		_bill.Payments.Should().HaveCount(1);
-		_bill.Debts.Should().HaveCount(1);
-		var debt = _bill.Debts.First();
+		var debts = _bill.CalculateDebts();
+		debts.Should().HaveCount(1);
+		var debt = debts.First();
 		debt.Creditor.Should().Be(creatorId);
 		debt.Debtor.Should().Be(debtorId);
 		debt.DebtAmount.Should().Be(debtAmount);
