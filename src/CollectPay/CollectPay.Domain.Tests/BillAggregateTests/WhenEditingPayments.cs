@@ -3,7 +3,7 @@ using CollectPay.Domain.Tests.TestsUtilities;
 
 namespace CollectPay.Domain.Tests.BillAggregateTests;
 
-public class WhenAddingPayment
+public class WhenEditingPayments
 {
 	private readonly Bill _bill = new BillBuilder().Build();
 
@@ -15,6 +15,27 @@ public class WhenAddingPayment
 		_bill.AddPayment(payment);
 
 		_bill.Payments.Should().HaveCount(1);
+	}
+
+	[Fact]
+	public void ShouldDeletePayment()
+	{
+		var payments = new[]
+		{
+			new PaymentBuilder().Build(),
+			new PaymentBuilder().Build(),
+			new PaymentBuilder().Build()
+		};
+
+		foreach (var payment in payments)
+		{
+			_bill.AddPayment(payment);
+		}
+		var paymentToDelete = payments.First();
+
+		_bill.DeletePayment(paymentToDelete.Id);
+
+		_bill.Payments.Should().HaveCount(2);
 	}
 
 	[Fact]
