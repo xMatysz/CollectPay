@@ -2,7 +2,7 @@
 
 namespace CollectPay.Application.BillAggregate.Commands.Create;
 
-public record CreateBillCommand(
+public sealed record CreateBillCommand(
 	Guid CreatorId,
 	string BillName,
 	List<Guid> BuddyIds) : ICommand;

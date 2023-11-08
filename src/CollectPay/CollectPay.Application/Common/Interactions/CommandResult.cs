@@ -1,5 +1,5 @@
 ﻿namespace CollectPay.Application.Common.Interactions;
 
-public interface IResponse
+public class CommandResult
 {
 }

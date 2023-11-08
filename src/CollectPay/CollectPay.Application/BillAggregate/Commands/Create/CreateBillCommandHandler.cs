@@ -4,7 +4,7 @@ using CollectPay.Domain.BillAggregate;
 
 namespace CollectPay.Application.BillAggregate.Commands.Create;
 
-public sealed class CreateBillCommandHandler : ICommandHandler<CreateBillCommand>
+public sealed class CreateBillCommandHandler : CommandHandler<CreateBillCommand>
 {
 	private readonly IBillRepository _billRepository;
 
@@ -13,11 +13,10 @@ public sealed class CreateBillCommandHandler : ICommandHandler<CreateBillCommand
 		_billRepository = billRepository;
 	}
 
-	public Task Handle(CreateBillCommand command, CancellationToken cancellationToken)
+	protected override async Task Process(CreateBillCommand command, CancellationToken cancellationToken)
 	{
 		var bill = new Bill(command.CreatorId, command.BillName, command.BuddyIds);
 
-		_billRepository.Add(bill);
-		return Task.CompletedTask;
+		await _billRepository.AddAsync(bill, cancellationToken);
 	}
 }

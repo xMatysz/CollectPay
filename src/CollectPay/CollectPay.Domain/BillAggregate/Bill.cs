@@ -7,30 +7,30 @@ namespace CollectPay.Domain.BillAggregate;
 
 public class Bill : AggregateRoot
 {
-    private readonly List<Guid> _buddyIds;
+    // private readonly List<Guid> _buddyIds;
     private readonly List<Payment> _payments = new();
     private readonly DebtCalculatorService _debtCalculator = new();
 
-    public Guid CreatorId { get; }
-    public string Name { get; }
-    public IReadOnlyList<Guid> BuddyIds => _buddyIds.AsReadOnly();
+    public Guid CreatorId { get; init; }
+    public string Name { get; init; }
+    // public IReadOnlyList<Guid> BuddyIds => _buddyIds.AsReadOnly();
     public IReadOnlyList<Payment> Payments => _payments.AsReadOnly();
 
     public Bill(Guid creatorId, string name, List<Guid> buddyIds)
     {
 	    CreatorId = creatorId;
         Name = name;
-        _buddyIds = buddyIds;
+        // _buddyIds = buddyIds;
     }
 
     public void AddBuddy(Guid buddyId)
     {
-	    _buddyIds.Add(buddyId);
+	   // _buddyIds.Add(buddyId);
     }
 
     public void RemoveBuddy(Guid buddyId)
     {
-	    _buddyIds.Remove(buddyId);
+	    // _buddyIds.Remove(buddyId);
     }
 
     public void AddPayment(Payment newPayment)
@@ -47,5 +47,9 @@ public class Bill : AggregateRoot
     public IReadOnlyCollection<Debt> CalculateDebts()
     {
 	    return _debtCalculator.Recalculate(Payments).AsReadOnly();
+    }
+
+    public Bill()
+    {
     }
 }

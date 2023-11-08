@@ -2,6 +2,8 @@
 
 namespace CollectPay.Application.Common.Repositories;
 
-public interface IBillRepository : IRepository<Bill, Guid>
+public interface IBillRepository
 {
+	Task AddAsync(Bill bill, CancellationToken cancellationToken);
+	Task<List<Bill>> GetAll();
 }

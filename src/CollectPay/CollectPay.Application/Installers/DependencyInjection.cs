@@ -1,4 +1,7 @@
-﻿using FluentValidation;
+﻿using CollectPay.Application.Behaviors;
+using CollectPay.Application.Common.Interactions;
+using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CollectPay.Application.Installers;
@@ -11,9 +14,12 @@ public static class DependencyInjection
 		var assembly = typeof(DependencyInjection).Assembly;
 
 		services.AddMediatR(config =>
-			config.RegisterServicesFromAssembly(assembly));
+		{
+			config.RegisterServicesFromAssembly(assembly);
 
-		services.AddValidatorsFromAssembly(assembly);
+			config.AddOpenBehavior(typeof(ValidationBehavior<,>));
+			config.AddOpenBehavior(typeof(UnitOfWorkBehavior2<,>));
+		});
 
 		return services;
 	}

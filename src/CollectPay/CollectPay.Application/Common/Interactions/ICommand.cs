@@ -6,7 +6,7 @@ public interface ICommand : IRequest
 {
 }
 
-public interface ICommand<out T> : IRequest<T>
-	where T : IResponse
+public interface ICommand<out TResult> : IRequest<TResult>
+	where TResult : CommandResult
 {
 }

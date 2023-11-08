@@ -8,10 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\CollectPay.Application\CollectPay.Application.csproj" />
+      <ProjectReference Include="..\CollectPay.Persistence\CollectPay.Persistence.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11" />
-    </ItemGroup>
-
+    
 </Project>
