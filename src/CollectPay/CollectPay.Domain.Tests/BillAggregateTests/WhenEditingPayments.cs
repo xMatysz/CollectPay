@@ -37,27 +37,4 @@ public class WhenEditingPayments
 
 		_bill.Payments.Should().HaveCount(2);
 	}
-
-	[Fact]
-	public void ShouldGenerateDebts()
-	{
-		var creatorId = Guid.NewGuid();
-		var debtorId = Guid.NewGuid();
-		const decimal debtAmount = 10m;
-		var payment = new PaymentBuilder()
-			.WithCreatorId(creatorId)
-			.WithAmount(debtAmount)
-			.WithDebtors(new List<Guid> { debtorId })
-			.Build();
-
-		_bill.AddPayment(payment);
-
-		_bill.Payments.Should().HaveCount(1);
-		var debts = _bill.CalculateDebts();
-		debts.Should().HaveCount(1);
-		var debt = debts.First();
-		debt.Creditor.Should().Be(creatorId);
-		debt.Debtor.Should().Be(debtorId);
-		debt.DebtAmount.Should().Be(debtAmount);
-	}
 }

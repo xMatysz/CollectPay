@@ -1,5 +1,7 @@
 ﻿using CollectPay.Application.Common.Repositories;
+using CollectPay.Application.Services;
 using CollectPay.Infrastructure.Repositories;
+using CollectPay.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CollectPay.Infrastructure.Installers;
@@ -11,6 +13,8 @@ public static class DependencyInjection
 	{
 		services.AddScoped<IUnitOfWork, UnitOfWork>();
 		services.AddScoped<IBillRepository, BillRepository>();
+		services.AddScoped<IDebtService, DebtService>();
+
 		return services;
 	}
 }

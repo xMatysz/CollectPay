@@ -1,13 +1,15 @@
-﻿using CollectPay.Domain.BillAggregate.Entities;
+﻿using CollectPay.Application.Services;
+using CollectPay.Domain.BillAggregate.Entities;
 using CollectPay.Domain.BillAggregate.ValueObjects;
 
-namespace CollectPay.Domain.BillAggregate.Services;
-public class DebtCalculatorService
+namespace CollectPay.Infrastructure.Services;
+
+public class DebtService : IDebtService
 {
 	private readonly Dictionary<Guid, decimal> _balance = new();
 	private readonly List<Debt> _allDebts = new();
 
-	public List<Debt> Recalculate(IReadOnlyList<Payment> payments)
+	public Task<List<Debt>> CalculateDebt(IReadOnlyList<Payment> payments)
 	{
 		var usersFromPayments = payments.Select(x => x.CreatorId).ToList();
 		usersFromPayments.AddRange(payments.SelectMany(x => x.DebtorIds));
@@ -55,7 +57,7 @@ public class DebtCalculatorService
 		}
 	}
 
-	private List<Debt> CalculateDebt()
+	private Task<List<Debt>> CalculateDebt()
 	{
 		var sortedPayers = _balance
 			.Where(x => x.Value < 0)
@@ -100,6 +102,6 @@ public class DebtCalculatorService
 			}
 		}
 
-		return _allDebts.ToList();
+		return Task.FromResult(_allDebts.ToList());
 	}
 }

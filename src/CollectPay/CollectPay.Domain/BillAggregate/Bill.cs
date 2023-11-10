@@ -1,6 +1,4 @@
 ﻿using CollectPay.Domain.BillAggregate.Entities;
-using CollectPay.Domain.BillAggregate.Services;
-using CollectPay.Domain.BillAggregate.ValueObjects;
 using CollectPay.Domain.Common.Models;
 
 namespace CollectPay.Domain.BillAggregate;
@@ -9,7 +7,6 @@ public class Bill : AggregateRoot
 {
     // private readonly List<Guid> _buddyIds;
     private readonly List<Payment> _payments = new();
-    private readonly DebtCalculatorService _debtCalculator = new();
 
     public Guid CreatorId { get; init; }
     public string Name { get; init; }
@@ -44,12 +41,7 @@ public class Bill : AggregateRoot
         _payments.Remove(itemToRemove);
     }
 
-    public IReadOnlyCollection<Debt> CalculateDebts()
-    {
-	    return _debtCalculator.Recalculate(Payments).AsReadOnly();
-    }
-
-    public Bill()
+    private Bill()
     {
     }
 }

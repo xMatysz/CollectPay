@@ -1,7 +1,4 @@
 ﻿using CollectPay.Application.Behaviors;
-using CollectPay.Application.Common.Interactions;
-using FluentValidation;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CollectPay.Application.Installers;
