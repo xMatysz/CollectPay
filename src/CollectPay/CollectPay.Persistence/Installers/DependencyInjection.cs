@@ -6,10 +6,10 @@ namespace CollectPay.Persistence.Installers;
 public static class DependencyInjection
 {
 	public static IServiceCollection AddPersistence(
-		this IServiceCollection services)
+		this IServiceCollection services, string connectionString)
 	{
 		services.AddDbContext<CollectPayDbContext>(opt =>
-			opt.UseNpgsql("host=localhost;port=1000;username=root;password=123;database=collect"));
+			opt.UseNpgsql(connectionString));
 
 		return services;
 	}
