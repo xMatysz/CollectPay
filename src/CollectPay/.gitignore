@@ -3,3 +3,4 @@ obj/
 .idea/
 CollectPay.sln.DotSettings.user
 CollectPay.Api/logs
+CollectPay.Api/Properties/*
