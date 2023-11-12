@@ -22,10 +22,15 @@ public class UnitOfWork : IUnitOfWork
 		_dbContext.Database.RollbackTransaction();
 	}
 
+	public async Task SaveChangesAsync(CancellationToken cancellationToken)
+	{
+		await _dbContext.SaveChangesAsync(cancellationToken);
+	}
+
 	public async Task CommitAsync(CancellationToken cancellationToken)
 	{
 		await _dbContext.Database.CommitTransactionAsync(cancellationToken);
-		await _dbContext.SaveChangesAsync(cancellationToken);
+		await SaveChangesAsync(cancellationToken);
 	}
 
 	public void Dispose()
