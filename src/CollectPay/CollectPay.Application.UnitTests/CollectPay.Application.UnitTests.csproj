@@ -14,7 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CollectPay.Domain\CollectPay.Domain.csproj" />
+      <ProjectReference Include="..\CollectPay.Application\CollectPay.Application.csproj" />
       <ProjectReference Include="..\CollectPay.UnitTests.Shared\CollectPay.UnitTests.Shared.csproj" />
     </ItemGroup>
 

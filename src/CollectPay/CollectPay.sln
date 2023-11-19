@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectPay.UnitTests.Shared
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectPay.Domain.UnitTests", "CollectPay.Domain.UnitTests\CollectPay.Domain.UnitTests.csproj", "{DCDD733E-F3A9-4EAC-8536-B0CF812FC5D2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectPay.Application.UnitTests", "CollectPay.Application.UnitTests\CollectPay.Application.UnitTests.csproj", "{16C6C4DB-6759-4FC5-9450-D00243373BB7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +54,10 @@ Global
 		{DCDD733E-F3A9-4EAC-8536-B0CF812FC5D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCDD733E-F3A9-4EAC-8536-B0CF812FC5D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCDD733E-F3A9-4EAC-8536-B0CF812FC5D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16C6C4DB-6759-4FC5-9450-D00243373BB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16C6C4DB-6759-4FC5-9450-D00243373BB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16C6C4DB-6759-4FC5-9450-D00243373BB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16C6C4DB-6759-4FC5-9450-D00243373BB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{35A73D80-B0AD-4592-B32C-02F81ACF6EF2} = {53327A3B-1841-4EC8-8430-B77FCF44AEB3}
@@ -61,5 +67,6 @@ Global
 		{38AFF374-3C77-474D-ABAA-EBD9A71D64ED} = {53327A3B-1841-4EC8-8430-B77FCF44AEB3}
 		{9AEFF140-9A2D-460D-9382-E3FB1DC85A28} = {4841470A-839B-4C27-A342-1CCC9993022B}
 		{DCDD733E-F3A9-4EAC-8536-B0CF812FC5D2} = {4841470A-839B-4C27-A342-1CCC9993022B}
+		{16C6C4DB-6759-4FC5-9450-D00243373BB7} = {4841470A-839B-4C27-A342-1CCC9993022B}
 	EndGlobalSection
 EndGlobal

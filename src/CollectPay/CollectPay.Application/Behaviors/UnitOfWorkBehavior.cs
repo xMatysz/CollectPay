@@ -14,7 +14,7 @@ public sealed class UnitOfWorkBehavior<TCommand, _> : IPipelineBehavior<TCommand
 		_unitOfWork = unitOfWork;
 	}
 
-	public async Task<Unit> Handle(TCommand request, RequestHandlerDelegate<Unit> next, CancellationToken cancellationToken)
+	public async Task<Unit> Handle(TCommand request, RequestHandlerDelegate<Unit> next, CancellationToken cancellationToken = default)
 	{
 		_unitOfWork.BeginTransaction();
 
