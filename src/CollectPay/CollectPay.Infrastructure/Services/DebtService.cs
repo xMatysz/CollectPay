@@ -41,12 +41,12 @@ public class DebtService : IDebtService
 		switch (payment.IsCreatorIncluded)
 		{
 			case true:
-				debt = payment.Amount / (payment.DebtorIds.Count + 1);
+				debt = payment.Amount / (payment.DebtorIds.Count() + 1);
 				_balance[payment.CreatorId] -= payment.Amount - debt;
 				break;
 
 			case false:
-				debt = payment.Amount / payment.DebtorIds.Count;
+				debt = payment.Amount / payment.DebtorIds.Count();
 				_balance[payment.CreatorId] -= payment.Amount;
 				break;
 		}

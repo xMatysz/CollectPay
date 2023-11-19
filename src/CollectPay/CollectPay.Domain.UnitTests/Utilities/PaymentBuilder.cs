@@ -1,6 +1,6 @@
 ﻿using CollectPay.Domain.BillAggregate.Entities;
 
-namespace CollectPay.Domain.Tests.TestsUtilities;
+namespace CollectPay.Domain.UnitTests.Utilities;
 
 public class PaymentBuilder
 {
@@ -8,17 +8,17 @@ public class PaymentBuilder
 	private bool _isCreatorIncluded = false;
 	private decimal _amount = 21.37m;
 	private string _currency = "PLN";
-	private List<Guid> _debtors = new(){Guid.NewGuid()};
+	private IEnumerable<Guid> _debtors = new[] { Guid.NewGuid() };
 
-	public PaymentBuilder WithCreatorId(Guid id)
+	public PaymentBuilder WithCreatorId(Guid creatorId)
 	{
-		_creatorId = id;
+		_creatorId = creatorId;
 		return this;
 	}
 
-	public PaymentBuilder AsCreatorIncluded(bool isCreatorIncluded)
+	public PaymentBuilder WithCreatorIncluded()
 	{
-		_isCreatorIncluded = isCreatorIncluded;
+		_isCreatorIncluded = true;
 		return this;
 	}
 
@@ -34,7 +34,7 @@ public class PaymentBuilder
 		return this;
 	}
 
-	public PaymentBuilder WithDebtors(List<Guid> debtors)
+	public PaymentBuilder WithDebtors(IEnumerable<Guid> debtors)
 	{
 		_debtors = debtors;
 		return this;

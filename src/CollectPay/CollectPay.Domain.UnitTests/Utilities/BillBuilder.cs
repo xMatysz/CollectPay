@@ -1,12 +1,11 @@
 ﻿using CollectPay.Domain.BillAggregate;
 
-namespace CollectPay.Domain.Tests.TestsUtilities;
+namespace CollectPay.Domain.UnitTests.Utilities;
 
 public class BillBuilder
 {
 	private Guid _creatorId = Guid.NewGuid();
 	private string _billName = "TestBill";
-	private List<Guid> _buddyIds = new();
 
 	public BillBuilder WithCreatorId(Guid id)
 	{
@@ -20,14 +19,8 @@ public class BillBuilder
 		return this;
 	}
 
-	public BillBuilder WithBuddyIds(List<Guid> buddyIds)
-	{
-		_buddyIds = buddyIds;
-		return this;
-	}
-
 	public Bill Build()
 	{
-		return new Bill(_creatorId, _billName, _buddyIds);
+		return new Bill(_creatorId, _billName);
 	}
 }

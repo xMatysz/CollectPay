@@ -9,10 +9,11 @@ public sealed class Payment : Entity
     public bool IsCreatorIncluded { get; set; }
     public decimal Amount { get; set; }
     public string Currency { get; set; }
-    public List<Guid> DebtorIds { get; set; }
+    public IEnumerable<Guid> DebtorIds { get; set; }
 
-    private Payment(Guid creatorId, bool isCreatorIncluded, decimal amount, string currency, List<Guid> debtorIds)
+    private Payment(Guid creatorId, bool isCreatorIncluded, decimal amount, string currency, IEnumerable<Guid> debtorIds)
     {
+	    Id = Guid.NewGuid();
 	    CreatorId = creatorId;
 	    IsCreatorIncluded = isCreatorIncluded;
 	    Amount = amount;
@@ -20,7 +21,7 @@ public sealed class Payment : Entity
 	    DebtorIds = debtorIds;
     }
 
-    public static ErrorOr<Payment> Create(Guid creator, bool isCreatorIncluded, decimal amount, string currency, List<Guid> buddyIds)
+    public static ErrorOr<Payment> Create(Guid creator, bool isCreatorIncluded, decimal amount, string currency, IEnumerable<Guid> buddyIds)
     {
         if (currency.Length > 3)
         {

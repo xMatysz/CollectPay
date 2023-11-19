@@ -15,7 +15,7 @@ public sealed class CreateBillCommandHandler : CommandHandler<CreateBillCommand>
 
 	protected override async Task Process(CreateBillCommand command, CancellationToken cancellationToken)
 	{
-		var bill = new Bill(command.CreatorId, command.BillName, command.BuddyIds);
+		var bill = new Bill(command.CreatorId, command.BillName);
 
 		await _billRepository.AddAsync(bill, cancellationToken);
 	}
