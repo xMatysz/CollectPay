@@ -1,7 +1,7 @@
 ﻿namespace CollectPay.Api.Common;
 
-public static class Routes
+public static class BillRouters
 {
-	public const string Bills = "bills";
-	public const string BillCreate = "bill/create";
+	public const string List = "bills";
+	public const string Create = "bills/create";
 }

@@ -9,11 +9,11 @@ namespace CollectPay.Api.Errors;
 public class CollectPayProblemDetailsFactory : ProblemDetailsFactory
 {
     private readonly ApiBehaviorOptions _options;
-    private readonly Action<ProblemDetailsContext>? _configure;
+    private readonly Action<ProblemDetailsContext> _configure;
 
     public CollectPayProblemDetailsFactory(
         IOptions<ApiBehaviorOptions> options,
-        IOptions<ProblemDetailsOptions>? problemDetailsOptions = null)
+        IOptions<ProblemDetailsOptions> problemDetailsOptions = null)
     {
         _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
         _configure = problemDetailsOptions?.Value?.CustomizeProblemDetails;
@@ -22,10 +22,10 @@ public class CollectPayProblemDetailsFactory : ProblemDetailsFactory
     public override ProblemDetails CreateProblemDetails(
         HttpContext httpContext,
         int? statusCode = null,
-        string? title = null,
-        string? type = null,
-        string? detail = null,
-        string? instance = null)
+        string title = null,
+        string type = null,
+        string detail = null,
+        string instance = null)
     {
         statusCode ??= 500;
 
@@ -47,10 +47,10 @@ public class CollectPayProblemDetailsFactory : ProblemDetailsFactory
         HttpContext httpContext,
         ModelStateDictionary modelStateDictionary,
         int? statusCode = null,
-        string? title = null,
-        string? type = null,
-        string? detail = null,
-        string? instance = null)
+        string title = null,
+        string type = null,
+        string detail = null,
+        string instance = null)
     {
         if (modelStateDictionary == null)
         {

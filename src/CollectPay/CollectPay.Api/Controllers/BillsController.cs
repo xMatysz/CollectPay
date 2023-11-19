@@ -7,26 +7,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CollectPay.Api.Controllers;
 
-[ApiController]
-public class BillsController
+public class BillsController : ApiController
 {
-	private readonly IMediator _mediator;
-
 	public BillsController(IMediator mediator)
+		: base(mediator)
 	{
-		_mediator = mediator;
 	}
 
-	[HttpGet(Routes.Bills)]
+	[HttpGet(BillRouters.List)]
 	public async Task<List<Bill>> GetBills()
 	{
-		var results = await _mediator.Send(new GetBillsQuery());
+		var results = await Mediator.Send(new GetBillsQuery());
 		return results;
 	}
 
-	[HttpPost(Routes.BillCreate)]
+	[HttpPost(BillRouters.Create)]
 	public async Task CreateBill([FromBody] CreateBillCommand command)
 	{
-		await _mediator.Send(command);
+		await Mediator.Send(command);
 	}
 }
