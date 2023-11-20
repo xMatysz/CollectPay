@@ -19,8 +19,8 @@ public sealed class BillRepository : IBillRepository
 		await _dbContext.AddAsync(bill, cancellationToken);
 	}
 
-	public async Task<List<Bill>> GetAll()
+	public async Task<List<Bill>> GetAllAsync(CancellationToken cancellationToken)
 	{
-		 return await _dbContext.Set<Bill>().ToListAsync();
+		 return await _dbContext.Set<Bill>().ToListAsync(cancellationToken);
 	}
 }

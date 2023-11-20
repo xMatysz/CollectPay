@@ -9,21 +9,21 @@ namespace CollectPay.Api.Controllers;
 
 public class BillsController : ApiController
 {
-	public BillsController(IMediator mediator)
-		: base(mediator)
+	public BillsController(ISender sender)
+		: base(sender)
 	{
 	}
 
 	[HttpGet(BillRouters.List)]
 	public async Task<List<Bill>> GetBills()
 	{
-		var results = await Mediator.Send(new GetBillsQuery());
+		var results = await Sender.Send(new GetBillsQuery());
 		return results;
 	}
 
 	[HttpPost(BillRouters.Create)]
 	public async Task CreateBill([FromBody] CreateBillCommand command)
 	{
-		await Mediator.Send(command);
+		await Sender.Send(command);
 	}
 }

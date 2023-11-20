@@ -4,19 +4,17 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-
-        <IsPackable>false</IsPackable>
-        <IsTestProject>true</IsTestProject>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FluentAssertions" Version="6.12.0" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
-        <PackageReference Include="NSubstitute" Version="5.1.0" />
-        <PackageReference Include="xunit" Version="2.6.2" />
+      <PackageReference Include="FluentAssertions" Version="6.12.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.14" />
+      <PackageReference Include="Testcontainers.PostgreSql" Version="3.6.0" />
+      <PackageReference Include="xunit" Version="2.6.2" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\CollectPay.Api\CollectPay.Api.csproj" />
       <ProjectReference Include="..\CollectPay.Tests.Shared\CollectPay.Tests.Shared.csproj" />
     </ItemGroup>
 

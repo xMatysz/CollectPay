@@ -15,6 +15,6 @@ public class GetBillsQueryHandler : IRequestHandler<GetBillsQuery, List<Bill>>
 
 	public Task<List<Bill>> Handle(GetBillsQuery request, CancellationToken cancellationToken)
 	{
-		return _billRepository.GetAll();
+		return _billRepository.GetAllAsync(cancellationToken);
 	}
 }

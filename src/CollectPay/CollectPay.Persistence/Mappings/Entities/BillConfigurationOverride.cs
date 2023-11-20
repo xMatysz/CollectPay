@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CollectPay.Persistence.Mappings;
+namespace CollectPay.Persistence.Mappings.Entities;
 
 public class BillConfigurationOverride : IEntityTypeConfiguration<Bill>
 {
@@ -11,6 +11,9 @@ public class BillConfigurationOverride : IEntityTypeConfiguration<Bill>
 		builder.ToTable("Bills");
 		builder.HasKey(x => x.Id);
 
-		builder.HasMany(x => x.Payments).WithOne().HasForeignKey("BillId").OnDelete(DeleteBehavior.Cascade);
+		builder.HasMany(x => x.Payments)
+			.WithOne()
+			.HasForeignKey("BillId")
+			.OnDelete(DeleteBehavior.Cascade);
 	}
 }

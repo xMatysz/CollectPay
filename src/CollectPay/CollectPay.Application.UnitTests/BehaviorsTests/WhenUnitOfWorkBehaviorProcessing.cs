@@ -20,7 +20,7 @@ public class WhenUnitOfWorkBehaviorProcessing
 	}
 
 	[Fact]
-	public async Task ShouldCommitOnSuccess()
+	public async Task ShouldCommitChangesOnSuccess()
 	{
 		_nextDelegate.Invoke().Returns(Unit.Value);
 
@@ -32,7 +32,7 @@ public class WhenUnitOfWorkBehaviorProcessing
 	}
 
 	[Fact]
-	public async Task ShouldRollbackOnFail()
+	public async Task ShouldRollbackChangesOnFail()
 	{
 		_nextDelegate.When(x => x.Invoke())
 			.Do(_ => throw new Exception());

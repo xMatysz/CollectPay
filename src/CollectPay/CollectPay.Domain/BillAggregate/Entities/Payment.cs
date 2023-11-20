@@ -1,4 +1,6 @@
-﻿using CollectPay.Domain.Common.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
+using CollectPay.Domain.Common.Models;
 using ErrorOr;
 
 namespace CollectPay.Domain.BillAggregate.Entities;
@@ -9,6 +11,8 @@ public sealed class Payment : Entity
     public bool IsCreatorIncluded { get; set; }
     public decimal Amount { get; set; }
     public string Currency { get; set; }
+
+    [NotMapped]
     public IEnumerable<Guid> DebtorIds { get; set; }
 
     private Payment(Guid creatorId, bool isCreatorIncluded, decimal amount, string currency, IEnumerable<Guid> debtorIds)
@@ -29,5 +33,9 @@ public sealed class Payment : Entity
         }
 
         return new Payment(creator, isCreatorIncluded, amount, currency, buddyIds);
+    }
+
+    private Payment()
+    {
     }
 }

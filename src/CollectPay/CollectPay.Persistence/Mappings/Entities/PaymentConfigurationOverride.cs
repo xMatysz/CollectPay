@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CollectPay.Persistence.Mappings;
+namespace CollectPay.Persistence.Mappings.Entities;
 
 public class PaymentConfigurationOverride : IEntityTypeConfiguration<Payment>
 {

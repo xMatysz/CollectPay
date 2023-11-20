@@ -30,7 +30,7 @@ public class BillSpecificationTests
 	}
 
 	[Fact]
-	public void ShouldCreateExpectedBill()
+	public void ShouldCreateBill()
 	{
 		const string billName = "TestName";
 		var creatorId = Guid.NewGuid();
@@ -45,7 +45,7 @@ public class BillSpecificationTests
 	}
 
 	[Fact]
-	public void ShouldCreateExpectedPayment()
+	public void ShouldCreatePayment()
 	{
 		var creatorId = Guid.NewGuid();
 		const decimal amount = decimal.One;

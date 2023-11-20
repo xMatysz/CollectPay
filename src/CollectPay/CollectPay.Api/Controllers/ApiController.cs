@@ -6,10 +6,10 @@ namespace CollectPay.Api.Controllers;
 [ApiController]
 public class ApiController
 {
-	protected readonly IMediator Mediator;
+	protected readonly ISender Sender;
 
-	protected ApiController(IMediator mediator)
+	protected ApiController(ISender sender)
 	{
-		Mediator = mediator;
+		Sender = sender;
 	}
 }
