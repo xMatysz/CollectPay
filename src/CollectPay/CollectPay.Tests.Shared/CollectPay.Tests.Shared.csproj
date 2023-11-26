@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\CollectPay.Domain\CollectPay.Domain.csproj" />
+    </ItemGroup>
+
 </Project>

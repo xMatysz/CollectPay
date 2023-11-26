@@ -80,7 +80,7 @@ csharp_indent_case_contents_when_block = true
 #spasing
 csharp_space_after_cast = false
 csharp_space_after_keywords_in_control_flow_statements = true
-csharp_space_between_parentheses = control_flow_statements, expressions
+csharp_space_between_parentheses = expressions
 csharp_space_before_colon_in_inheritance_clause = true
 csharp_space_after_colon_in_inheritance_clause = true
 csharp_space_around_binary_operators = before_and_after
@@ -102,8 +102,8 @@ csharp_space_between_empty_square_brackets = false
 csharp_space_between_square_brackets = false
 
 # wrap options
-csharp_preserve_single_line_statements = false
-csharp_preserve_single_line_blocks = true
+csharp_preserve_single_line_statements = true
+csharp_preserve_single_line_blocks = false
 
 # Add missing cases to switch statement (IDE0010)
 dotnet_diagnostic.IDE0010.severity = warning

@@ -1,5 +1,5 @@
 ﻿using CollectPay.Domain.BillAggregate;
-using CollectPay.Domain.UnitTests.Utilities;
+using CollectPay.Tests.Shared.Builders;
 using ErrorOr;
 
 namespace CollectPay.Domain.UnitTests.BillAggregatorTests;

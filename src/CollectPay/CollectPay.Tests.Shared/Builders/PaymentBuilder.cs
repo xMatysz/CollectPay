@@ -1,6 +1,6 @@
 ﻿using CollectPay.Domain.BillAggregate.Entities;
 
-namespace CollectPay.Domain.UnitTests.Utilities;
+namespace CollectPay.Tests.Shared.Builders;
 
 public class PaymentBuilder
 {
