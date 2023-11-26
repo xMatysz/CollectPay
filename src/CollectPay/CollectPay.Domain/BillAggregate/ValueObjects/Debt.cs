@@ -6,7 +6,7 @@ public class Debt : ValueObject
 {
 	public Guid Debtor { get; }
 	public decimal DebtAmount { get; }
-	public Guid Creditor { get; set; }
+	public Guid Creditor { get; }
 
 	public Debt(Guid debtor, decimal debtAmount, Guid creditor)
 	{

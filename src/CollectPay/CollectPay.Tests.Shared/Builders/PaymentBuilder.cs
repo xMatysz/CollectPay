@@ -7,7 +7,7 @@ public class PaymentBuilder
 {
 	private Guid _creatorId = Guid.NewGuid();
 	private bool _isCreatorIncluded = false;
-	private Amount _amount = new(21.37m ,"PLN");
+	private Amount _amount = Amount.Create(21.37m ,"PLN").Value;
 	private IEnumerable<Guid> _debtors = new[] { Guid.NewGuid() };
 
 	public PaymentBuilder WithCreatorId(Guid creatorId)

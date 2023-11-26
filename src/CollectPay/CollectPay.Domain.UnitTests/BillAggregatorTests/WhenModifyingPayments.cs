@@ -1,5 +1,5 @@
 ﻿using CollectPay.Domain.BillAggregate;
-using CollectPay.Tests.Shared.Builders;
+using CollectPay.Domain.BillAggregate.Errors;
 using ErrorOr;
 
 namespace CollectPay.Domain.UnitTests.BillAggregatorTests;
@@ -7,6 +7,7 @@ namespace CollectPay.Domain.UnitTests.BillAggregatorTests;
 public class WhenModifyingPayments
 {
 	private readonly Bill _bill = new BillBuilder().Build();
+
 	[Fact]
 	public void ShouldFailWhenPaymentNotExist()
 	{
@@ -17,7 +18,7 @@ public class WhenModifyingPayments
 		var result =  _bill.DeletePayment(notAddedPayment.Id);
 
 		result.IsError.Should().BeTrue();
-		result.FirstError.Type.Should().Be(ErrorType.NotFound);
+		result.FirstError.Should().BeEquivalentTo(PaymentErrors.PaymentNotFound);
 		_bill.Payments.Should().HaveCount(1);
 	}
 
@@ -31,7 +32,7 @@ public class WhenModifyingPayments
 		var result =  bill.AddPayment(payment);
 
 		result.IsError.Should().BeTrue();
-		result.FirstError.Type.Should().Be(ErrorType.Conflict);
+		result.FirstError.Should().BeEquivalentTo(PaymentErrors.PaymentAlreadyExist);
 		bill.Payments.Should().HaveCount(1);
 	}
 }

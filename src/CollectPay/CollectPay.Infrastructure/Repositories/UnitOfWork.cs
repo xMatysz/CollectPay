@@ -27,7 +27,7 @@ public class UnitOfWork : IUnitOfWork
 		await _dbContext.SaveChangesAsync(cancellationToken);
 	}
 
-	public async Task CommitAsync(CancellationToken cancellationToken)
+	public async Task FinishTransactionAsync(CancellationToken cancellationToken)
 	{
 		await _dbContext.Database.CommitTransactionAsync(cancellationToken);
 		await SaveChangesAsync(cancellationToken);
