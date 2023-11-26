@@ -21,7 +21,7 @@ public class WhenSendingCreateBillCommand : IntegrationTestBase, IClassFixture<W
 		var command = new CreateBillCommand(creatorId, billName, null);
 
 		var result = await _handler.Handle(command, CancellationToken.None);
-		result.Should().Be(Result.Created);
+		result.Value.Should().BeEquivalentTo(Result.Created);
 		await UnitOfWork.SaveChangesAsync();
 
 		var allBills = await BillRepository.GetAllAsync();
