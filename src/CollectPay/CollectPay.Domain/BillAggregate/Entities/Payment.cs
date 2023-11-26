@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Drawing;
+using CollectPay.Domain.BillAggregate.Errors;
 using CollectPay.Domain.BillAggregate.ValueObjects;
 using CollectPay.Domain.Common.Models;
 using ErrorOr;
@@ -24,9 +24,16 @@ public sealed class Payment : Entity
 	    DebtorIds = debtorIds;
     }
 
-    public static ErrorOr<Payment> Create(Guid creator, bool isCreatorIncluded, Amount amount, IEnumerable<Guid> buddyIds)
+    public static ErrorOr<Payment> Create(Guid creator, bool isCreatorIncluded, Amount amount, IEnumerable<Guid> debtorIds)
     {
-        return new Payment(creator, isCreatorIncluded, amount, buddyIds);
+	    var ids = debtorIds.ToArray();
+
+	    if (ids.Contains(creator))
+	    {
+		    return PaymentErrors.CreatorCannotBeDebtor;
+	    }
+
+        return new Payment(creator, isCreatorIncluded, amount, ids);
     }
 
     private Payment()

@@ -88,7 +88,7 @@ public class DebtService : IDebtService
 			{
 				_balance[payer] += minTransfer;
 				_balance[debtor] -= minTransfer;
-				_allDebts.Add(new Debt(debtor, minTransfer, payer));
+				_allDebts.Add(Debt.Create(debtor, minTransfer, payer));
 			}
 
 			if (_balance[payer] > -0.01M)

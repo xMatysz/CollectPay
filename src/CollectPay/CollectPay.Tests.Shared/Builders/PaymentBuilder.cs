@@ -1,5 +1,6 @@
 ﻿using CollectPay.Domain.BillAggregate.Entities;
 using CollectPay.Domain.BillAggregate.ValueObjects;
+using ErrorOr;
 
 namespace CollectPay.Tests.Shared.Builders;
 
@@ -22,13 +23,13 @@ public class PaymentBuilder
 		return this;
 	}
 
-	public PaymentBuilder WithAmount(Amount amount)
+	public PaymentBuilder WithAmount(ErrorOr<Amount> amount)
 	{
-		_amount = amount;
+		_amount = amount.Value;
 		return this;
 	}
 
-	public PaymentBuilder WithDebtors(IEnumerable<Guid> debtors)
+	public PaymentBuilder WithDebtors(params Guid[] debtors)
 	{
 		_debtors = debtors;
 		return this;

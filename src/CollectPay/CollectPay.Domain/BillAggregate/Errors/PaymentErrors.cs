@@ -11,4 +11,8 @@ public static class PaymentErrors
 	public static Error PaymentAlreadyExist => Error.Conflict(
 		code: $"{nameof(PaymentErrors)}.{nameof(PaymentAlreadyExist)}",
 		description: "Payment already exist");
+
+	public static Error CreatorCannotBeDebtor => Error.Conflict(
+		code: $"{nameof(PaymentErrors)}.{nameof(CreatorCannotBeDebtor)}",
+		description: "Creator cannot be on Debtors list, please use 'Include Creator' option");
 }

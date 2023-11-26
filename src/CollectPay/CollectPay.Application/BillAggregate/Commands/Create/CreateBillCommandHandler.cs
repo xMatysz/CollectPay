@@ -2,7 +2,6 @@
 using CollectPay.Application.Common.Repositories;
 using CollectPay.Domain.BillAggregate;
 using ErrorOr;
-using FluentValidation;
 
 namespace CollectPay.Application.BillAggregate.Commands.Create;
 
