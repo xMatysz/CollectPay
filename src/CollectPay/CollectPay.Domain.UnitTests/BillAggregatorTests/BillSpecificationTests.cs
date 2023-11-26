@@ -1,4 +1,5 @@
 ﻿using CollectPay.Domain.BillAggregate;
+using CollectPay.Domain.BillAggregate.ValueObjects;
 using CollectPay.Tests.Shared.Builders;
 
 namespace CollectPay.Domain.UnitTests.BillAggregatorTests;
@@ -48,21 +49,18 @@ public class BillSpecificationTests
 	public void ShouldCreatePayment()
 	{
 		var creatorId = Guid.NewGuid();
-		const decimal amount = decimal.One;
-		const string currency = "PLN";
+		var amount = new Amount(decimal.One, "PLN");
 		var debtors = new[] { Guid.NewGuid(), Guid.NewGuid() };
 
 		var payment = new PaymentBuilder()
 			.WithCreatorId(creatorId)
 			.WithAmount(amount)
-			.WithCurrency(currency)
 			.WithDebtors(debtors)
 			.WithCreatorIncluded()
 			.Build();
 
 		payment.CreatorId.Should().Be(creatorId);
-		payment.Amount.Should().Be(amount);
-		payment.Currency.Should().Be(currency);
+		payment.Amount.Should().BeEquivalentTo(amount);
 		payment.DebtorIds.Should().BeEquivalentTo(debtors);
 		payment.IsCreatorIncluded.Should().BeTrue();
 	}

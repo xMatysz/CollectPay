@@ -102,8 +102,8 @@ csharp_space_between_empty_square_brackets = false
 csharp_space_between_square_brackets = false
 
 # wrap options
-csharp_preserve_single_line_statements = true
-csharp_preserve_single_line_blocks = false
+csharp_preserve_single_line_statements = false
+csharp_preserve_single_line_blocks = true
 
 # Add missing cases to switch statement (IDE0010)
 dotnet_diagnostic.IDE0010.severity = warning
