@@ -17,15 +17,5 @@
     <ItemGroup>
       <ProjectReference Include="..\CollectPay.Application\CollectPay.Application.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Migrations\" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Remove="Migrations\20231030200020_Initial.Designer.cs" />
-      <Compile Remove="Migrations\CollectPayDbContextModelSnapshot.cs" />
-      <Compile Remove="Migrations\20231030203110_Initial.Designer.cs" />
-    </ItemGroup>
     
 </Project>
