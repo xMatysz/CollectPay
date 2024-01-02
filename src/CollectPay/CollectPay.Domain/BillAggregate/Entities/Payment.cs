@@ -9,7 +9,9 @@ namespace CollectPay.Domain.BillAggregate.Entities;
 public sealed class Payment : Entity
 {
 	public Guid CreatorId { get; set; }
+
     public bool IsCreatorIncluded { get; set; }
+
     public Amount Amount { get; set; }
 
     [NotMapped]
