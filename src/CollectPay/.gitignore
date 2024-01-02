@@ -1,6 +1,7 @@
 bin/
 obj/
 .idea/
+.vs/
 CollectPay.sln.DotSettings.user
 CollectPay.Api/logs
 CollectPay.Api/Properties/*
