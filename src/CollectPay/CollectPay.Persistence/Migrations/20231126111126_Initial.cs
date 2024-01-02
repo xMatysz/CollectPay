@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -32,9 +31,8 @@ namespace CollectPay.Persistence.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
                     IsCreatorIncluded = table.Column<bool>(type: "boolean", nullable: false),
-                    Amount = table.Column<decimal>(type: "numeric", nullable: false),
+                    Amount = table.Column<decimal>(type: "numeric", nullable: true),
                     Currency = table.Column<string>(type: "text", nullable: true),
-                    DebtorIds = table.Column<List<Guid>>(type: "uuid[]", nullable: true),
                     BillId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>

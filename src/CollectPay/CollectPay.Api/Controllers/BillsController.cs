@@ -24,6 +24,10 @@ public class BillsController : ApiController
 	[HttpPost(BillRouters.Create)]
 	public async Task CreateBill([FromBody] CreateBillCommand command)
 	{
-		await Sender.Send(command);
+		var result = await Sender.Send(command);
+
+		result.Match(
+			created => Ok(created),
+			Problem);
 	}
 }

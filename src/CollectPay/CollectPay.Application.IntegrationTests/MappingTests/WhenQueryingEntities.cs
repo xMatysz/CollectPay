@@ -31,8 +31,7 @@ public class WhenQueryingEntities : IntegrationTestBase, IClassFixture<WebApiFac
 	public async Task ShouldAttachPaymentsToBill()
 	{
 		var payments = new[] { PaymentBuilder.Build(), PaymentBuilder.Build() };
-		var bill = BillBuilder
-			.Build();
+		var bill = BillBuilder.Build();
 
 		foreach (var payment in payments)
 		{

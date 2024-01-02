@@ -1,11 +1,13 @@
 ﻿using CollectPay.Application.Common.Interactions;
 using CollectPay.Application.Common.Repositories;
+using ErrorOr;
 using MediatR;
 
 namespace CollectPay.Application.Behaviors;
 
-public sealed class UnitOfWorkBehavior<TCommand, _> : IPipelineBehavior<TCommand, Unit>
-	where TCommand : ICommand
+public sealed class UnitOfWorkBehavior<TCommand, TResult> : IPipelineBehavior<TCommand, TResult>
+	where TCommand : ICommand<TResult>
+	where TResult : IErrorOr
 {
 	private readonly IUnitOfWork _unitOfWork;
 
@@ -14,20 +16,34 @@ public sealed class UnitOfWorkBehavior<TCommand, _> : IPipelineBehavior<TCommand
 		_unitOfWork = unitOfWork;
 	}
 
-	public async Task<Unit> Handle(TCommand request, RequestHandlerDelegate<Unit> next, CancellationToken cancellationToken = default)
+	public async Task<TResult> Handle(TCommand request, RequestHandlerDelegate<TResult> next, CancellationToken cancellationToken)
 	{
 		_unitOfWork.BeginTransaction();
 
 		try
 		{
-			await next();
-			await _unitOfWork.CommitAsync(cancellationToken);
+			var result = await next();
+
+			if (!result.IsError)
+			{
+				await _unitOfWork.FinishTransactionAsync(cancellationToken);
+			}
+			else
+			{
+				OnFailure();
+			}
+
+			return result;
 		}
 		catch
 		{
-			_unitOfWork.RollbackTransaction();
+			OnFailure();
+			throw;
 		}
+	}
 
-		return Unit.Value;
+	private void OnFailure()
+	{
+		_unitOfWork.RollbackTransaction();
 	}
 }

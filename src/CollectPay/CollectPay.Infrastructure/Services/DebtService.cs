@@ -41,13 +41,13 @@ public class DebtService : IDebtService
 		switch (payment.IsCreatorIncluded)
 		{
 			case true:
-				debt = payment.Amount / (payment.DebtorIds.Count() + 1);
-				_balance[payment.CreatorId] -= payment.Amount - debt;
+				debt = payment.Amount.Value / (payment.DebtorIds.Count() + 1);
+				_balance[payment.CreatorId] -= payment.Amount.Value - debt;
 				break;
 
 			case false:
-				debt = payment.Amount / payment.DebtorIds.Count();
-				_balance[payment.CreatorId] -= payment.Amount;
+				debt = payment.Amount.Value / payment.DebtorIds.Count();
+				_balance[payment.CreatorId] -= payment.Amount.Value;
 				break;
 		}
 
@@ -88,7 +88,7 @@ public class DebtService : IDebtService
 			{
 				_balance[payer] += minTransfer;
 				_balance[debtor] -= minTransfer;
-				_allDebts.Add(new Debt(debtor, minTransfer, payer));
+				_allDebts.Add(Debt.Create(debtor, minTransfer, payer));
 			}
 
 			if (_balance[payer] > -0.01M)

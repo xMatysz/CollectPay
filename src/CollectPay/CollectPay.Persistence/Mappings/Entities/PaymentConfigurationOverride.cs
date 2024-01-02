@@ -10,5 +10,16 @@ public class PaymentConfigurationOverride : IEntityTypeConfiguration<Payment>
 	{
 		builder.ToTable("Payments");
 		builder.HasKey(x => x.Id);
+		builder.OwnsOne(x => x.Amount, y =>
+		{
+			y.Property(c => c.Value)
+				.HasColumnName("Amount")
+				.IsRequired();
+
+			y.Property(c => c.Currency)
+				.HasColumnName("Currency")
+				.HasMaxLength(3)
+				.IsRequired();
+		});
 	}
 }

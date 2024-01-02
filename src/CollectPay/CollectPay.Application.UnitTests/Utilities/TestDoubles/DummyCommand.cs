@@ -1,7 +1,8 @@
 ﻿using CollectPay.Application.Common.Interactions;
+using ErrorOr;
 
 namespace CollectPay.Application.UnitTests.Utilities.TestDoubles;
 
-internal class DummyCommand : ICommand
+public class DummyCommand : ICommand<IErrorOr>, ICommand<ErrorOr<IErrorOr>>
 {
 }

@@ -1,4 +1,5 @@
 ﻿using CollectPay.Application.Behaviors;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CollectPay.Application.Installers;
@@ -17,6 +18,8 @@ public static class DependencyInjection
 			config.AddOpenBehavior(typeof(ValidationBehavior<,>));
 			config.AddOpenBehavior(typeof(UnitOfWorkBehavior<,>));
 		});
+
+		services.AddValidatorsFromAssembly(assembly);
 
 		return services;
 	}
