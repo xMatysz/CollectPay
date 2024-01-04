@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:CollectionPay.Maui.Pages.Bills.BillList"
+             x:Class="CollectionPay.Maui.Pages.Bills.BillList.BillListView"
+             x:DataType="local:BillListViewModel"
+             Title="Bills">
+    <Grid
+        ColumnDefinitions="*,*"
+        ColumnSpacing="5"
+        RowDefinitions="*,Auto"
+        RowSpacing="0">
+        <RefreshView
+            Grid.ColumnSpan="2">
+            <ContentView>
+                <CollectionView
+                    ItemsSource="{Binding Bills}"
+                    SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="local:BillModel">
+                            <Frame Padding="10">
+                                <Grid Padding="0">
+                                    <VerticalStackLayout
+                                        VerticalOptions="Start">
+                                        <Label Text="{Binding Name}" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ContentView>
+        </RefreshView>
+    </Grid>
+
+    <!-- <Label Text="{Binding TestName}"/> -->
+</ContentPage>

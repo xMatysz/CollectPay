@@ -107,6 +107,7 @@ csharp_preserve_single_line_blocks = true
 
 # Add missing cases to switch statement (IDE0010)
 dotnet_diagnostic.IDE0010.severity = warning
+dotnet_diagnostic.IDE0010.severity = none
 
 # Add braces (IDE0011)
 csharp_prefer_braces = true:error;
