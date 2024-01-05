@@ -33,7 +33,7 @@ var app = builder.Build();
 {
 	app.UseSerilogRequestLogging();
 	app.UseExceptionHandler("/error");
-	app.UseHttpsRedirection();
+	// app.UseHttpsRedirection();
 	app.MapControllers();
 
 	app.Run();

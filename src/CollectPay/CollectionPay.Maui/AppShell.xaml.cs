@@ -1,4 +1,5 @@
 ﻿using CollectionPay.Maui.Pages.Bills.BillList;
+using CollectionPay.Maui.Pages.Bills.CreateBill;
 
 namespace CollectionPay.Maui;
 
@@ -9,5 +10,6 @@ public partial class AppShell : Shell
 		InitializeComponent();
 
 		Routing.RegisterRoute(nameof(BillListView), typeof(BillListView));
+		Routing.RegisterRoute(nameof(CreateBillView), typeof(CreateBillView));
 	}
 }

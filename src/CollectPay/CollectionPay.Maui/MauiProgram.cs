@@ -1,4 +1,6 @@
 ﻿using CollectionPay.Maui.Pages.Bills.BillList;
+using CollectionPay.Maui.Pages.Bills.CreateBill;
+using CollectionPay.Maui.Services;
 using Microsoft.Extensions.Logging;
 
 namespace CollectionPay.Maui;
@@ -18,6 +20,18 @@ public static class MauiProgram
 
 		builder.AddPages();
 
+		builder.Services.AddSingleton(Connectivity.Current);
+		builder.Services.AddScoped<IBillService, BillService>();
+
+		builder.Services.AddHttpClient<IBillService, BillService>(client =>
+		{
+			var baseAddress = DeviceInfo.Platform == DevicePlatform.Android
+				? "http://10.0.2.2:5066"
+				: "http://localhost:5066";
+
+			client.BaseAddress = new Uri(baseAddress);
+		});
+
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
@@ -28,6 +42,9 @@ public static class MauiProgram
 	{
 		builder.Services.AddTransient<BillListViewModel>();
 		builder.Services.AddTransient<BillListView>();
+
+		builder.Services.AddTransient<CreateBillViewModel>();
+		builder.Services.AddTransient<CreateBillView>();
 
 		return builder;
 	}

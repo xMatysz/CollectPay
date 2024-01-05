@@ -6,25 +6,38 @@
              x:Class="CollectionPay.Maui.Pages.Bills.BillList.BillListView"
              x:DataType="local:BillListViewModel"
              Title="Bills">
-    <Grid
-        ColumnDefinitions="*,*"
-        ColumnSpacing="5"
-        RowDefinitions="*,Auto"
-        RowSpacing="0">
-        <RefreshView
-            Grid.ColumnSpan="2">
+    <ContentPage.Resources>
+    </ContentPage.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <RefreshView Grid.Row="0"
+                     IsRefreshing="{Binding IsRefreshing}"
+                     Command="{Binding GetBillsCommand}">
             <ContentView>
                 <CollectionView
                     ItemsSource="{Binding Bills}"
                     SelectionMode="None">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="local:BillModel">
-                            <Frame Padding="10">
-                                <Grid Padding="0">
-                                    <VerticalStackLayout
-                                        VerticalOptions="Start">
-                                        <Label Text="{Binding Name}" />
-                                    </VerticalStackLayout>
+                            <Frame Padding="10"
+                                   Margin="1"
+                                   Background="Pink">
+                                <Grid>
+                                    <HorizontalStackLayout Spacing="10">
+                                        <Image Source="test_image.jpg"
+                                               HeightRequest="50"
+                                               Width="50"/>
+                                        <VerticalStackLayout VerticalOptions="Center"
+                                                             HorizontalOptions="Center">
+                                            <Label Text="{Binding Name}"
+                                                   FontAttributes="Bold"
+                                                   FontSize="15"/>
+                                        </VerticalStackLayout>
+                                    </HorizontalStackLayout>
                                 </Grid>
                             </Frame>
                         </DataTemplate>
@@ -32,7 +45,15 @@
                 </CollectionView>
             </ContentView>
         </RefreshView>
-    </Grid>
 
-    <!-- <Label Text="{Binding TestName}"/> -->
+        <ImageButton Grid.Row="1"
+                     Source="plus_icon.png"
+                     Background="{StaticResource PrimaryDark}"
+                     WidthRequest="60"
+                     HeightRequest="60"
+                     CornerRadius="5"
+                     HorizontalOptions="End"
+                     Margin="20"
+                     Command="{Binding GoToCreateCommand}"/>
+    </Grid>
 </ContentPage>

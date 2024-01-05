@@ -7,4 +7,10 @@ public partial class BillListView : ContentPage
 		InitializeComponent();
 		BindingContext = viewModel;
 	}
+
+	protected override void OnAppearing()
+	{
+		var vm = BindingContext as BillListViewModel;
+		vm!.GetBillsCommand.ExecuteAsync(null);
+	}
 }

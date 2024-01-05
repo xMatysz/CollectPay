@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:CollectionPay.Maui.Pages.Bills.CreateBill"
+             x:Class="CollectionPay.Maui.Pages.Bills.CreateBill.CreateBillView"
+             x:DataType="local:CreateBillViewModel"
+             Title="{Binding Title}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <VerticalStackLayout Grid.Row="0">
+            <Entry Placeholder="Bill name"
+                   Text="{Binding BillName}"
+                   Margin="5"/>
+        </VerticalStackLayout>
+
+        <Button Grid.Row="1"
+                Text="Add new bill"
+                Command="{Binding CreateBillCommand}"
+                Margin="10"/>
+    </Grid>
+</ContentPage>
