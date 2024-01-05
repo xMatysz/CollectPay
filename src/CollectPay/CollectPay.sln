@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollectPay.Api.ApiTests", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollectionPay.Maui", "CollectionPay.Maui\CollectionPay.Maui.csproj", "{B2D46E09-CA8A-4B28-95B4-F60E61849B1C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectionPay.Contracts", "CollectionPay.Contracts\CollectionPay.Contracts.csproj", "{3523B8EF-F0AD-4C43-9277-A63975D8AD19}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -98,6 +100,10 @@ Global
 		{B2D46E09-CA8A-4B28-95B4-F60E61849B1C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{B2D46E09-CA8A-4B28-95B4-F60E61849B1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2D46E09-CA8A-4B28-95B4-F60E61849B1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3523B8EF-F0AD-4C43-9277-A63975D8AD19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3523B8EF-F0AD-4C43-9277-A63975D8AD19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3523B8EF-F0AD-4C43-9277-A63975D8AD19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3523B8EF-F0AD-4C43-9277-A63975D8AD19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -117,5 +123,6 @@ Global
 		{C5624D05-3403-4B3E-B884-D19C9456A37D} = {4841470A-839B-4C27-A342-1CCC9993022B}
 		{42D8175E-FE69-4694-8DBA-B45DADE18BC9} = {4841470A-839B-4C27-A342-1CCC9993022B}
 		{B2D46E09-CA8A-4B28-95B4-F60E61849B1C} = {53327A3B-1841-4EC8-8430-B77FCF44AEB3}
+		{3523B8EF-F0AD-4C43-9277-A63975D8AD19} = {53327A3B-1841-4EC8-8430-B77FCF44AEB3}
 	EndGlobalSection
 EndGlobal

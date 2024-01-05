@@ -1,11 +1,8 @@
-using CollectPay.Api.Common;
-using CollectPay.Api.Errors;
 using CollectPay.Api.Installers;
 using CollectPay.Application.Common;
 using CollectPay.Application.Installers;
 using CollectPay.Infrastructure.Installers;
 using CollectPay.Persistence.Installers;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);

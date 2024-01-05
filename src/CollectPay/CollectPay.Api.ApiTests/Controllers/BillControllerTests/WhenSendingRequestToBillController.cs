@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
+using CollectionPay.Contracts.Routes;
 using CollectPay.Api.ApiTests.Controllers.BillControllerTests.Doubles;
-using CollectPay.Api.Common;
 using CollectPay.Application.BillAggregate.Commands.Create;
 using CollectPay.Application.BillAggregate.Queries;
 using CollectPay.Domain.BillAggregate;
@@ -14,7 +14,7 @@ public sealed class WhenSendingRequestToBillController : ControllerTestBase
 	[Fact]
 	public async Task ShouldReturnListOfBills()
 	{
-		const string url = BillRouters.List;
+		const string url = BillRoutes.List;
 		ConfigureHandler<GetBillsQuery, List<Bill>, SuccessfulGetBillHandler>();
 
 		var response = await Client.GetAsync(url);
@@ -24,7 +24,7 @@ public sealed class WhenSendingRequestToBillController : ControllerTestBase
 	[Fact]
 	public async Task ShouldCreateBill()
 	{
-		const string url = BillRouters.Create;
+		const string url = BillRoutes.Create;
 		var command = new CreateBillCommand(Guid.NewGuid(), "BillName", new List<Guid>());
 		ConfigureHandler<CreateBillCommand, ErrorOr<Created>, SuccessfulCreateBillHandler>();
 

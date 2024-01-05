@@ -6,6 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\CollectionPay.Contracts\CollectionPay.Contracts.csproj" />
       <ProjectReference Include="..\CollectPay.Application\CollectPay.Application.csproj" />
       <ProjectReference Include="..\CollectPay.Infrastructure\CollectPay.Infrastructure.csproj" />
     </ItemGroup>

@@ -1,4 +1,4 @@
-﻿using CollectPay.Api.Common;
+﻿using CollectionPay.Contracts.Routes;
 using CollectPay.Application.BillAggregate.Commands.Create;
 using CollectPay.Application.BillAggregate.Queries;
 using CollectPay.Domain.BillAggregate;
@@ -14,14 +14,14 @@ public class BillsController : ApiController
 	{
 	}
 
-	[HttpGet(BillRouters.List)]
+	[HttpGet(BillRoutes.List)]
 	public async Task<List<Bill>> GetBills()
 	{
 		var results = await Sender.Send(new GetBillsQuery());
 		return results;
 	}
 
-	[HttpPost(BillRouters.Create)]
+	[HttpPost(BillRoutes.Create)]
 	public async Task CreateBill([FromBody] CreateBillCommand command)
 	{
 		var result = await Sender.Send(command);
