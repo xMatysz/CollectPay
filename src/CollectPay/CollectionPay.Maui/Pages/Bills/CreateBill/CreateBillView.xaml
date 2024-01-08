@@ -15,7 +15,7 @@
 
         <VerticalStackLayout Grid.Row="0">
             <Entry Placeholder="Bill name"
-                   Text="{Binding BillName}"
+                   Text="{Binding BillName, Mode=OneWayToSource}"
                    Margin="5"/>
         </VerticalStackLayout>
 

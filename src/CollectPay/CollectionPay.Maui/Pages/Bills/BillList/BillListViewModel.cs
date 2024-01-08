@@ -8,13 +8,15 @@ namespace CollectionPay.Maui.Pages.Bills.BillList;
 
 public partial class BillListViewModel : ViewModelBase
 {
+	private readonly IShellService _shellService;
 	private readonly IConnectivity _connectivity;
 	private readonly IBillService _billService;
 
 	public ObservableCollection<BillModel> Bills { get; } = new();
 
-	public BillListViewModel(IConnectivity connectivity, IBillService billService)
+	public BillListViewModel(IShellService shellService, IConnectivity connectivity, IBillService billService)
 	{
+		_shellService = shellService;
 		_connectivity = connectivity;
 		_billService = billService;
 	}
@@ -24,7 +26,7 @@ public partial class BillListViewModel : ViewModelBase
 	{
 		if (_connectivity.NetworkAccess != NetworkAccess.Internet)
 		{
-			await DisplayAlert("No internet connection",
+			await _shellService.DisplayAlert("No internet connection",
 				"Cannot access internet, try again later");
 			return;
 		}

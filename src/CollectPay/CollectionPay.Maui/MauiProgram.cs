@@ -1,4 +1,5 @@
-﻿using CollectionPay.Maui.Pages.Bills.BillList;
+﻿using CollectionPay.Maui.Common;
+using CollectionPay.Maui.Pages.Bills.BillList;
 using CollectionPay.Maui.Pages.Bills.CreateBill;
 using CollectionPay.Maui.Services;
 using Microsoft.Extensions.Logging;
@@ -18,6 +19,7 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
+		builder.Services.AddSingleton<IShellService, ShellService>();
 		builder.AddPages();
 
 		builder.Services.AddSingleton(Connectivity.Current);

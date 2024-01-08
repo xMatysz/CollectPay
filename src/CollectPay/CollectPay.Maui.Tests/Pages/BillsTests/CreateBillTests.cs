@@ -1,4 +1,5 @@
-﻿using CollectionPay.Maui.Pages.Bills.BillList;
+﻿using CollectionPay.Maui.Common;
+using CollectionPay.Maui.Pages.Bills.BillList;
 using CollectionPay.Maui.Pages.Bills.CreateBill;
 using CollectionPay.Maui.Services;
 
@@ -12,7 +13,9 @@ public class CreateBillTests
 	public CreateBillTests()
 	{
 		_billService = Substitute.For<IBillService>();
-		_sut = new CreateBillViewModel(_billService);
+		var shellService = Substitute.For<IShellService>();
+		shellService.GoToAsync(Arg.Any<ShellNavigationState>()).Returns(Task.CompletedTask);
+		_sut = new CreateBillViewModel(shellService, _billService);
 	}
 
 	[Fact]

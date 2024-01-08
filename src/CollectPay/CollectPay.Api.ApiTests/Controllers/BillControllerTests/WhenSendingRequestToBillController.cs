@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
+using CollectionPay.Contracts.Requests;
 using CollectionPay.Contracts.Routes;
 using CollectPay.Api.ApiTests.Controllers.BillControllerTests.Doubles;
 using CollectPay.Application.BillAggregate.Commands.Create;
@@ -25,10 +26,10 @@ public sealed class WhenSendingRequestToBillController : ControllerTestBase
 	public async Task ShouldCreateBill()
 	{
 		const string url = BillRoutes.Create;
-		var command = new CreateBillCommand(Guid.NewGuid(), "BillName", new List<Guid>());
+		var request = new CreateBillRequest(Guid.NewGuid(), "BillName");
 		ConfigureHandler<CreateBillCommand, ErrorOr<Created>, SuccessfulCreateBillHandler>();
 
-		var response = await Client.PostAsJsonAsync(url, command);
+		var response = await Client.PostAsJsonAsync(url, request);
 
 		response.StatusCode.Should().Be(HttpStatusCode.OK);
 	}

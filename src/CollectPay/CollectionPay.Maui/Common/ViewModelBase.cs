@@ -15,7 +15,4 @@ public partial class ViewModelBase : ObservableObject
 	private bool _isBusy;
 
 	public bool IsNotBusy => !IsBusy;
-
-	protected async Task DisplayAlert(string title, string message) =>
-		await Shell.Current.DisplayAlert(title, message, "OK");
 }

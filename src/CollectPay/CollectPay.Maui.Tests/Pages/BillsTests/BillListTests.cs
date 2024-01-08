@@ -1,4 +1,5 @@
-﻿using CollectionPay.Maui.Pages.Bills.BillList;
+﻿using CollectionPay.Maui.Common;
+using CollectionPay.Maui.Pages.Bills.BillList;
 using CollectionPay.Maui.Services;
 
 namespace CollectPay.Maui.Tests.Pages.BillsTests;
@@ -14,7 +15,8 @@ public class BillListTests
 		connectivity.NetworkAccess.Returns(NetworkAccess.Internet);
 
 		_billService = Substitute.For<IBillService>();
-		_sut = new BillListViewModel(connectivity, _billService);
+		var shellService = Substitute.For<IShellService>();
+		_sut = new BillListViewModel(shellService, connectivity, _billService);
 	}
 
 	[Fact]
