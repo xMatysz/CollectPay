@@ -27,7 +27,7 @@ public class BillService : IBillService
 
 	public Task CreateBillAsync(BillModel bill, CancellationToken cancellationToken = default)
 	{
-		var request = new CreateBillRequest(bill.UserId, bill.Name);
+		var request = new CreateBillRequest(bill.CreatorId, bill.Name);
 		return _httpClient.PostAsJsonAsync(BillRoutes.Create, request, cancellationToken);
 	}
 }

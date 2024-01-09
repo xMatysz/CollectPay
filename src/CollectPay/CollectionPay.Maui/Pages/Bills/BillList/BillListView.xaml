@@ -10,7 +10,8 @@
     <Grid>
 
         <RefreshView IsRefreshing="{Binding IsRefreshing}"
-                     Command="{Binding GetBillsCommand}">
+                     Command="{Binding GetBillsCommand}"
+                     RefreshColor="Aqua">
             <ContentView>
                 <CollectionView
                     ItemsSource="{Binding Bills}"
@@ -49,5 +50,13 @@
                      HorizontalOptions="End"
                      VerticalOptions="End"
                      Margin="10"/>
+
+        <ActivityIndicator
+            HorizontalOptions="Fill"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
+            Color="{StaticResource Primary}"
+            VerticalOptions="Center" />
+
     </Grid>
 </ContentPage>

@@ -31,15 +31,25 @@ public partial class BillListViewModel : ViewModelBase
 			return;
 		}
 
-		var bills = await _billService.GetAllBillsAsync();
-
-		Bills.Clear();
-		foreach (var bill in bills)
+		await OnRefreshingAsync(async () =>
 		{
-			Bills.Add(bill);
-		}
+			BillModel[] bills;
+			try
+			{
+				bills = await _billService.GetAllBillsAsync();
+			}
+			catch (Exception e)
+			{
+				await _shellService.ShowError(e.Message);
+				return;
+			}
 
-		IsRefreshing = false;
+			Bills.Clear();
+			foreach (var bill in bills)
+			{
+				Bills.Add(bill);
+			}
+		});
 	}
 
 	[RelayCommand]

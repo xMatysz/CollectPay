@@ -1,4 +1,5 @@
-﻿using CollectionPay.Maui.Common;
+﻿using System.ComponentModel.DataAnnotations;
+using CollectionPay.Maui.Common;
 using CollectionPay.Maui.Pages.Bills.BillList;
 using CollectionPay.Maui.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -12,7 +13,14 @@ public partial class CreateBillViewModel : ViewModelBase
 	private readonly IBillService _billService;
 
 	[ObservableProperty]
+	[NotifyDataErrorInfo]
+	[Required]
 	private string _billName;
+
+	[ObservableProperty]
+	private bool _billNameHasError;
+
+	partial void OnBillNameChanged(string value) => BillNameHasError = GetErrors(nameof(BillName)).Any();
 
 	public CreateBillViewModel(IShellService shellService, IBillService billService)
 	{
@@ -25,7 +33,11 @@ public partial class CreateBillViewModel : ViewModelBase
 	private async Task CreateBill()
 	{
 		var bill = new BillModel(Guid.NewGuid(), BillName);
-		await _billService.CreateBillAsync(bill);
+
+		await OnLoadingAsync(async () =>
+		{
+			await _billService.CreateBillAsync(bill);
+		});
 
 		await _shellService.GoToAsync("..");
 	}

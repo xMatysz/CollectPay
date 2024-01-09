@@ -2,6 +2,7 @@
 using CollectionPay.Maui.Pages.Bills.BillList;
 using CollectionPay.Maui.Pages.Bills.CreateBill;
 using CollectionPay.Maui.Services;
+using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 
 namespace CollectionPay.Maui;
@@ -13,6 +14,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+			.UseMauiCommunityToolkit()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -32,6 +34,7 @@ public static class MauiProgram
 				: "http://localhost:5066";
 
 			client.BaseAddress = new Uri(baseAddress);
+			client.Timeout = TimeSpan.FromSeconds(3);
 		});
 
 #if DEBUG

@@ -3,9 +3,21 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:CollectionPay.Maui.Pages.Bills.CreateBill"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="CollectionPay.Maui.Pages.Bills.CreateBill.CreateBillView"
              x:DataType="local:CreateBillViewModel"
              Title="{Binding Title}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+            <Style TargetType ="Entry" x:Key="ErrorEntry">
+                <Setter Property="PlaceholderColor"
+                        Value="{StaticResource ErrorColor}"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -16,12 +28,28 @@
         <VerticalStackLayout Grid.Row="0">
             <Entry Placeholder="Bill name"
                    Text="{Binding BillName, Mode=OneWayToSource}"
-                   Margin="5"/>
+                   Margin="5"
+                   android:Entry.ImeOptions="Send">
+
+                <Entry.Triggers>
+                    <DataTrigger TargetType="Entry"
+                                 Binding="{Binding BillNameHasError}"
+                                 Value="True">
+                        <Setter Property="Style"
+                                Value="{StaticResource ErrorEntry}"/>
+                    </DataTrigger>
+                </Entry.Triggers>
+
+            </Entry>
+                <Entry Placeholder="Bill name"
+                       Text="{Binding BillName, Mode=OneWayToSource}"
+                       Margin="5"/>
         </VerticalStackLayout>
 
         <Button Grid.Row="1"
                 Text="Add new bill"
                 Command="{Binding CreateBillCommand}"
+                IsEnabled="{Binding HasErrors, Converter={StaticResource InvertedBoolConverter}}"
                 Margin="10"/>
     </Grid>
 </ContentPage>
