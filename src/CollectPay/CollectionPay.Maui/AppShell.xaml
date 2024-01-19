@@ -4,8 +4,13 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:billList="clr-namespace:CollectionPay.Maui.Pages.Bills.BillList"
+    xmlns:login="clr-namespace:CollectionPay.Maui.Pages.Login"
     FlyoutBehavior="Disabled"
     Title="CollectionPay.Maui">
+
+    <FlyoutItem Route="LoginView">
+        <ShellContent ContentTemplate="{DataTemplate login:LoginView}"/>
+    </FlyoutItem>
 
     <ShellContent
         Title="Home"

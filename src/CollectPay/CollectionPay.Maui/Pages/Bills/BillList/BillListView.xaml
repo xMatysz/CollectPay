@@ -41,8 +41,7 @@
             </ContentView>
         </RefreshView>
 
-        <ImageButton
-                     Command="{Binding GoToCreateCommand}"
+        <ImageButton Command="{Binding GoToCreateCommand}"
                      Background="{StaticResource PrimaryDark}"
                      WidthRequest="60"
                      HeightRequest="60"
