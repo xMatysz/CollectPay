@@ -12,8 +12,9 @@ public static class DependencyInjection
 		this IServiceCollection services)
 	{
 		services.AddScoped<IUnitOfWork, UnitOfWork>();
-		services.AddScoped<IBillRepository, BillRepository>();
 		services.AddScoped<IDebtService, DebtService>();
+		services.AddScoped<IBillRepository, BillRepository>();
+		services.AddScoped<IUserRepository, UserRepository>();
 
 		return services;
 	}

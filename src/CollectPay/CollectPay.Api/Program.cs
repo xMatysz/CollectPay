@@ -7,12 +7,15 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 {
-	builder.Configuration.AddSystemsManager(config =>
+	if (!IsTestEnv(builder.Environment.EnvironmentName))
 	{
-		var envName = builder.Environment.EnvironmentName;
-		config.Path = $"/CollectPay/{envName}/";
-		config.ReloadAfter = TimeSpan.FromSeconds(5);
-	});
+		builder.Configuration.AddSystemsManager(config =>
+		{
+			var envName = builder.Environment.EnvironmentName;
+			config.Path = $"/CollectPay/{envName}/";
+			config.ReloadAfter = TimeSpan.FromSeconds(5);
+		});
+	}
 
 	builder.Services.Configure<ApplicationOptions>(
 		builder.Configuration.GetSection(nameof(ApplicationOptions)));
@@ -25,16 +28,27 @@ var builder = WebApplication.CreateBuilder(args);
 
 	builder.Services.AddControllers();
 
-	builder.Host.UseSerilog((context, config) =>
-		config.ReadFrom.Configuration(context.Configuration));
+	if (!IsTestEnv(builder.Environment.EnvironmentName))
+	{
+		builder.Host.UseSerilog((context, config) =>
+			config.ReadFrom.Configuration(context.Configuration));
+	}
 }
 
 var app = builder.Build();
 {
-	app.UseSerilogRequestLogging();
+	if (!IsTestEnv(builder.Environment.EnvironmentName))
+	{
+		app.UseSerilogRequestLogging();
+	}
+
 	app.UseExceptionHandler("/error");
-	// app.UseHttpsRedirection();
 	app.MapControllers();
 
 	app.Run();
+}
+
+bool IsTestEnv(string envName)
+{
+	return envName == "Test";
 }

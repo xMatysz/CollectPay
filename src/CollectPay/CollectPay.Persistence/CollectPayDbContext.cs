@@ -16,5 +16,6 @@ public class CollectPayDbContext : DbContext
 
 		modelBuilder.ApplyConfiguration(new BillConfigurationOverride());
 		modelBuilder.ApplyConfiguration(new PaymentConfigurationOverride());
+		modelBuilder.ApplyConfiguration(new UserConfigurationOverride());
 	}
 }

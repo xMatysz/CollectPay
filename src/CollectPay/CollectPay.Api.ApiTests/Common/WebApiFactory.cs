@@ -1,6 +1,4 @@
-﻿using CollectPay.Application.BillAggregate.Queries;
-using CollectPay.Domain.BillAggregate;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +19,7 @@ public sealed class WebApiFactory : WebApplicationFactory<IApiAssemblyMarker>
 	{
 		base.ConfigureWebHost(builder);
 
-		builder.UseEnvironment("Development");
+		builder.UseEnvironment("Test");
 
 		builder.ConfigureTestServices(services =>
 		{

@@ -22,9 +22,9 @@ public abstract class ControllerTestBase
 		where TDouble : class, IRequestHandler<TRequest, TResult>
 	{
 		 _configuration = services =>
-		{
+		 {
 			services.RemoveAll(typeof(IRequestHandler<TRequest, TResult>));
 			services.TryAddScoped<IRequestHandler<TRequest, TResult>, TDouble>();
-		};
+		 };
 	}
 }

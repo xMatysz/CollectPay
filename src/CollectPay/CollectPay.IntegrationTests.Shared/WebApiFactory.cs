@@ -28,6 +28,8 @@ public sealed class WebApiFactory : WebApplicationFactory<IApiAssemblyMarker>, I
 	{
 		base.ConfigureWebHost(builder);
 
+		builder.UseEnvironment("Test");
+
 		builder.ConfigureTestServices(services =>
 		{
 			services.RemoveAll(typeof(DbContextOptions<CollectPayDbContext>));
