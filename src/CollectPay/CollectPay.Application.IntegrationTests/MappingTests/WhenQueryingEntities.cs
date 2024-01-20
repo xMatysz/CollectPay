@@ -17,8 +17,7 @@ public class WhenQueryingEntities : IntegrationTestBase, IClassFixture<WebApiFac
 			.WithCreatorId(creatorId)
 			.Build();
 
-		await BillRepository.AddAsync(bill);
-		await UnitOfWork.SaveChangesAsync();
+		await AddEntityToDbAsync(bill);
 
 		var allBills = await BillRepository.GetAllAsync();
 		var billFromDb = allBills.Single();
@@ -38,8 +37,7 @@ public class WhenQueryingEntities : IntegrationTestBase, IClassFixture<WebApiFac
 			bill.AddPayment(payment);
 		}
 
-		await BillRepository.AddAsync(bill);
-		await UnitOfWork.SaveChangesAsync();
+		await AddEntityToDbAsync(bill);
 
 		var allBills = await BillRepository.GetAllAsync();
 		var billFromDb = allBills.Single();

@@ -34,6 +34,7 @@ public abstract class IntegrationTestBase : IAsyncLifetime
 		where T : Entity
 	{
 		await DbContext.AddRangeAsync(entries);
+		await UnitOfWork.SaveChangesAsync();
 	}
 
 	public Task InitializeAsync() => Task.CompletedTask;
