@@ -1,6 +1,6 @@
 ﻿using CollectionPay.Contracts.Requests;
 using CollectionPay.Contracts.Routes;
-using CollectPay.Application.BillAggregate.Commands.Create;
+using CollectPay.Application.BillAggregate.Commands.CreateBill;
 using CollectPay.Application.BillAggregate.Queries;
 using CollectPay.Domain.BillAggregate;
 using MapsterMapper;

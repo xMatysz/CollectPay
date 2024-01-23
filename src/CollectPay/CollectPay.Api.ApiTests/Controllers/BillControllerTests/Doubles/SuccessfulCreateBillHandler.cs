@@ -1,4 +1,4 @@
-﻿using CollectPay.Application.BillAggregate.Commands.Create;
+﻿using CollectPay.Application.BillAggregate.Commands.CreateBill;
 using CollectPay.Application.Common.Interactions;
 using ErrorOr;
 

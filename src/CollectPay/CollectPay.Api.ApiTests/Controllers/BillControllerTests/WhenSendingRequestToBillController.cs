@@ -3,7 +3,7 @@ using System.Net.Http.Json;
 using CollectionPay.Contracts.Requests;
 using CollectionPay.Contracts.Routes;
 using CollectPay.Api.ApiTests.Controllers.BillControllerTests.Doubles;
-using CollectPay.Application.BillAggregate.Commands.Create;
+using CollectPay.Application.BillAggregate.Commands.CreateBill;
 using CollectPay.Application.BillAggregate.Queries;
 using CollectPay.Domain.BillAggregate;
 using ErrorOr;
