@@ -6,11 +6,11 @@ public class UserBuilder
 {
 	private string _email = TestEmail;
 	private string _password = TestPassword;
-	private string _nickName = TestNick;
+	private string _nickName = TestNickName;
 
-	private static string TestEmail => "testEmail@domain.com";
-	private static string TestPassword => "password123";
-	private static string TestNick => "Tester";
+	public static string TestEmail => "testEmail@domain.com";
+	public static string TestPassword => "password123";
+	public static string TestNickName => "Tester";
 
 	public UserBuilder WithEmail(string email)
 	{
@@ -24,9 +24,9 @@ public class UserBuilder
 		return this;
 	}
 
-	public UserBuilder WithNick(string nick)
+	public UserBuilder WithNick(string nickName)
 	{
-		_nickName = nick;
+		_nickName = nickName;
 		return this;
 	}
 
