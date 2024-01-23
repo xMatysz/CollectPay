@@ -2,11 +2,11 @@
 
 namespace CollectPay.Application.IntegrationTests.UserAggregatorTests.Queries;
 
-public class WhenGettingUsers : IntegrationTestBase, IClassFixture<WebApiFactory>
+public class WhenSendingGetUserQuery : IntegrationTestBase, IClassFixture<WebApiFactory>
 {
 	private readonly GetUserQueryHandler _handler;
 
-	public WhenGettingUsers(WebApiFactory factory)
+	public WhenSendingGetUserQuery(WebApiFactory factory)
 		: base(factory)
 	{
 		_handler = new GetUserQueryHandler(UserRepository);

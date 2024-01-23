@@ -1,8 +1,8 @@
 ﻿namespace CollectPay.Application.IntegrationTests.MappingTests;
 
-public class WhenQueryingEntities : IntegrationTestBase, IClassFixture<WebApiFactory>
+public class WhenQueryingBillEntities : IntegrationTestBase, IClassFixture<WebApiFactory>
 {
-	public WhenQueryingEntities(WebApiFactory factory)
+	public WhenQueryingBillEntities(WebApiFactory factory)
 		: base(factory)
 	{
 	}
