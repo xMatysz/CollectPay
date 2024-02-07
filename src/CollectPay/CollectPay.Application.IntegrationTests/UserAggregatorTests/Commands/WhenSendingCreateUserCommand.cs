@@ -10,7 +10,7 @@ public class WhenSendingCreateUserCommand : IntegrationTestBase, IClassFixture<W
 	public WhenSendingCreateUserCommand(WebApiFactory factory)
 		: base(factory)
 	{
-		_handler = new CreateUserCommandHandler(UserRepository, UnitOfWork);
+		_handler = new CreateUserCommandHandler(UserRepository, UnitOfWork, HashPasswordService);
 	}
 
 	[Fact]

@@ -12,9 +12,12 @@ public static class DependencyInjection
 		this IServiceCollection services)
 	{
 		services.AddScoped<IUnitOfWork, UnitOfWork>();
-		services.AddScoped<IDebtService, DebtService>();
+
 		services.AddScoped<IBillRepository, BillRepository>();
 		services.AddScoped<IUserRepository, UserRepository>();
+
+		services.AddScoped<IDebtService, DebtService>();
+		services.AddSingleton<IHashPasswordService, HashPasswordService>();
 
 		return services;
 	}
