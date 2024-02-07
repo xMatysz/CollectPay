@@ -27,7 +27,7 @@ public sealed class WhenSendingRequestToBillController : ControllerTestBase
 	{
 		const string url = BillRoutes.Create;
 		var request = new CreateBillRequest(Guid.NewGuid(), "BillName");
-		ConfigureHandler<CreateBillCommand, ErrorOr<Created>, SuccessfulCreateBillHandler>();
+		ConfigureHandler<CreateBillCommand, ErrorOr<Created>, SuccessfulHandler<CreateBillCommand,ErrorOr<Created>>>();
 
 		var response = await Client.PostAsJsonAsync(url, request);
 
