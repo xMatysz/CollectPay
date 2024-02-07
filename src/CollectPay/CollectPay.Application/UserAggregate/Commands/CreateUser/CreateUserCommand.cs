@@ -2,4 +2,4 @@
 
 namespace CollectPay.Application.UserAggregate.Commands.CreateUser;
 
-public record CreateUserCommand(string Email, string Password, string NickName) : ICommand<ErrorOr<Created>>;
+public record CreateUserCommand(string Email, string Password, string NickName) : ICommand<ErrorOr<CreateUserCommandResult>>;

@@ -10,7 +10,7 @@ public class WhenSendingCreateUserCommand : IntegrationTestBase, IClassFixture<W
 	public WhenSendingCreateUserCommand(WebApiFactory factory)
 		: base(factory)
 	{
-		_handler = new CreateUserCommandHandler(UserRepository);
+		_handler = new CreateUserCommandHandler(UserRepository, UnitOfWork);
 	}
 
 	[Fact]
@@ -20,6 +20,20 @@ public class WhenSendingCreateUserCommand : IntegrationTestBase, IClassFixture<W
 
 		var result = await _handler.Handle(command, CancellationToken.None);
 
-		result.Value.Should().Be(Result.Created);
+		result.IsError.Should().BeFalse();
+		result.Should().BeOfType<ErrorOr<CreateUserCommandResult>>();
+	}
+
+	[Fact]
+	public async Task ShouldModifyPassword()
+	{
+		var inputPassword = UserBuilder.TestPassword;
+		var command = new CreateUserCommand(UserBuilder.TestEmail, inputPassword, UserBuilder.TestNickName);
+
+		var result = await _handler.Handle(command, CancellationToken.None);
+		var user = await UserRepository.GetByIdAsync(result.Value.UserId, CancellationToken.None);
+
+		user.Should().NotBeNull();
+		user!.Password.Should().NotBeEquivalentTo(inputPassword);
 	}
 }

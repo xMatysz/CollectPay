@@ -4,16 +4,18 @@ using CollectPay.Domain.UserAggregate;
 
 namespace CollectPay.Application.UserAggregate.Commands.CreateUser;
 
-public class CreateUserCommandHandler : CommandHandler<CreateUserCommand, ErrorOr<Created>>
+public class CreateUserCommandHandler : CommandHandler<CreateUserCommand, ErrorOr<CreateUserCommandResult>>
 {
 	private readonly IUserRepository _userRepository;
+	private readonly IUnitOfWork _unitOfWork;
 
-	public CreateUserCommandHandler(IUserRepository userRepository)
+	public CreateUserCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork)
 	{
 		_userRepository = userRepository;
+		_unitOfWork = unitOfWork;
 	}
 
-	protected override async Task<ErrorOr<Created>> Process(CreateUserCommand command, CancellationToken cancellationToken)
+	protected override async Task<ErrorOr<CreateUserCommandResult>> Process(CreateUserCommand command, CancellationToken cancellationToken)
 	{
 		var user = User.Create(command.Email, command.Password, command.NickName);
 
@@ -23,6 +25,7 @@ public class CreateUserCommandHandler : CommandHandler<CreateUserCommand, ErrorO
 		}
 
 		await _userRepository.AddAsync(user.Value, cancellationToken);
-		return Result.Created;
+		await _unitOfWork.SaveChangesAsync(cancellationToken);
+		return new CreateUserCommandResult(user.Value.Id);
 	}
 }
