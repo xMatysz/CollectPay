@@ -1,9 +1,8 @@
 ﻿using CollectPay.Application.Common.Interactions;
 using CollectPay.Application.Common.Repositories;
 using CollectPay.Domain.BillAggregate;
-using ErrorOr;
 
-namespace CollectPay.Application.BillAggregate.Commands.Create;
+namespace CollectPay.Application.BillAggregate.Commands.CreateBill;
 
 public sealed class CreateBillCommandHandler : CommandHandler<CreateBillCommand, ErrorOr<Created>>
 {

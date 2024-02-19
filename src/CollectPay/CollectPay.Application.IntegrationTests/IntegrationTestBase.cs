@@ -1,4 +1,5 @@
 ﻿using CollectPay.Application.Common.Repositories;
+using CollectPay.Application.Services;
 using CollectPay.Domain.Common.Models;
 using CollectPay.Persistence;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +16,7 @@ public abstract class IntegrationTestBase : IAsyncLifetime
 	protected IBillRepository BillRepository { get; }
 	protected IUserRepository UserRepository { get; }
 	protected IUnitOfWork UnitOfWork { get; }
+	protected IHashPasswordService HashPasswordService { get; }
 
 	protected IntegrationTestBase(WebApiFactory factory)
 	{
@@ -27,6 +29,7 @@ public abstract class IntegrationTestBase : IAsyncLifetime
 		UnitOfWork = serviceProvider.GetRequiredService<IUnitOfWork>();
 		BillRepository = serviceProvider.GetRequiredService<IBillRepository>();
 		UserRepository = serviceProvider.GetRequiredService<IUserRepository>();
+		HashPasswordService = serviceProvider.GetRequiredService<IHashPasswordService>();
 	}
 
 

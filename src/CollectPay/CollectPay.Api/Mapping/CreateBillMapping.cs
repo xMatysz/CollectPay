@@ -1,5 +1,5 @@
 ﻿using CollectionPay.Contracts.Requests;
-using CollectPay.Application.BillAggregate.Commands.Create;
+using CollectPay.Application.BillAggregate.Commands.CreateBill;
 using Mapster;
 
 namespace CollectPay.Api.Mapping;

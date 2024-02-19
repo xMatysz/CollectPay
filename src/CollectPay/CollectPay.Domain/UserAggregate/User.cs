@@ -8,13 +8,13 @@ public class User : AggregateRoot
 {
 	public string Email { get; set; }
 	public string Password { get; set; }
-	public string Nick { get; set; }
+	public string NickName { get; set; }
 
-	private User(string email, string password, string nick)
+	private User(string email, string password, string nickName)
 	{
 		Email = email;
 		Password = password;
-		Nick = nick;
+		NickName = nickName;
 	}
 
 	public static ErrorOr<User> Create(string email, string password, string nick)

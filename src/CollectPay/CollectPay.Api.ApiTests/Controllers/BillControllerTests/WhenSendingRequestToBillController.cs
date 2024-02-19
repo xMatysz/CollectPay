@@ -3,7 +3,7 @@ using System.Net.Http.Json;
 using CollectionPay.Contracts.Requests;
 using CollectionPay.Contracts.Routes;
 using CollectPay.Api.ApiTests.Controllers.BillControllerTests.Doubles;
-using CollectPay.Application.BillAggregate.Commands.Create;
+using CollectPay.Application.BillAggregate.Commands.CreateBill;
 using CollectPay.Application.BillAggregate.Queries;
 using CollectPay.Domain.BillAggregate;
 using ErrorOr;
@@ -27,7 +27,7 @@ public sealed class WhenSendingRequestToBillController : ControllerTestBase
 	{
 		const string url = BillRoutes.Create;
 		var request = new CreateBillRequest(Guid.NewGuid(), "BillName");
-		ConfigureHandler<CreateBillCommand, ErrorOr<Created>, SuccessfulCreateBillHandler>();
+		ConfigureHandler<CreateBillCommand, ErrorOr<Created>, SuccessfulHandler<CreateBillCommand,ErrorOr<Created>>>();
 
 		var response = await Client.PostAsJsonAsync(url, request);
 
