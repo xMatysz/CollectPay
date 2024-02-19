@@ -1,5 +1,4 @@
-﻿using CollectPay.Application.BillAggregate.Queries;
-using CollectPay.Domain.BillAggregate;
+﻿using CollectPay.Domain.BillAggregate;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;

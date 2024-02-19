@@ -2,7 +2,7 @@
 using CollectPay.Domain.BillAggregate;
 using MediatR;
 
-namespace CollectPay.Application.BillAggregate.Queries;
+namespace CollectPay.Application.BillAggregate.Queries.GetBills;
 
 public class GetBillsQueryHandler : IRequestHandler<GetBillsQuery, List<Bill>>
 {

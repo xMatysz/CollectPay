@@ -1,7 +1,7 @@
 ﻿using CollectPay.Application.Common.Interactions;
 using CollectPay.Domain.BillAggregate;
 
-namespace CollectPay.Application.BillAggregate.Queries;
+namespace CollectPay.Application.BillAggregate.Queries.GetBills;
 
 public sealed record GetBillsQuery
 	: IQuery<List<Bill>>;
