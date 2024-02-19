@@ -8,12 +8,12 @@ namespace CollectPay.Application.IntegrationTests;
 public abstract class IntegrationTestBase : IAsyncLifetime
 {
 	private readonly Func<Task> _resetDb;
+	private readonly CollectPayDbContext _dbContext;
+
 	protected static BillBuilder BillBuilder => new();
 	protected static PaymentBuilder PaymentBuilder => new();
-	private CollectPayDbContext DbContext { get; set; }
 	protected IBillRepository BillRepository { get; }
 	protected IUserRepository UserRepository { get; }
-	private IServiceProvider ServiceProvider { get; }
 	protected IUnitOfWork UnitOfWork { get; }
 
 	protected IntegrationTestBase(WebApiFactory factory)
@@ -21,19 +21,19 @@ public abstract class IntegrationTestBase : IAsyncLifetime
 		_resetDb = factory.ResetDbAsync;
 
 		var scope = factory.Services.CreateScope();
-		ServiceProvider = scope.ServiceProvider;
+		var serviceProvider = scope.ServiceProvider;
 
-		DbContext = ServiceProvider.GetRequiredService<CollectPayDbContext>();
-		UnitOfWork = ServiceProvider.GetRequiredService<IUnitOfWork>();
-		BillRepository = ServiceProvider.GetRequiredService<IBillRepository>();
-		UserRepository = ServiceProvider.GetRequiredService<IUserRepository>();
+		_dbContext = serviceProvider.GetRequiredService<CollectPayDbContext>();
+		UnitOfWork = serviceProvider.GetRequiredService<IUnitOfWork>();
+		BillRepository = serviceProvider.GetRequiredService<IBillRepository>();
+		UserRepository = serviceProvider.GetRequiredService<IUserRepository>();
 	}
 
 
 	protected async Task AddEntityToDbAsync<T>(params T[] entries)
 		where T : Entity
 	{
-		await DbContext.AddRangeAsync(entries);
+		await _dbContext.AddRangeAsync(entries);
 		await UnitOfWork.SaveChangesAsync();
 	}
 
