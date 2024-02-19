@@ -1,6 +1,7 @@
 ﻿using CollectPay.Application.Common.Abstraction;
 using CollectPay.Application.Common.Repositories;
 using CollectPay.Domain.BillAggregate.Entities;
+using CollectPay.Domain.BillAggregate.Errors;
 using ErrorOr;
 
 namespace CollectPay.Application.BillAggregate.Queries.GetPayments;
@@ -20,7 +21,7 @@ public class GetPaymentsQueryHandler : IQueryHandler<GetPaymentsQuery, Payment[]
 
 		if (bill is null)
 		{
-			return Error.NotFound();
+			return BillErrors.BillNotFound;
 		}
 
 		return bill.Payments.ToArray();
