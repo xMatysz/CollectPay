@@ -5,22 +5,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CollectPay.Infrastructure.Repositories;
 
-public sealed class BillRepository : IBillRepository
+public sealed class BillRepository : Repository, IBillRepository
 {
-	private readonly CollectPayDbContext _dbContext;
-
 	public BillRepository(CollectPayDbContext dbContext)
+		: base(dbContext)
 	{
-		_dbContext = dbContext;
 	}
 
 	public async Task AddAsync(Bill bill, CancellationToken cancellationToken)
 	{
-		await _dbContext.AddAsync(bill, cancellationToken);
+		await DbContext.AddAsync(bill, cancellationToken);
 	}
 
 	public async Task<List<Bill>> GetAllAsync(CancellationToken cancellationToken)
 	{
-		 return await _dbContext.Set<Bill>().ToListAsync(cancellationToken);
+		 return await DbContext.Set<Bill>().ToListAsync(cancellationToken);
 	}
 }

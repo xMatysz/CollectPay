@@ -11,8 +11,4 @@
       <ProjectReference Include="..\CollectPay.Persistence\CollectPay.Persistence.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <PackageReference Include="Amazon.Extensions.Configuration.SystemsManager" Version="6.0.0" />
-    </ItemGroup>
-
 </Project>

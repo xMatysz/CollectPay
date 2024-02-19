@@ -18,7 +18,7 @@ public class WhenSendingCreateBillCommand : IntegrationTestBase, IClassFixture<W
 	{
 		var creatorId = Guid.NewGuid();
 		const string billName = "BillName";
-		var command = new CreateBillCommand(creatorId, billName, null);
+		var command = new CreateBillCommand(creatorId, billName);
 
 		var result = await _handler.Handle(command, CancellationToken.None);
 		result.Value.Should().BeEquivalentTo(Result.Created);

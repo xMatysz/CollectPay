@@ -1,4 +1,4 @@
-﻿using CollectPay.Application.Common.Interactions;
+﻿using CollectPay.Application.Common.Abstraction;
 using CollectPay.Domain.BillAggregate.Entities;
 
 namespace CollectPay.Application.BillAggregate.Queries.GetPayments;

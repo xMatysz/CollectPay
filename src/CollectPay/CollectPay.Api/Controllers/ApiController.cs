@@ -1,5 +1,4 @@
 ﻿using ErrorOr;
-using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,12 +8,10 @@ namespace CollectPay.Api.Controllers;
 public class ApiController : ControllerBase
 {
 	protected readonly ISender Sender;
-	protected readonly IMapper Mapper;
 
-	protected ApiController(ISender sender, IMapper mapper)
+	protected ApiController(ISender sender)
 	{
 		Sender = sender;
-		Mapper = mapper;
 	}
 
 	protected IActionResult Problem(List<Error> errors)

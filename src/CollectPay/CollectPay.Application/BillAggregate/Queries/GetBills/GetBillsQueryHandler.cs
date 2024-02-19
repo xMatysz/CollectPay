@@ -1,10 +1,11 @@
 ﻿using CollectPay.Application.Common.Repositories;
 using CollectPay.Domain.BillAggregate;
+using ErrorOr;
 using MediatR;
 
 namespace CollectPay.Application.BillAggregate.Queries.GetBills;
 
-public class GetBillsQueryHandler : IRequestHandler<GetBillsQuery, List<Bill>>
+public class GetBillsQueryHandler : IRequestHandler<GetBillsQuery, ErrorOr<List<Bill>>>
 {
 	private readonly IBillRepository _billRepository;
 
@@ -13,8 +14,8 @@ public class GetBillsQueryHandler : IRequestHandler<GetBillsQuery, List<Bill>>
 		_billRepository = billRepository;
 	}
 
-	public Task<List<Bill>> Handle(GetBillsQuery request, CancellationToken cancellationToken)
+	public async Task<ErrorOr<List<Bill>>> Handle(GetBillsQuery request, CancellationToken cancellationToken)
 	{
-		return _billRepository.GetAllAsync(cancellationToken);
+			return await _billRepository.GetAllAsync(cancellationToken);
 	}
 }

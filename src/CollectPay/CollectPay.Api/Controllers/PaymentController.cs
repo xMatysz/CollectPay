@@ -1,6 +1,5 @@
 ﻿using CollectionPay.Contracts.Routes;
 using CollectPay.Application.BillAggregate.Queries.GetPayments;
-using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,8 +7,8 @@ namespace CollectPay.Api.Controllers;
 
 public class PaymentController : ApiController
 {
-	protected PaymentController(ISender sender, IMapper mapper)
-		: base(sender, mapper)
+	public PaymentController(ISender sender)
+		: base(sender)
 	{
 	}
 

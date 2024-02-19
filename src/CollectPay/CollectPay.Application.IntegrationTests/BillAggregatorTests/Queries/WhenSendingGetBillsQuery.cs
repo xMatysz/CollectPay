@@ -32,6 +32,6 @@ public class WhenSendingGetBillsQuery : IntegrationTestBase, IClassFixture<WebAp
 
 		var result = await _handler.Handle(new GetBillsQuery(), CancellationToken.None);
 
-		result.Should().BeEquivalentTo(bills);
+		result.Value.Should().BeEquivalentTo(bills);
 	}
 }

@@ -1,4 +1,5 @@
-﻿using CollectPay.Domain.BillAggregate.ValueObjects;
+﻿using CollectPay.Domain.BillAggregate.Errors;
+using CollectPay.Domain.BillAggregate.ValueObjects;
 
 namespace CollectPay.Domain.UnitTests.BillAggregatorTests.SpecificationTests;
 

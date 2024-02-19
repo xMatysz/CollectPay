@@ -1,4 +1,4 @@
-﻿using CollectPay.Application.Common.Interactions;
+﻿using CollectPay.Application.Common.Abstraction;
 using CollectPay.Application.Common.Repositories;
 using ErrorOr;
 using MediatR;

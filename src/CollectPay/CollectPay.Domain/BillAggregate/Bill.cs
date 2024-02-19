@@ -7,12 +7,11 @@ namespace CollectPay.Domain.BillAggregate;
 
 public class Bill : AggregateRoot
 {
-    // private readonly List<Guid> _buddyIds;
     private readonly List<Payment> _payments = new();
+    public IReadOnlyCollection<Payment> Payments => _payments.AsReadOnly();
 
     public Guid CreatorId { get; init; }
     public string Name { get; init; }
-    public IReadOnlyList<Payment> Payments => _payments.AsReadOnly();
 
     public Bill(Guid creatorId, string name)
     {

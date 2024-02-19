@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using CollectPay.Application.Common.Interactions;
+using CollectPay.Application.Common.Abstraction;
 using ErrorOr;
 using FluentValidation;
 using FluentValidation.Results;

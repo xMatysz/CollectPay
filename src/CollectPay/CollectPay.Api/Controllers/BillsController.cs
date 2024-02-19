@@ -3,7 +3,6 @@ using CollectionPay.Contracts.Routes;
 using CollectPay.Application.BillAggregate.Commands.Create;
 using CollectPay.Application.BillAggregate.Queries.GetBills;
 using CollectPay.Domain.BillAggregate;
-using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,8 +10,8 @@ namespace CollectPay.Api.Controllers;
 
 public class BillsController : ApiController
 {
-	public BillsController(ISender sender, IMapper mapper)
-		: base(sender, mapper)
+	public BillsController(ISender sender)
+		: base(sender)
 	{
 	}
 
@@ -20,13 +19,15 @@ public class BillsController : ApiController
 	public async Task<List<Bill>> GetBills()
 	{
 		var results = await Sender.Send(new GetBillsQuery());
-		return results;
+		return results.Value;
 	}
 
 	[HttpPost(BillRoutes.Create)]
 	public async Task CreateBill([FromBody] CreateBillRequest request)
 	{
-		var command = Mapper.Map<CreateBillCommand>(request);
+		var command = new CreateBillCommand(
+			request.UserId,
+			request.Name);
 
 		var result = await Sender.Send(command);
 

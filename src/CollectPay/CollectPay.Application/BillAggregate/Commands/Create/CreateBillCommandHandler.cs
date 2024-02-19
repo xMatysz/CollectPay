@@ -1,11 +1,11 @@
-﻿using CollectPay.Application.Common.Interactions;
+﻿using CollectPay.Application.Common.Abstraction;
 using CollectPay.Application.Common.Repositories;
 using CollectPay.Domain.BillAggregate;
 using ErrorOr;
 
 namespace CollectPay.Application.BillAggregate.Commands.Create;
 
-public sealed class CreateBillCommandHandler : CommandHandler<CreateBillCommand, ErrorOr<Created>>
+public sealed class CreateBillCommandHandler : ICommandHandler<CreateBillCommand, Created>
 {
 	private readonly IBillRepository _billRepository;
 
@@ -14,7 +14,7 @@ public sealed class CreateBillCommandHandler : CommandHandler<CreateBillCommand,
 		_billRepository = billRepository;
 	}
 
-	protected override async Task<ErrorOr<Created>> Process(CreateBillCommand command, CancellationToken cancellationToken)
+	public async Task<ErrorOr<Created>> Handle(CreateBillCommand command, CancellationToken cancellationToken)
 	{
 		var bill = new Bill(command.CreatorId, command.BillName);
 

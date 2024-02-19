@@ -28,8 +28,8 @@ public class WhenUsingDebtService
 		var user2 = Guid.NewGuid();
 		var user3 = Guid.NewGuid();
 
-		yield return new object[]
-		{
+		yield return
+		[
 			new List<Payment>
 			{
 				pb.WithCreatorId(user1)
@@ -42,10 +42,10 @@ public class WhenUsingDebtService
 				Debt.Create(user2, 5m, user1),
 				Debt.Create(user3, 5m, user1)
 			}
-		};
+		];
 
-		yield return new object[]
-		{
+		yield return
+		[
 			new List<Payment>
 			{
 				pb.WithCreatorId(user1)
@@ -59,6 +59,6 @@ public class WhenUsingDebtService
 				Debt.Create(user2, 3.33m, user1),
 				Debt.Create(user3, 3.33m, user1)
 			}
-		};
+		];
 	}
 }

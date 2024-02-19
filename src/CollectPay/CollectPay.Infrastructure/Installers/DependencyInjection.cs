@@ -13,6 +13,7 @@ public static class DependencyInjection
 	{
 		services.AddScoped<IUnitOfWork, UnitOfWork>();
 		services.AddScoped<IBillRepository, BillRepository>();
+
 		services.AddScoped<IDebtService, DebtService>();
 
 		return services;

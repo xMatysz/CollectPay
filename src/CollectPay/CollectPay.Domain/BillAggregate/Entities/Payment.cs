@@ -8,14 +8,14 @@ namespace CollectPay.Domain.BillAggregate.Entities;
 
 public sealed class Payment : Entity
 {
-	public Guid CreatorId { get; set; }
+	public Guid CreatorId { get; init; }
 
-    public bool IsCreatorIncluded { get; set; }
+    public bool IsCreatorIncluded { get; init; }
 
-    public Amount Amount { get; set; }
+    public Amount Amount { get; init; }
 
     [NotMapped]
-    public IEnumerable<Guid> DebtorIds { get; set; }
+    public IEnumerable<Guid> DebtorIds { get; init; }
 
     private Payment(Guid creatorId, bool isCreatorIncluded, Amount amount, IEnumerable<Guid> debtorIds)
     {

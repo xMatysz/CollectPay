@@ -1,12 +1,9 @@
-﻿using ErrorOr;
+﻿namespace CollectPay.Api.ApiTests.Common.Doubles;
 
-namespace CollectPay.Api.ApiTests.Common.Doubles;
-
-public class SuccessFullHandler<TRequest, TResult> :
-	IRequestHandler<TRequest, TResult>
-	where TRequest : IRequest<TResult>
+public sealed class SuccessFullHandler<TCommand, TResult> : IRequestHandler<TCommand, TResult>
+	where TCommand : IRequest<TResult>
 {
-	public Task<TResult> Handle(TRequest request, CancellationToken cancellationToken)
+	public Task<TResult> Handle(TCommand request, CancellationToken cancellationToken)
 	{
 		return Task.FromResult<TResult>(default!);
 	}
