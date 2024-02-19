@@ -14,19 +14,23 @@ public sealed class Payment : Entity
 
     public Amount Amount { get; init; }
 
+    public Guid BillId { get; init; }
+
     [NotMapped]
     public IEnumerable<Guid> DebtorIds { get; init; }
 
-    private Payment(Guid creatorId, bool isCreatorIncluded, Amount amount, IEnumerable<Guid> debtorIds)
+
+    private Payment(Guid billId, Guid creatorId, bool isCreatorIncluded, Amount amount, IEnumerable<Guid> debtorIds)
     {
 	    Id = Guid.NewGuid();
+	    BillId = billId;
 	    CreatorId = creatorId;
 	    IsCreatorIncluded = isCreatorIncluded;
 	    Amount = amount;
 	    DebtorIds = debtorIds;
     }
 
-    public static ErrorOr<Payment> Create(Guid creator, bool isCreatorIncluded, Amount amount, IEnumerable<Guid> debtorIds)
+    public static ErrorOr<Payment> Create(Guid billId, Guid creator, bool isCreatorIncluded, Amount amount, IEnumerable<Guid> debtorIds)
     {
 	    var ids = debtorIds.ToArray();
 
@@ -35,7 +39,7 @@ public sealed class Payment : Entity
 		    return PaymentErrors.CreatorCannotBeDebtor;
 	    }
 
-        return new Payment(creator, isCreatorIncluded, amount, ids);
+        return new Payment(billId, creator, isCreatorIncluded, amount, ids);
     }
 
     private Payment()

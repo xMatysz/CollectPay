@@ -7,9 +7,9 @@ public class BillBuilder
 	private Guid _creatorId = Guid.NewGuid();
 	private string _billName = "TestBill";
 
-	public BillBuilder WithCreatorId(Guid id)
+	public BillBuilder WithCreatorId(Guid creatorId)
 	{
-		_creatorId = id;
+		_creatorId = creatorId;
 		return this;
 	}
 

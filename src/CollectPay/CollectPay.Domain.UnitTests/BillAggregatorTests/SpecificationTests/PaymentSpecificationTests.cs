@@ -9,17 +9,20 @@ public class PaymentSpecificationTests
 	[Fact]
 	public void ShouldCreatePayment()
 	{
+		var billId = Guid.NewGuid();
 		var creatorId = Guid.NewGuid();
 		var amount = Amount.Create(decimal.One, "PLN").Value;
 		var debtors = new[] { Guid.NewGuid(), Guid.NewGuid() };
 
 		var payment = new PaymentBuilder()
+			.WithBillId(billId)
 			.WithCreatorId(creatorId)
 			.WithAmount(amount)
 			.WithDebtors(debtors)
 			.WithCreatorIncluded()
 			.Build();
 
+		payment.BillId.Should().Be(billId);
 		payment.CreatorId.Should().Be(creatorId);
 		payment.Amount.Should().BeEquivalentTo(amount);
 		payment.DebtorIds.Should().BeEquivalentTo(debtors);
@@ -33,7 +36,8 @@ public class PaymentSpecificationTests
 		var user2 = Guid.NewGuid();
 
 		var payment = Payment
-			.Create(user1,
+			.Create(Guid.NewGuid(),
+				user1,
 				false,
 				null,
 				new[] { user1, user2 });

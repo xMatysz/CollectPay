@@ -15,6 +15,7 @@ public class Bill : AggregateRoot
 
     public Bill(Guid creatorId, string name)
     {
+	    Id = Guid.NewGuid();
 	    CreatorId = creatorId;
         Name = name;
     }

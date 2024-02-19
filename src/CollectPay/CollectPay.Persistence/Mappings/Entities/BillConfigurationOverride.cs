@@ -13,7 +13,7 @@ public class BillConfigurationOverride : IEntityTypeConfiguration<Bill>
 
 		builder.HasMany(x => x.Payments)
 			.WithOne()
-			.HasForeignKey("BillId")
+			.HasForeignKey(x=>x.BillId)
 			.OnDelete(DeleteBehavior.Cascade);
 	}
 }

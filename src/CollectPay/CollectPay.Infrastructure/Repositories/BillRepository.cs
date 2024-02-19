@@ -17,6 +17,11 @@ public sealed class BillRepository : Repository, IBillRepository
 		await DbContext.AddAsync(bill, cancellationToken);
 	}
 
+	public async Task<Bill?> GetByIdAsync(Guid billId, CancellationToken cancellationToken)
+	{
+		return await DbContext.Set<Bill>().FindAsync(billId, cancellationToken);
+	}
+
 	public async Task<List<Bill>> GetAllAsync(CancellationToken cancellationToken)
 	{
 		 return await DbContext.Set<Bill>().ToListAsync(cancellationToken);

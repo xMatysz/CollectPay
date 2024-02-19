@@ -10,6 +10,7 @@ public class PaymentBuilder
 	private bool _isCreatorIncluded = false;
 	private Amount _amount = Amount.Create(21.37m ,"PLN").Value;
 	private IEnumerable<Guid> _debtors = new[] { Guid.NewGuid() };
+	private Guid _billId = Guid.NewGuid();
 
 	public PaymentBuilder WithCreatorId(Guid creatorId)
 	{
@@ -35,9 +36,15 @@ public class PaymentBuilder
 		return this;
 	}
 
+	public PaymentBuilder WithBillId(Guid billId)
+	{
+		_billId = billId;
+		return this;
+	}
+
 	public Payment Build()
 	{
-		var payment = Payment.Create(_creatorId, _isCreatorIncluded, _amount, _debtors);
+		var payment = Payment.Create(_billId, _creatorId, _isCreatorIncluded, _amount, _debtors);
 		return payment.Value;
 	}
 }
