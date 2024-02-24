@@ -1,9 +1,9 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
-using CollectionPay.Contracts.Requests;
+using CollectionPay.Contracts.Requests.Bill;
 using CollectionPay.Contracts.Routes;
 using CollectPay.Api.ApiTests.Common.Doubles;
-using CollectPay.Application.BillAggregate.Commands.Create;
+using CollectPay.Application.BillAggregate.Commands.Bill.CreateBill;
 using CollectPay.Application.BillAggregate.Queries.GetBills;
 using CollectPay.Domain.BillAggregate;
 using ErrorOr;

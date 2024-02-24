@@ -1,9 +1,8 @@
 ﻿using CollectPay.Application.Common.Abstraction;
 using CollectPay.Application.Common.Repositories;
-using CollectPay.Domain.BillAggregate;
 using ErrorOr;
 
-namespace CollectPay.Application.BillAggregate.Commands.Create;
+namespace CollectPay.Application.BillAggregate.Commands.Bill.CreateBill;
 
 public sealed class CreateBillCommandHandler : ICommandHandler<CreateBillCommand, Created>
 {
@@ -16,7 +15,7 @@ public sealed class CreateBillCommandHandler : ICommandHandler<CreateBillCommand
 
 	public async Task<ErrorOr<Created>> Handle(CreateBillCommand command, CancellationToken cancellationToken)
 	{
-		var bill = new Bill(command.CreatorId, command.BillName);
+		var bill = new Domain.BillAggregate.Bill(command.CreatorId, command.BillName);
 
 		await _billRepository.AddAsync(bill, cancellationToken);
 

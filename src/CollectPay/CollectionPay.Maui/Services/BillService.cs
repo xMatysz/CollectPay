@@ -1,5 +1,5 @@
 ﻿using System.Net.Http.Json;
-using CollectionPay.Contracts.Requests;
+using CollectionPay.Contracts.Requests.Bill;
 using CollectionPay.Contracts.Routes;
 using CollectionPay.Maui.Pages.Bills.BillList;
 

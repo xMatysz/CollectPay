@@ -1,9 +1,15 @@
 ﻿using System.Net;
+using System.Net.Http.Json;
+using CollectionPay.Contracts.Requests.Payment;
 using CollectionPay.Contracts.Routes;
 using CollectPay.Api.ApiTests.Common.Doubles;
+using CollectPay.Application.BillAggregate.Commands.Payment.CreatePayment;
+using CollectPay.Application.BillAggregate.Commands.Payment.RemovePayment;
+using CollectPay.Application.BillAggregate.Commands.Payment.UpdatePayment;
 using CollectPay.Application.BillAggregate.Queries.GetPayments;
 using CollectPay.Application.Common.Abstraction;
 using CollectPay.Domain.BillAggregate.Entities;
+using CollectPay.Tests.Shared.Builders;
 using ErrorOr;
 
 namespace CollectPay.Api.ApiTests.Controllers.PaymentControllerTests;
@@ -11,7 +17,7 @@ namespace CollectPay.Api.ApiTests.Controllers.PaymentControllerTests;
 public class WhenSendingRequestToPaymentController : ControllerTestBase
 {
 	[Fact]
-	public async Task ShouldReturnListOfBills()
+	public async Task ShouldReturnListOfPayments()
 	{
 		const string url = PaymentRoutes.List;
 		ConfigureHandler<GetPaymentsQuery, ErrorOr<Payment[]>, SuccessFullHandler<GetPaymentsQuery, ErrorOr<Payment[]>>>();
@@ -24,9 +30,11 @@ public class WhenSendingRequestToPaymentController : ControllerTestBase
 	public async Task ShouldCreatePayment()
 	{
 		const string url = PaymentRoutes.Create;
+		var request = new CreatePaymentRequest(Guid.NewGuid());
 		ConfigureHandler<CreatePaymentCommand, ErrorOr<Created>, SuccessFullHandler<CreatePaymentCommand, ErrorOr<Created>>>();
 
-		var response = await Client.GetAsync(url);
+		var response = await Client.PostAsJsonAsync(url, request);
+
 		response.StatusCode.Should().Be(HttpStatusCode.OK);
 	}
 
@@ -35,8 +43,9 @@ public class WhenSendingRequestToPaymentController : ControllerTestBase
 	{
 		const string url = PaymentRoutes.Update;
 		ConfigureHandler<UpdatePaymentCommand, ErrorOr<Updated>, SuccessFullHandler<UpdatePaymentCommand, ErrorOr<Updated>>>();
+		var request = new UpdatePaymentRequest(Guid.NewGuid());
 
-		var response = await Client.GetAsync(url);
+		var response = await Client.PutAsJsonAsync(url, request);
 		response.StatusCode.Should().Be(HttpStatusCode.OK);
 	}
 
@@ -46,11 +55,7 @@ public class WhenSendingRequestToPaymentController : ControllerTestBase
 		const string url = PaymentRoutes.Remove;
 		ConfigureHandler<RemovePaymentCommand, ErrorOr<Deleted>, SuccessFullHandler<RemovePaymentCommand, ErrorOr<Deleted>>>();
 
-		var response = await Client.GetAsync(url);
+		var response = await Client.DeleteAsync(url);
 		response.StatusCode.Should().Be(HttpStatusCode.OK);
 	}
 }
-
-public record CreatePaymentCommand(Guid BillId) : ICommand<Created>;
-public record UpdatePaymentCommand(Guid BillId, Guid PaymentId) : ICommand<Updated>;
-public record RemovePaymentCommand(Guid BillId, Guid PaymentId) : ICommand<Deleted>;
