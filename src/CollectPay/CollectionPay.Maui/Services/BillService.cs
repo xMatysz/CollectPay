@@ -11,23 +11,21 @@ public interface IBillService
 	Task CreateBillAsync(BillModel bill, CancellationToken cancellationToken = default);
 }
 
-public class BillService : IBillService
+public class BillService : ServiceBase, IBillService
 {
-	private readonly HttpClient _httpClient;
-
 	public BillService(HttpClient client)
+		: base(client)
 	{
-		_httpClient = client;
 	}
 
 	public async Task<BillModel[]> GetAllBillsAsync(CancellationToken cancellationToken = default)
 	{
-		return await _httpClient.GetFromJsonAsync<BillModel[]>(BillRoutes.List, cancellationToken);
+		return await HttpClient.GetFromJsonAsync<BillModel[]>(BillRoutes.List, cancellationToken);
 	}
 
 	public Task CreateBillAsync(BillModel bill, CancellationToken cancellationToken = default)
 	{
 		var request = new CreateBillRequest(bill.CreatorId, bill.Name);
-		return _httpClient.PostAsJsonAsync(BillRoutes.Create, request, cancellationToken);
+		return HttpClient.PostAsJsonAsync(BillRoutes.Create, request, cancellationToken);
 	}
 }

@@ -14,5 +14,6 @@
         <Entry Text="{Binding Model.Password, Mode=OneWayToSource}"/>
 
         <Button Text="Login" Command="{Binding LoginCommand}"/>
+        <Button Text="Register" Command="{Binding RegisterCommand}"/>
     </VerticalStackLayout>
 </ContentPage>

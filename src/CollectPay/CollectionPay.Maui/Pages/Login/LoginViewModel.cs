@@ -1,4 +1,6 @@
 ﻿using CollectionPay.Maui.Common;
+using CollectionPay.Maui.Pages.Bills.BillList;
+using CollectionPay.Maui.Pages.Register;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -22,6 +24,12 @@ public partial class LoginViewModel : ViewModelBase
 	[RelayCommand]
 	public async Task Login()
 	{
-		await _shellService.GoToAsync("BillListView");
+		await _shellService.GoToAsync(nameof(BillListView));
+	}
+
+	[RelayCommand]
+	public async Task Register()
+	{
+		await _shellService.GoToAsync(nameof(RegisterView));
 	}
 }
