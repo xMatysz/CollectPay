@@ -22,6 +22,11 @@ public class Bill : AggregateRoot
 
     public ErrorOr<Updated> AddPayment(Payment newPayment)
     {
+	    if (newPayment is null)
+	    {
+		    return PaymentErrors.InvalidPayment;
+	    }
+
 	    if (Payments.Any(x => Equals(x, newPayment)))
 	    {
 		    return PaymentErrors.PaymentAlreadyExist;

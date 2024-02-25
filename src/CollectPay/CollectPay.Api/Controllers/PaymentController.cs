@@ -19,12 +19,12 @@ public class PaymentController : ApiController
 	}
 
 	[HttpGet(PaymentRoutes.List)]
-	public IActionResult GetPayments([FromQuery] Guid billId)
+	public async Task<IActionResult> GetPayments([FromQuery] Guid billId)
 	{
 		var query = new GetPaymentsQuery(billId);
 
-		var result = Sender.Send(query);
-		return Ok(result);
+		var result = await Sender.Send(query);
+		return QueryResult(result);
 	}
 
 	[HttpPost(PaymentRoutes.Create)]
@@ -38,7 +38,7 @@ public class PaymentController : ApiController
 			request.Debtors);
 
 		var result = await Sender.Send(command);
-		return Ok(result);
+		return CreateResult(result);
 	}
 
 	[HttpPut(PaymentRoutes.Update)]

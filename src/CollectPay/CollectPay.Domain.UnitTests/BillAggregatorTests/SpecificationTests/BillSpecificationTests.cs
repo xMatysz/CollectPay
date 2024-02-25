@@ -1,4 +1,5 @@
 ﻿using CollectPay.Domain.BillAggregate;
+using CollectPay.Domain.BillAggregate.Errors;
 
 namespace CollectPay.Domain.UnitTests.BillAggregatorTests.SpecificationTests;
 
@@ -29,17 +30,34 @@ public class BillSpecificationTests
 	}
 
 	[Fact]
-	public void ShouldCreateBill()
+	public void ShouldFailWhenAddingInvalidPayment()
 	{
-		const string billName = "TestName";
-		var creatorId = Guid.NewGuid();
+		var result = _bill.AddPayment(null);
 
-		var bill = new BillBuilder()
-			.WithName(billName)
-			.WithCreatorId(creatorId)
-			.Build();
+		result.IsError.Should().BeTrue();
+		result.FirstError.Should().BeEquivalentTo(PaymentErrors.InvalidPayment);
+	}
 
-		bill.Name.Should().Be(billName);
-		bill.CreatorId.Should().Be(creatorId);
+	[Fact]
+	public void ShouldFailWhenAddingAlreadyExistingPayment()
+	{
+		var payment = new PaymentBuilder().Build();
+		_bill.AddPayment(payment);
+
+		var result = _bill.AddPayment(payment);
+
+		result.IsError.Should().BeTrue();
+		result.FirstError.Should().BeEquivalentTo(PaymentErrors.PaymentAlreadyExist);
+	}
+
+	[Fact]
+	public void ShouldFailWhenPaymentToDeleteNotExist()
+	{
+		var payment = new PaymentBuilder().Build();
+
+		var result = _bill.DeletePayment(payment.Id);
+
+		result.IsError.Should().BeTrue();
+		result.FirstError.Should().BeEquivalentTo(PaymentErrors.PaymentNotFound);
 	}
 }

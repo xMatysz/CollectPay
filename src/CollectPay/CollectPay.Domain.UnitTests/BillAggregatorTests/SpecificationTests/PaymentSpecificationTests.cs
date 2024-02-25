@@ -7,30 +7,7 @@ namespace CollectPay.Domain.UnitTests.BillAggregatorTests.SpecificationTests;
 public class PaymentSpecificationTests
 {
 	[Fact]
-	public void ShouldCreatePayment()
-	{
-		var billId = Guid.NewGuid();
-		var creatorId = Guid.NewGuid();
-		var amount = Amount.Create(decimal.One, "PLN").Value;
-		var debtors = new[] { Guid.NewGuid(), Guid.NewGuid() };
-
-		var payment = new PaymentBuilder()
-			.WithBillId(billId)
-			.WithCreatorId(creatorId)
-			.WithAmount(amount)
-			.WithDebtors(debtors)
-			.WithCreatorIncluded()
-			.Build();
-
-		payment.BillId.Should().Be(billId);
-		payment.CreatorId.Should().Be(creatorId);
-		payment.Amount.Should().BeEquivalentTo(amount);
-		payment.DebtorIds.Should().BeEquivalentTo(debtors);
-		payment.IsCreatorIncluded.Should().BeTrue();
-	}
-
-	[Fact]
-	public void ShouldNotCreateWhenCreatorIsInDebtorsList()
+	public void ShouldFailWhenCreatorIsInDebtorsList()
 	{
 		var user1 = Guid.NewGuid();
 		var user2 = Guid.NewGuid();

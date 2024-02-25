@@ -3,5 +3,5 @@
 public static class BillRoutes
 {
 	public const string List = "bills";
-	public const string Create = "bills/create";
+	public const string Create = "bill/create";
 }

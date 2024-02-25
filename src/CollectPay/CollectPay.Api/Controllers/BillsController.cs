@@ -2,7 +2,6 @@
 using CollectionPay.Contracts.Routes;
 using CollectPay.Application.BillAggregate.Commands.Bills.CreateBill;
 using CollectPay.Application.BillAggregate.Queries.GetBills;
-using CollectPay.Domain.BillAggregate;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,14 +15,15 @@ public class BillsController : ApiController
 	}
 
 	[HttpGet(BillRoutes.List)]
-	public async Task<List<Bill>> GetBills()
+	public async Task<IActionResult> GetBills()
 	{
 		var results = await Sender.Send(new GetBillsQuery());
-		return results.Value;
+
+		return QueryResult(results);
 	}
 
 	[HttpPost(BillRoutes.Create)]
-	public async Task CreateBill([FromBody] CreateBillRequest request)
+	public async Task<IActionResult> CreateBill([FromBody] CreateBillRequest request)
 	{
 		var command = new CreateBillCommand(
 			request.UserId,
@@ -31,8 +31,6 @@ public class BillsController : ApiController
 
 		var result = await Sender.Send(command);
 
-		result.Match(
-			created => Ok(created),
-			Problem);
+		return CreateResult(result);
 	}
 }

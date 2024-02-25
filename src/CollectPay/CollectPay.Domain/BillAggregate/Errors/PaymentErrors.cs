@@ -15,4 +15,8 @@ public static class PaymentErrors
 	public static Error CreatorCannotBeDebtor => Error.Conflict(
 		code: $"{nameof(PaymentErrors)}.{nameof(CreatorCannotBeDebtor)}",
 		description: "Creator cannot be on Debtors list, please use 'Include Creator' option");
+
+	public static Error InvalidPayment => Error.Conflict(
+		code: $"{nameof(PaymentErrors)}.{nameof(InvalidPayment)}",
+		description: "Invalid payment");
 }
