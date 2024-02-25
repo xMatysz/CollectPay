@@ -1,10 +1,11 @@
 ﻿using CollectionPay.Contracts.Requests.Bill;
 using CollectionPay.Contracts.Requests.Payment;
 using CollectionPay.Contracts.Routes;
-using CollectPay.Application.BillAggregate.Commands.Payment.CreatePayment;
-using CollectPay.Application.BillAggregate.Commands.Payment.RemovePayment;
-using CollectPay.Application.BillAggregate.Commands.Payment.UpdatePayment;
+using CollectPay.Application.BillAggregate.Commands.Payments.CreatePayment;
+using CollectPay.Application.BillAggregate.Commands.Payments.RemovePayment;
+using CollectPay.Application.BillAggregate.Commands.Payments.UpdatePayment;
 using CollectPay.Application.BillAggregate.Queries.GetPayments;
+using CollectPay.Domain.BillAggregate.ValueObjects;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,29 +28,34 @@ public class PaymentController : ApiController
 	}
 
 	[HttpPost(PaymentRoutes.Create)]
-	public IActionResult CreatePayment([FromBody] CreatePaymentRequest request)
+	public async Task<IActionResult> CreatePayment([FromBody] CreatePaymentRequest request)
 	{
-		var command = new CreatePaymentCommand(request.BillId);
+		var command = new CreatePaymentCommand(
+			request.BillId,
+			request.CreatorId,
+			request.IsCreatorIncluded,
+			Amount.Create(request.Amount, request.Currency).Value,
+			request.Debtors);
 
-		var result = Sender.Send(command);
+		var result = await Sender.Send(command);
 		return Ok(result);
 	}
 
 	[HttpPut(PaymentRoutes.Update)]
-	public IActionResult UpdatePayment([FromBody] UpdatePaymentRequest request)
+	public async Task<IActionResult> UpdatePayment([FromBody] UpdatePaymentRequest request)
 	{
 		var command = new UpdatePaymentCommand(request.BillId);
 
-		var result = Sender.Send(command);
+		var result = await Sender.Send(command);
 		return Ok(result);
 	}
 
 	[HttpDelete(PaymentRoutes.Remove)]
-	public IActionResult RemovePayments([FromQuery] Guid billId)
+	public async Task<IActionResult> RemovePayments([FromQuery] Guid billId)
 	{
 		var command = new RemovePaymentCommand(billId);
 
-		var result = Sender.Send(command);
+		var result = await Sender.Send(command);
 		return Ok(result);
 	}
 }

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CollectPay.Persistence.Migrations
 {
     [DbContext(typeof(CollectPayDbContext))]
-    [Migration("20240219194254_AddBillIdColumnToPaymentAndChangeCurrencyTypeInDb")]
-    partial class AddBillIdColumnToPaymentAndChangeCurrencyTypeInDb
+    [Migration("20240225130746_AddBillsAndPaymentsTables")]
+    partial class AddBillsAndPaymentsTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,7 +28,6 @@ namespace CollectPay.Persistence.Migrations
             modelBuilder.Entity("CollectPay.Domain.BillAggregate.Bill", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("CreatorId")
@@ -45,7 +44,6 @@ namespace CollectPay.Persistence.Migrations
             modelBuilder.Entity("CollectPay.Domain.BillAggregate.Entities.Payment", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("BillId")

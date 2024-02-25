@@ -11,6 +11,9 @@ public class BillConfigurationOverride : IEntityTypeConfiguration<Bill>
 		builder.ToTable("Bills");
 		builder.HasKey(x => x.Id);
 
+		builder.Property(x => x.Id)
+			.ValueGeneratedNever();
+
 		builder.HasMany(x => x.Payments)
 			.WithOne()
 			.HasForeignKey(x=>x.BillId)

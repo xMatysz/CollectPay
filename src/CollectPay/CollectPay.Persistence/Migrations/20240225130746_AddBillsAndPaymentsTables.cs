@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CollectPay.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class AddBillsAndPaymentsTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,8 +32,8 @@ namespace CollectPay.Persistence.Migrations
                     CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
                     IsCreatorIncluded = table.Column<bool>(type: "boolean", nullable: false),
                     Amount = table.Column<decimal>(type: "numeric", nullable: true),
-                    Currency = table.Column<string>(type: "text", nullable: true),
-                    BillId = table.Column<Guid>(type: "uuid", nullable: true)
+                    Currency = table.Column<string>(type: "character varying(3)", maxLength: 3, nullable: true),
+                    BillId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {

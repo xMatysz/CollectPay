@@ -25,7 +25,6 @@ namespace CollectPay.Persistence.Migrations
             modelBuilder.Entity("CollectPay.Domain.BillAggregate.Bill", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("CreatorId")
@@ -42,7 +41,6 @@ namespace CollectPay.Persistence.Migrations
             modelBuilder.Entity("CollectPay.Domain.BillAggregate.Entities.Payment", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("BillId")

@@ -3,14 +3,11 @@ using CollectPay.Domain.BillAggregate.Errors;
 
 namespace CollectPay.Application.IntegrationTests.BillAggregatorTests.Queries;
 
-public class WhenSendingGetPaymentsQuery : IntegrationTestBase, IClassFixture<WebApiFactory>
+public class WhenSendingGetPaymentsQuery : IntegrationTestBase
 {
-	private readonly GetPaymentsQueryHandler _handler;
-
 	public WhenSendingGetPaymentsQuery(WebApiFactory factory)
 		: base(factory)
 	{
-		_handler = new GetPaymentsQueryHandler(BillRepository);
 	}
 
 	[Fact]
@@ -18,7 +15,7 @@ public class WhenSendingGetPaymentsQuery : IntegrationTestBase, IClassFixture<We
 	{
 		var bill = BillBuilder.Build();
 
-		await AssumeEntityInDb(bill);
+		await AssumeEntityInDbAsync(bill);
 
 		var payments = new[]
 		{
@@ -27,11 +24,11 @@ public class WhenSendingGetPaymentsQuery : IntegrationTestBase, IClassFixture<We
 			PaymentBuilder.WithBillId(bill.Id).Build(),
 		};
 
-		await AssumeEntityInDb(payments);
+		await AssumeEntityInDbAsync(payments);
 
 		var query = new GetPaymentsQuery(bill.Id);
 
-		var result = await _handler.Handle(query, CancellationToken.None);
+		var result = await Sender.Send(query);
 
 		result.Value.Should().BeEquivalentTo(payments);
 	}
@@ -43,7 +40,7 @@ public class WhenSendingGetPaymentsQuery : IntegrationTestBase, IClassFixture<We
 
 		var query = new GetPaymentsQuery(fakeBillId);
 
-		var result = await _handler.Handle(query, CancellationToken.None);
+		var result = await Sender.Send(query);
 
 		result.IsError.Should().BeTrue();
 		result.FirstError.Should().BeEquivalentTo(BillErrors.BillNotFound);

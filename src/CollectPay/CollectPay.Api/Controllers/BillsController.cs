@@ -1,6 +1,6 @@
 ﻿using CollectionPay.Contracts.Requests.Bill;
 using CollectionPay.Contracts.Routes;
-using CollectPay.Application.BillAggregate.Commands.Bill.CreateBill;
+using CollectPay.Application.BillAggregate.Commands.Bills.CreateBill;
 using CollectPay.Application.BillAggregate.Queries.GetBills;
 using CollectPay.Domain.BillAggregate;
 using MediatR;

@@ -3,13 +3,11 @@ using System.Net.Http.Json;
 using CollectionPay.Contracts.Requests.Payment;
 using CollectionPay.Contracts.Routes;
 using CollectPay.Api.ApiTests.Common.Doubles;
-using CollectPay.Application.BillAggregate.Commands.Payment.CreatePayment;
-using CollectPay.Application.BillAggregate.Commands.Payment.RemovePayment;
-using CollectPay.Application.BillAggregate.Commands.Payment.UpdatePayment;
+using CollectPay.Application.BillAggregate.Commands.Payments.CreatePayment;
+using CollectPay.Application.BillAggregate.Commands.Payments.RemovePayment;
+using CollectPay.Application.BillAggregate.Commands.Payments.UpdatePayment;
 using CollectPay.Application.BillAggregate.Queries.GetPayments;
-using CollectPay.Application.Common.Abstraction;
 using CollectPay.Domain.BillAggregate.Entities;
-using CollectPay.Tests.Shared.Builders;
 using ErrorOr;
 
 namespace CollectPay.Api.ApiTests.Controllers.PaymentControllerTests;
@@ -30,7 +28,7 @@ public class WhenSendingRequestToPaymentController : ControllerTestBase
 	public async Task ShouldCreatePayment()
 	{
 		const string url = PaymentRoutes.Create;
-		var request = new CreatePaymentRequest(Guid.NewGuid());
+		var request = new CreatePaymentRequest(Guid.NewGuid(), Guid.NewGuid(), true, 21.23m, "USD", []);
 		ConfigureHandler<CreatePaymentCommand, ErrorOr<Created>, SuccessFullHandler<CreatePaymentCommand, ErrorOr<Created>>>();
 
 		var response = await Client.PostAsJsonAsync(url, request);

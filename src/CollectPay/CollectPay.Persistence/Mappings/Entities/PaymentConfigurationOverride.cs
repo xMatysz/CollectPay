@@ -10,6 +10,10 @@ public class PaymentConfigurationOverride : IEntityTypeConfiguration<Payment>
 	{
 		builder.ToTable("Payments");
 		builder.HasKey(x => x.Id);
+
+		builder.Property(x => x.Id)
+			.ValueGeneratedNever();
+
 		builder.OwnsOne(x => x.Amount, y =>
 		{
 			y.Property(c => c.Value)

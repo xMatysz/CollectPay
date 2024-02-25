@@ -1,26 +1,23 @@
-﻿using CollectPay.Application.BillAggregate.Commands.Bill.CreateBill;
+﻿using CollectPay.Application.BillAggregate.Commands.Bills.CreateBill;
 using ErrorOr;
 
-namespace CollectPay.Application.IntegrationTests.BillAggregatorTests.Commands;
+namespace CollectPay.Application.IntegrationTests.BillAggregatorTests.Commands.Bills;
 
-public class WhenSendingCreateBillCommand : IntegrationTestBase, IClassFixture<WebApiFactory>
+public class WhenSendingCreateBillCommand : IntegrationTestBase
 {
-	private readonly CreateBillCommandHandler _handler;
-
 	public WhenSendingCreateBillCommand(WebApiFactory factory)
 		: base(factory)
 	{
-		_handler = new CreateBillCommandHandler(BillRepository);
 	}
 
 	[Fact]
-	public async Task ShouldAddBillToDb()
+	public async Task Should_AddBillToRepository()
 	{
 		var creatorId = Guid.NewGuid();
 		const string billName = "BillName";
 		var command = new CreateBillCommand(creatorId, billName);
 
-		var result = await _handler.Handle(command, CancellationToken.None);
+		var result = await Sender.Send(command);
 		result.Value.Should().BeEquivalentTo(Result.Created);
 		await UnitOfWork.SaveChangesAsync();
 

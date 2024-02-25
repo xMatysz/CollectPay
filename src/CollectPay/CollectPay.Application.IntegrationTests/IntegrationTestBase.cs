@@ -1,17 +1,20 @@
 ﻿using CollectPay.Application.Common.Repositories;
 using CollectPay.Domain.Common.Models;
 using CollectPay.Persistence;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CollectPay.Application.IntegrationTests;
 
-public abstract class IntegrationTestBase : IAsyncLifetime
+public abstract class IntegrationTestBase : IClassFixture<WebApiFactory>, IAsyncLifetime
 {
 	private readonly Func<Task> _resetDb;
 	private readonly CollectPayDbContext _dbContext;
 
 	protected static BillBuilder BillBuilder => new();
 	protected static PaymentBuilder PaymentBuilder => new();
+
+	protected ISender Sender { get; }
 	protected IBillRepository BillRepository { get; }
 	private IServiceProvider ServiceProvider { get; }
 	protected IUnitOfWork UnitOfWork { get; }
@@ -25,6 +28,8 @@ public abstract class IntegrationTestBase : IAsyncLifetime
 
 		_dbContext = ServiceProvider.GetRequiredService<CollectPayDbContext>();
 
+		Sender = ServiceProvider.GetRequiredService<ISender>();
+
 		BillRepository = ServiceProvider.GetRequiredService<IBillRepository>();
 		UnitOfWork = ServiceProvider.GetRequiredService<IUnitOfWork>();
 	}
@@ -33,7 +38,18 @@ public abstract class IntegrationTestBase : IAsyncLifetime
 
 	public async Task DisposeAsync() => await _resetDb();
 
-	protected async Task AssumeEntityInDb<TEntity>(params TEntity[] entities)
+	protected void AssumeEntityInDb<TEntity>(params TEntity[] entities)
+		where TEntity : Entity
+	{
+		foreach (var entity in entities)
+		{
+			_dbContext.Add(entity);
+		}
+
+		UnitOfWork.SaveChangesAsync().GetAwaiter().GetResult();
+	}
+
+	protected async Task AssumeEntityInDbAsync<TEntity>(params TEntity[] entities)
 		where TEntity : Entity
 	{
 		foreach (var entity in entities)

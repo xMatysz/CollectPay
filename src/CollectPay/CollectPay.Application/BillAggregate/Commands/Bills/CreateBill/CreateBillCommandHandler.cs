@@ -2,7 +2,7 @@
 using CollectPay.Application.Common.Repositories;
 using ErrorOr;
 
-namespace CollectPay.Application.BillAggregate.Commands.Bill.CreateBill;
+namespace CollectPay.Application.BillAggregate.Commands.Bills.CreateBill;
 
 public sealed class CreateBillCommandHandler : ICommandHandler<CreateBillCommand, Created>
 {

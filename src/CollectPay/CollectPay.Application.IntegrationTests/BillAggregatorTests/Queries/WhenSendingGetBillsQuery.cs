@@ -3,14 +3,11 @@ using CollectPay.Domain.BillAggregate;
 
 namespace CollectPay.Application.IntegrationTests.BillAggregatorTests.Queries;
 
-public class WhenSendingGetBillsQuery : IntegrationTestBase, IClassFixture<WebApiFactory>
+public class WhenSendingGetBillsQuery : IntegrationTestBase
 {
-	private readonly GetBillsQueryHandler _handler;
-
 	public WhenSendingGetBillsQuery(WebApiFactory factory)
 		: base(factory)
 	{
-		_handler = new GetBillsQueryHandler(BillRepository);
 	}
 
 	[Fact]
@@ -30,7 +27,7 @@ public class WhenSendingGetBillsQuery : IntegrationTestBase, IClassFixture<WebAp
 
 		await UnitOfWork.SaveChangesAsync();
 
-		var result = await _handler.Handle(new GetBillsQuery(), CancellationToken.None);
+		var result = await Sender.Send(new GetBillsQuery());
 
 		result.Value.Should().BeEquivalentTo(bills);
 	}
