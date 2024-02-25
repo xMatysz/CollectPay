@@ -4,7 +4,7 @@ using CollectionPay.Contracts.Requests.Bill;
 using CollectionPay.Contracts.Routes;
 using CollectPay.Api.ApiTests.Common.Doubles;
 using CollectPay.Application.BillAggregate.Commands.Bills.CreateBill;
-using CollectPay.Application.BillAggregate.Queries.GetBills;
+using CollectPay.Application.BillAggregate.Queries.Bills.GetBills;
 using CollectPay.Domain.BillAggregate;
 using ErrorOr;
 

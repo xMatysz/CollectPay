@@ -15,7 +15,7 @@ public class WhenModifyingPayments
 		_bill.AddPayment(paymentToAdd);
 		var notAddedPayment = new PaymentBuilder().Build();
 
-		var result =  _bill.DeletePayment(notAddedPayment.Id);
+		var result =  _bill.RemovePayment(notAddedPayment.Id);
 
 		result.IsError.Should().BeTrue();
 		result.FirstError.Should().BeEquivalentTo(PaymentErrors.PaymentNotFound);

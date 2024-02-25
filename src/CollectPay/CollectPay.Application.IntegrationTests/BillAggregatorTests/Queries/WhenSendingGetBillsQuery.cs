@@ -1,4 +1,4 @@
-﻿using CollectPay.Application.BillAggregate.Queries.GetBills;
+﻿using CollectPay.Application.BillAggregate.Queries.Bills.GetBills;
 using CollectPay.Domain.BillAggregate;
 
 namespace CollectPay.Application.IntegrationTests.BillAggregatorTests.Queries;

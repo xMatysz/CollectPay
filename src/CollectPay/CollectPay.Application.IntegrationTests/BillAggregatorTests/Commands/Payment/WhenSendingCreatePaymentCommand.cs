@@ -24,10 +24,9 @@ public class WhenSendingCreatePaymentCommand : SendPaymentCommandBase
 				Guid.NewGuid()
 			]);
 
-		var result = await Sender.Send(command);
+		await Sender.Send(command);
 
-		result.IsError.Should().BeFalse();
-		result.Value.Should().Be(Result.Created);
-
+		var bill = await BillRepository.GetByIdAsync(Bill.Id);
+		bill!.Payments.Should().HaveCount(1);
 	}
 }

@@ -3,7 +3,7 @@ using CollectPay.Domain.BillAggregate;
 using ErrorOr;
 using MediatR;
 
-namespace CollectPay.Application.BillAggregate.Queries.GetBills;
+namespace CollectPay.Application.BillAggregate.Queries.Bills.GetBills;
 
 public class GetBillsQueryHandler : IRequestHandler<GetBillsQuery, ErrorOr<List<Bill>>>
 {

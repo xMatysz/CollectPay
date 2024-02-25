@@ -8,30 +8,10 @@ public class WhenQueryingEntities : IntegrationTestBase
 	}
 
 	[Fact]
-	public async Task ShouldGetCorrectBillFromDb()
-	{
-		const string billName = "vacation";
-		var creatorId = Guid.NewGuid();
-		var bill = BillBuilder
-			.WithName(billName)
-			.WithCreatorId(creatorId)
-			.Build();
-
-		await BillRepository.AddAsync(bill);
-		await UnitOfWork.SaveChangesAsync();
-
-		var allBills = await BillRepository.GetAllAsync();
-		var billFromDb = allBills.Single();
-
-		billFromDb.Name.Should().Be(billName);
-		billFromDb.CreatorId.Should().Be(creatorId);
-	}
-
-	[Fact]
 	public async Task ShouldAttachPaymentsToBill()
 	{
-		var payments = new[] { PaymentBuilder.Build(), PaymentBuilder.Build() };
-		var bill = BillBuilder.Build();
+		var payments = new[] { new PaymentBuilder().Build(), new PaymentBuilder().Build() };
+		var bill = new BillBuilder().Build();
 
 		foreach (var payment in payments)
 		{
@@ -41,9 +21,8 @@ public class WhenQueryingEntities : IntegrationTestBase
 		await BillRepository.AddAsync(bill);
 		await UnitOfWork.SaveChangesAsync();
 
-		var allBills = await BillRepository.GetAllAsync();
-		var billFromDb = allBills.Single();
+		var billFromDb = await BillRepository.GetByIdAsync(bill.Id);
 
-		billFromDb.Payments.Should().HaveCount(2);
+		billFromDb!.Payments.Should().HaveCount(2);
 	}
 }

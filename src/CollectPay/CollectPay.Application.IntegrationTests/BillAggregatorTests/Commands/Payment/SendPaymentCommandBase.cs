@@ -9,7 +9,7 @@ public class SendPaymentCommandBase :IntegrationTestBase
 	protected SendPaymentCommandBase(WebApiFactory factory)
 		: base(factory)
 	{
-		Bill = BillBuilder.Build();
+		Bill = new BillBuilder().Build();
 		AssumeEntityInDb(Bill);
 	}
 }

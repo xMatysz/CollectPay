@@ -6,7 +6,7 @@ using CollectPay.Api.ApiTests.Common.Doubles;
 using CollectPay.Application.BillAggregate.Commands.Payments.CreatePayment;
 using CollectPay.Application.BillAggregate.Commands.Payments.RemovePayment;
 using CollectPay.Application.BillAggregate.Commands.Payments.UpdatePayment;
-using CollectPay.Application.BillAggregate.Queries.GetPayments;
+using CollectPay.Application.BillAggregate.Queries.Payments.GetPayments;
 using CollectPay.Domain.BillAggregate.Entities;
 using ErrorOr;
 
@@ -48,7 +48,7 @@ public class WhenSendingRequestToPaymentController : ControllerTestBase
 	}
 
 	[Fact]
-	public async Task ShouldUpdateRemove()
+	public async Task ShouldRemovePayment()
 	{
 		const string url = PaymentRoutes.Remove;
 		ConfigureHandler<RemovePaymentCommand, ErrorOr<Deleted>, SuccessFullHandler<RemovePaymentCommand, ErrorOr<Deleted>>>();

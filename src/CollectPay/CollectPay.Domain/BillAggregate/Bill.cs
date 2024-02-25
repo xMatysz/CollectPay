@@ -36,7 +36,7 @@ public class Bill : AggregateRoot
         return Result.Updated;
     }
 
-    public ErrorOr<Deleted> DeletePayment(Guid id)
+    public ErrorOr<Deleted> RemovePayment(Guid id)
     {
         var itemToRemove = _payments.FirstOrDefault(x => x.Id == id);
 

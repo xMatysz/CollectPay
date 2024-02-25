@@ -11,9 +11,6 @@ public abstract class IntegrationTestBase : IClassFixture<WebApiFactory>, IAsync
 	private readonly Func<Task> _resetDb;
 	private readonly CollectPayDbContext _dbContext;
 
-	protected static BillBuilder BillBuilder => new();
-	protected static PaymentBuilder PaymentBuilder => new();
-
 	protected ISender Sender { get; }
 	protected IBillRepository BillRepository { get; }
 	private IServiceProvider ServiceProvider { get; }

@@ -1,4 +1,4 @@
-﻿using CollectPay.Application.BillAggregate.Queries.GetPayments;
+﻿using CollectPay.Application.BillAggregate.Queries.Payments.GetPayments;
 using CollectPay.Domain.BillAggregate.Errors;
 
 namespace CollectPay.Application.IntegrationTests.BillAggregatorTests.Queries;
@@ -13,15 +13,15 @@ public class WhenSendingGetPaymentsQuery : IntegrationTestBase
 	[Fact]
 	public async Task ShouldReturnPaymentsFromDb()
 	{
-		var bill = BillBuilder.Build();
+		var bill = new BillBuilder().Build();
 
 		await AssumeEntityInDbAsync(bill);
 
 		var payments = new[]
 		{
-			PaymentBuilder.WithBillId(bill.Id).Build(),
-			PaymentBuilder.WithBillId(bill.Id).Build(),
-			PaymentBuilder.WithBillId(bill.Id).Build(),
+			new PaymentBuilder().WithBillId(bill.Id).Build(),
+			new PaymentBuilder().WithBillId(bill.Id).Build(),
+			new PaymentBuilder().WithBillId(bill.Id).Build(),
 		};
 
 		await AssumeEntityInDbAsync(payments);

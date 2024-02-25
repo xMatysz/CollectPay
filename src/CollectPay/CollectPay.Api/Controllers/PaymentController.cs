@@ -4,7 +4,7 @@ using CollectionPay.Contracts.Routes;
 using CollectPay.Application.BillAggregate.Commands.Payments.CreatePayment;
 using CollectPay.Application.BillAggregate.Commands.Payments.RemovePayment;
 using CollectPay.Application.BillAggregate.Commands.Payments.UpdatePayment;
-using CollectPay.Application.BillAggregate.Queries.GetPayments;
+using CollectPay.Application.BillAggregate.Queries.Payments.GetPayments;
 using CollectPay.Domain.BillAggregate.ValueObjects;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -51,9 +51,9 @@ public class PaymentController : ApiController
 	}
 
 	[HttpDelete(PaymentRoutes.Remove)]
-	public async Task<IActionResult> RemovePayments([FromQuery] Guid billId)
+	public async Task<IActionResult> RemovePayments([FromQuery] Guid billId, Guid paymentId)
 	{
-		var command = new RemovePaymentCommand(billId);
+		var command = new RemovePaymentCommand(billId, paymentId);
 
 		var result = await Sender.Send(command);
 		return Ok(result);

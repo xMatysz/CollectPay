@@ -24,7 +24,7 @@ public class BillSpecificationTests
 		var payment = new PaymentBuilder().Build();
 		_bill.AddPayment(payment);
 
-		_bill.DeletePayment(payment.Id);
+		_bill.RemovePayment(payment.Id);
 
 		_bill.Payments.Should().BeEmpty();
 	}
@@ -55,7 +55,7 @@ public class BillSpecificationTests
 	{
 		var payment = new PaymentBuilder().Build();
 
-		var result = _bill.DeletePayment(payment.Id);
+		var result = _bill.RemovePayment(payment.Id);
 
 		result.IsError.Should().BeTrue();
 		result.FirstError.Should().BeEquivalentTo(PaymentErrors.PaymentNotFound);

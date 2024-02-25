@@ -4,7 +4,7 @@ using CollectPay.Domain.BillAggregate.Entities;
 using CollectPay.Domain.BillAggregate.Errors;
 using ErrorOr;
 
-namespace CollectPay.Application.BillAggregate.Queries.GetPayments;
+namespace CollectPay.Application.BillAggregate.Queries.Payments.GetPayments;
 
 public class GetPaymentsQueryHandler : IQueryHandler<GetPaymentsQuery, Payment[]>
 {
