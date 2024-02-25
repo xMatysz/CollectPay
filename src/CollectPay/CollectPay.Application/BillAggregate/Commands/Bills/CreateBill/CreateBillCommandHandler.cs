@@ -14,7 +14,7 @@ public sealed class CreateBillCommandHandler : ICommandHandler<CreateBillCommand
 		_billRepository = billRepository;
 	}
 
-	public async Task<ErrorOr<Created>> Handle(CreateBillCommand command, CancellationToken cancellationToken)
+	public async Task<ErrorOr<Created>> Handle(CreateBillCommand command, CancellationToken cancellationToken = default)
 	{
 		var bill = new Bill(command.CreatorId, command.BillName);
 

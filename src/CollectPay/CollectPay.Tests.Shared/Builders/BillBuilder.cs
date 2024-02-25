@@ -5,7 +5,9 @@ namespace CollectPay.Tests.Shared.Builders;
 public class BillBuilder
 {
 	private Guid _creatorId = Guid.NewGuid();
-	private string _billName = "TestBill";
+	private static string _billName = "TestBill";
+
+	public static readonly string TestName = _billName;
 
 	public BillBuilder WithCreatorId(Guid creatorId)
 	{
