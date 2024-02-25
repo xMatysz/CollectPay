@@ -32,7 +32,7 @@ public class BillSpecificationTests
 	[Fact]
 	public void ShouldFailWhenAddingInvalidPayment()
 	{
-		var result = _bill.AddPayment(null);
+		var result = _bill.AddPayment(null!);
 
 		result.IsError.Should().BeTrue();
 		result.FirstError.Should().BeEquivalentTo(PaymentErrors.InvalidPayment);

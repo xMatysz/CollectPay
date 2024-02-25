@@ -44,7 +44,16 @@ public class PaymentController : ApiController
 	[HttpPut(PaymentRoutes.Update)]
 	public async Task<IActionResult> UpdatePayment([FromBody] UpdatePaymentRequest request)
 	{
-		var command = new UpdatePaymentCommand(request.BillId);
+		var amount = request.Amount is not null && request.Currency is not null
+			? Amount.Create(request.Amount.Value, request.Currency).Value
+			: null;
+
+		var command = new UpdatePaymentCommand(request.BillId,
+			request.PaymentId,
+			new UpdatePaymentInfo(request.CreatorId,
+				request.IsCreatorIncluded,
+				amount,
+				request.Debtors));
 
 		var result = await Sender.Send(command);
 		return Ok(result);

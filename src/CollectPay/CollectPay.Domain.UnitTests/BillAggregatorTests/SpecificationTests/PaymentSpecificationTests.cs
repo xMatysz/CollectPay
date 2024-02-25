@@ -16,7 +16,7 @@ public class PaymentSpecificationTests
 			.Create(Guid.NewGuid(),
 				user1,
 				false,
-				null,
+				null!,
 				new[] { user1, user2 });
 
 		payment.IsError.Should().BeTrue();

@@ -3,4 +3,8 @@ using ErrorOr;
 
 namespace CollectPay.Application.BillAggregate.Commands.Payments.UpdatePayment;
 
-public record UpdatePaymentCommand(Guid BillId) : ICommand<ErrorOr<Updated>>;
+public record UpdatePaymentCommand(
+	Guid BillId,
+	Guid PaymentId,
+	UpdatePaymentInfo UpdatePaymentInfo)
+	: ICommand<ErrorOr<Updated>>;

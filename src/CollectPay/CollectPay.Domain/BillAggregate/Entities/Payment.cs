@@ -8,16 +8,16 @@ namespace CollectPay.Domain.BillAggregate.Entities;
 
 public sealed class Payment : Entity
 {
-	public Guid CreatorId { get; init; }
+	public Guid CreatorId { get; private set; }
 
-    public bool IsCreatorIncluded { get; init; }
+    public bool IsCreatorIncluded { get; private set; }
 
-    public Amount Amount { get; init; }
+    public Amount Amount { get; private set; }
 
-    public Guid BillId { get; init; }
+    public Guid BillId { get; private set; }
 
     [NotMapped]
-    public IEnumerable<Guid> DebtorIds { get; init; }
+    public IEnumerable<Guid> DebtorIds { get; private set; }
 
 
     private Payment(Guid billId, Guid creatorId, bool isCreatorIncluded, Amount amount, IEnumerable<Guid> debtorIds)
@@ -33,16 +33,63 @@ public sealed class Payment : Entity
     public static ErrorOr<Payment> Create(Guid billId, Guid creator, bool isCreatorIncluded, Amount amount, IEnumerable<Guid> debtorIds)
     {
 	    var ids = debtorIds.ToArray();
+	    var result = ValidateCreatorAndDebtors(creator, ids);
 
-	    if (ids.Contains(creator))
+	    if (result.IsError)
 	    {
-		    return PaymentErrors.CreatorCannotBeDebtor;
+		    return result.Errors;
 	    }
 
         return new Payment(billId, creator, isCreatorIncluded, amount, ids);
     }
 
+    public ErrorOr<Updated> Update(Guid? creatorId,
+	    bool? isCreatorIncluded,
+	    Amount? amount,
+	    Guid[]? debtors)
+    {
+	    if (creatorId is not null)
+	    {
+		    CreatorId = creatorId.Value;
+	    }
+
+	    if (isCreatorIncluded is not null)
+	    {
+		    IsCreatorIncluded = isCreatorIncluded.Value;
+	    }
+
+	    if (amount is not null)
+	    {
+		    Amount = amount;
+	    }
+
+	    if (debtors is not null)
+	    {
+		    var canUpdate = ValidateCreatorAndDebtors(CreatorId, debtors);
+		    if (canUpdate.IsError)
+		    {
+			    return canUpdate.Errors;
+		    }
+
+		    DebtorIds = debtors;
+	    }
+
+	    return Result.Updated;
+    }
+
+    private static ErrorOr<Success> ValidateCreatorAndDebtors(Guid creatorId, Guid[] debtors)
+    {
+	    if (debtors.Contains(creatorId))
+	    {
+		    return PaymentErrors.CreatorCannotBeDebtor;
+	    }
+
+	    return Result.Success;
+    }
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     private Payment()
     {
     }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 }

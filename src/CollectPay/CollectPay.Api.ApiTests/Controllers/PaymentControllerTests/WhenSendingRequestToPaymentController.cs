@@ -41,7 +41,7 @@ public class WhenSendingRequestToPaymentController : ControllerTestBase
 	{
 		const string url = PaymentRoutes.Update;
 		ConfigureHandler<UpdatePaymentCommand, ErrorOr<Updated>, SuccessFullHandler<UpdatePaymentCommand, ErrorOr<Updated>>>();
-		var request = new UpdatePaymentRequest(Guid.NewGuid());
+		var request = new UpdatePaymentRequest(Guid.NewGuid(),Guid.NewGuid(), Guid.NewGuid(), true, null, null, []);
 
 		var response = await Client.PutAsJsonAsync(url, request);
 		response.StatusCode.Should().Be(HttpStatusCode.OK);
