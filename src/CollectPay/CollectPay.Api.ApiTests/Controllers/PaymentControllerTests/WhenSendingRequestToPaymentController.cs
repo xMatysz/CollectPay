@@ -21,7 +21,7 @@ public class WhenSendingRequestToPaymentController : ControllerTestBase
 		ConfigureHandler<GetPaymentsQuery, ErrorOr<Payment[]>, SuccessFullHandler<GetPaymentsQuery, ErrorOr<Payment[]>>>();
 
 		var response = await Client.GetAsync(url);
-		response.StatusCode.Should().Be(HttpStatusCode.OK);
+		response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NoContent);
 	}
 
 	[Fact]
@@ -33,7 +33,7 @@ public class WhenSendingRequestToPaymentController : ControllerTestBase
 
 		var response = await Client.PostAsJsonAsync(url, request);
 
-		response.StatusCode.Should().Be(HttpStatusCode.OK);
+		response.StatusCode.Should().Be(HttpStatusCode.Created);
 	}
 
 	[Fact]

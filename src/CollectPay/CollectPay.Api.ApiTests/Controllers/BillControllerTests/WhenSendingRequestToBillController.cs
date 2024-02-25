@@ -31,6 +31,6 @@ public sealed class WhenSendingRequestToBillController : ControllerTestBase
 
 		var response = await Client.PostAsJsonAsync(url, request);
 
-		response.StatusCode.Should().Be(HttpStatusCode.OK);
+		response.StatusCode.Should().Be(HttpStatusCode.Created);
 	}
 }
