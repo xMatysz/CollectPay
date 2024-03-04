@@ -1,5 +1,4 @@
 using CollectPay.Api.Installers;
-using CollectPay.Application.Common;
 using CollectPay.Application.Installers;
 using CollectPay.Infrastructure.Installers;
 using CollectPay.Persistence.Installers;

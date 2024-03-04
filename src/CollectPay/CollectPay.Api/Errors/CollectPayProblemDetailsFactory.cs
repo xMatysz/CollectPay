@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using ErrorOr;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -88,14 +89,11 @@ public class CollectPayProblemDetailsFactory : ProblemDetailsFactory
             problemDetails.Type ??= clientErrorData.Link;
         }
 
-        var traceId = Activity.Current?.Id ?? httpContext?.TraceIdentifier;
-        if (traceId != null)
-        {
-            problemDetails.Extensions["traceId"] = traceId;
-        }
-
         _configure?.Invoke(new() { HttpContext = httpContext!, ProblemDetails = problemDetails });
 
-        problemDetails.Extensions.Add("custom", "customError");
+        if (httpContext?.Items["errors"] is List<Error> errors)
+        {
+	        problemDetails.Extensions.Add("errorCodes", errors.Select(x => x.Code));
+        }
     }
 }

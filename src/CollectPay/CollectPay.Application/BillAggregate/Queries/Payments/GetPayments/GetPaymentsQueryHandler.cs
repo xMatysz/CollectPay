@@ -25,6 +25,5 @@ public class GetPaymentsQueryHandler : IQueryHandler<GetPaymentsQuery, Payment[]
 		}
 
 		return bill.Payments.ToArray();
-
 	}
 }
