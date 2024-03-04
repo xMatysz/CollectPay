@@ -1,8 +1,6 @@
 ﻿using CollectPay.Application.Behaviors;
 using CollectPay.Application.UnitTests.Utilities.TestDoubles;
-using ErrorOr;
 using FluentValidation;
-using FluentValidation.Results;
 
 namespace CollectPay.Application.UnitTests.BehaviorsTests;
 

@@ -1,7 +1,5 @@
 ﻿using CollectPay.Application.BillAggregate.Commands.Payments.RemovePayment;
 using CollectPay.Domain.BillAggregate.Errors;
-using CollectPay.Tests.Shared.Builders;
-using ErrorOr;
 
 namespace CollectPay.Application.UnitTests.BillAggregateTests.Payments;
 

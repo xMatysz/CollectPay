@@ -1,6 +1,5 @@
 ﻿using CollectPay.Application.BillAggregate.Commands.Bills.CreateBill;
 using CollectPay.Domain.BillAggregate;
-using CollectPay.Tests.Shared.Builders;
 
 namespace CollectPay.Application.UnitTests.BillAggregateTests.Bills.CreateBill;
 

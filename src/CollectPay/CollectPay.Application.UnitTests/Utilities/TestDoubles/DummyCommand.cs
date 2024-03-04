@@ -1,5 +1,4 @@
 ﻿using CollectPay.Application.Common.Abstraction;
-using ErrorOr;
 
 namespace CollectPay.Application.UnitTests.Utilities.TestDoubles;
 

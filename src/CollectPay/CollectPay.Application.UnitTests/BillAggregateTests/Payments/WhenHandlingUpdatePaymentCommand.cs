@@ -1,8 +1,6 @@
 ﻿using CollectPay.Application.BillAggregate.Commands.Payments.UpdatePayment;
 using CollectPay.Domain.BillAggregate.Errors;
 using CollectPay.Domain.BillAggregate.ValueObjects;
-using CollectPay.Tests.Shared.Builders;
-using ErrorOr;
 
 namespace CollectPay.Application.UnitTests.BillAggregateTests.Payments;
 

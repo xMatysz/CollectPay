@@ -1,7 +1,6 @@
 ﻿using CollectPay.Application.Behaviors;
 using CollectPay.Application.Common.Repositories;
 using CollectPay.Application.UnitTests.Utilities.TestDoubles;
-using ErrorOr;
 
 namespace CollectPay.Application.UnitTests.BehaviorsTests;
 
