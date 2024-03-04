@@ -1,6 +1,6 @@
 ﻿using CollectPay.Application.BillAggregate.Commands.Bills.CreateBill;
 
-namespace CollectPay.Application.UnitTests.BillAggregateTests.Bills;
+namespace CollectPay.Application.UnitTests.BillAggregateTests.Bills.CreateBill;
 
 public class WhenValidatingCreateBillCommand
 {

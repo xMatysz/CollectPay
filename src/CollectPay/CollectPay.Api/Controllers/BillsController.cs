@@ -1,7 +1,10 @@
 ﻿using CollectionPay.Contracts.Requests.Bill;
 using CollectionPay.Contracts.Routes;
 using CollectPay.Application.BillAggregate.Commands.Bills.CreateBill;
+using CollectPay.Application.BillAggregate.Commands.Bills.RemoveBill;
+using CollectPay.Application.BillAggregate.Commands.Bills.UpdateBill;
 using CollectPay.Application.BillAggregate.Queries.Bills.GetBills;
+using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,5 +35,25 @@ public class BillsController : ApiController
 		var result = await Sender.Send(command);
 
 		return CreateResult(result);
+	}
+
+	[HttpPut(BillRoutes.Update)]
+	public async Task<IActionResult> UpdateBill([FromBody] UpdateBillRequest request)
+	{
+		var command = new UpdateBillCommand(request.BillId, new UpdateBillInfo(request.Name));
+
+		var result = await Sender.Send(command);
+
+		return Ok(result);
+	}
+
+	[HttpDelete(BillRoutes.Remove)]
+	public async Task<IActionResult> RemoveBill([FromQuery] Guid billId)
+	{
+		var command = new RemoveBillCommand(billId);
+
+		var result = await Sender.Send(command);
+
+		return Ok(result);
 	}
 }

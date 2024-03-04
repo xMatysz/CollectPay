@@ -4,6 +4,8 @@ using CollectionPay.Contracts.Requests.Bill;
 using CollectionPay.Contracts.Routes;
 using CollectPay.Api.ApiTests.Common.Doubles;
 using CollectPay.Application.BillAggregate.Commands.Bills.CreateBill;
+using CollectPay.Application.BillAggregate.Commands.Bills.RemoveBill;
+using CollectPay.Application.BillAggregate.Commands.Bills.UpdateBill;
 using CollectPay.Application.BillAggregate.Queries.Bills.GetBills;
 using CollectPay.Domain.BillAggregate;
 using ErrorOr;
@@ -32,5 +34,30 @@ public sealed class WhenSendingRequestToBillController : ControllerTestBase
 		var response = await Client.PostAsJsonAsync(url, request);
 
 		response.StatusCode.Should().Be(HttpStatusCode.Created);
+	}
+
+
+	[Fact]
+	public async Task ShouldUpdateBill()
+	{
+		const string url = BillRoutes.Update;
+		var request = new UpdateBillRequest(Guid.NewGuid(), "TestName");
+		ConfigureHandler<UpdateBillCommand, ErrorOr<Updated>, SuccessFullHandler<UpdateBillCommand, ErrorOr<Updated>>>();
+
+		var response = await Client.PutAsJsonAsync(url, request);
+
+		response.StatusCode.Should().Be(HttpStatusCode.OK);
+	}
+
+
+	[Fact]
+	public async Task ShouldRemoveBill()
+	{
+		const string url = BillRoutes.Remove;
+		ConfigureHandler<RemoveBillCommand, ErrorOr<Deleted>, SuccessFullHandler<RemoveBillCommand, ErrorOr<Deleted>>>();
+
+		var response = await Client.DeleteAsync(url);
+
+		response.StatusCode.Should().Be(HttpStatusCode.OK);
 	}
 }

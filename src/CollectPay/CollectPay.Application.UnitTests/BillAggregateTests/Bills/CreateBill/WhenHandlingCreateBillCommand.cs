@@ -2,7 +2,7 @@
 using CollectPay.Domain.BillAggregate;
 using CollectPay.Tests.Shared.Builders;
 
-namespace CollectPay.Application.UnitTests.BillAggregateTests.Bills;
+namespace CollectPay.Application.UnitTests.BillAggregateTests.Bills.CreateBill;
 
 public class WhenHandlingCreateBillCommand : UnitTestBase
 {

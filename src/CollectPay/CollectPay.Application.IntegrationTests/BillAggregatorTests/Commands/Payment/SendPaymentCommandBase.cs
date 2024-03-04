@@ -2,7 +2,7 @@
 
 namespace CollectPay.Application.IntegrationTests.BillAggregatorTests.Commands.Payment;
 
-public class SendPaymentCommandBase :IntegrationTestBase
+public class SendPaymentCommandBase : IntegrationTestBase
 {
 	protected readonly Bill Bill;
 

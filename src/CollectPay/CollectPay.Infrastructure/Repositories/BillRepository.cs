@@ -26,4 +26,11 @@ public sealed class BillRepository : Repository, IBillRepository
 	{
 		 return await DbContext.Set<Bill>().ToListAsync(cancellationToken);
 	}
+
+	public Task RemoveAsync(Bill bill, CancellationToken cancellationToken = default)
+	{
+		DbContext.Remove(bill);
+
+		return Task.CompletedTask;
+	}
 }

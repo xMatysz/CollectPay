@@ -11,7 +11,7 @@ public class Bill : AggregateRoot
     public IReadOnlyCollection<Payment> Payments => _payments.AsReadOnly();
 
     public Guid CreatorId { get; init; }
-    public string Name { get; init; }
+    public string Name { get; set; }
 
     public Bill(Guid creatorId, string name)
     {
@@ -20,7 +20,19 @@ public class Bill : AggregateRoot
         Name = name;
     }
 
-    public ErrorOr<Updated> AddPayment(Payment newPayment)
+    public ErrorOr<Updated> Update(string? name)
+    {
+	    if (name is null or "")
+	    {
+		    return BillErrors.BillNameCannotBeEmpty;
+	    }
+
+	    Name = name;
+
+	    return Result.Updated;
+    }
+
+    public ErrorOr<Updated> AddPayment(Payment? newPayment)
     {
 	    if (newPayment is null)
 	    {
@@ -56,5 +68,4 @@ public class Bill : AggregateRoot
     {
     }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
 }
