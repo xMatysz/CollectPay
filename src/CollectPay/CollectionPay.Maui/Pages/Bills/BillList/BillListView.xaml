@@ -21,6 +21,13 @@
                             <Frame Padding="10"
                                    Margin="1"
                                    Background="Pink">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Path=GoToDetailsCommand,
+                                            Source={RelativeSource AncestorType={x:Type local:BillListViewModel}}}"
+                                        CommandParameter="{Binding .}"/>
+                                    <SwipeGestureRecognizer/>
+                                </Frame.GestureRecognizers>
                                 <Grid>
                                     <HorizontalStackLayout Spacing="10">
                                         <Image Source="test_image.jpg"

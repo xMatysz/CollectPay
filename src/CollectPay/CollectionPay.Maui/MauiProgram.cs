@@ -1,4 +1,5 @@
 ﻿using CollectionPay.Maui.Common;
+using CollectionPay.Maui.Pages.Bills.BillDetails;
 using CollectionPay.Maui.Pages.Bills.BillList;
 using CollectionPay.Maui.Pages.Bills.CreateBill;
 using CollectionPay.Maui.Services;
@@ -51,6 +52,9 @@ public static class MauiProgram
 
 		builder.Services.AddTransient<CreateBillViewModel>();
 		builder.Services.AddTransient<CreateBillView>();
+
+		builder.Services.AddTransient<BillDetailsViewModel>();
+		builder.Services.AddTransient<BillDetailsView>();
 
 		return builder;
 	}

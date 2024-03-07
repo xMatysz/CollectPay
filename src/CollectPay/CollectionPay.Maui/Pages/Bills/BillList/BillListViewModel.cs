@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using CollectionPay.Maui.Common;
+using CollectionPay.Maui.Pages.Bills.BillDetails;
 using CollectionPay.Maui.Pages.Bills.CreateBill;
 using CollectionPay.Maui.Services;
 using CommunityToolkit.Mvvm.Input;
@@ -55,6 +56,15 @@ public partial class BillListViewModel : ViewModelBase
 	[RelayCommand]
 	public async Task GoToCreate()
 	{
-		await Shell.Current.GoToAsync(nameof(CreateBillView));
+		await _shellService.GoToAsync(nameof(CreateBillView));
+	}
+
+	[RelayCommand]
+	public async Task GoToDetails(BillModel model)
+	{
+		await Shell.Current.GoToAsync(nameof(BillDetailsView), true, new Dictionary<string, object>
+		{
+			{"Bill", model }
+		});
 	}
 }
