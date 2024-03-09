@@ -19,7 +19,9 @@ public sealed class BillRepository : Repository, IBillRepository
 
 	public async Task<Bill?> GetByIdAsync(Guid billId, CancellationToken cancellationToken)
 	{
-		return await DbContext.Set<Bill>().FindAsync(billId, cancellationToken);
+		return await DbContext.Set<Bill>()
+			.Include(x => x.Payments)
+			.FirstOrDefaultAsync(x => x.Id == billId, cancellationToken);
 	}
 
 	public async Task<List<Bill>> GetAllAsync(CancellationToken cancellationToken)

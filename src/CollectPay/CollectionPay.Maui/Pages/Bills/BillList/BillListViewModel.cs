@@ -64,7 +64,7 @@ public partial class BillListViewModel : ViewModelBase
 	{
 		await Shell.Current.GoToAsync(nameof(BillDetailsView), true, new Dictionary<string, object>
 		{
-			{"Bill", model }
+			["bill"] = model
 		});
 	}
 }

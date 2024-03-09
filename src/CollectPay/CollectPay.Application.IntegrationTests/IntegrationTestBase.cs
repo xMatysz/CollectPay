@@ -9,26 +9,20 @@ namespace CollectPay.Application.IntegrationTests;
 public abstract class IntegrationTestBase : IClassFixture<WebApiFactory>, IAsyncLifetime
 {
 	private readonly Func<Task> _resetDb;
-	private readonly CollectPayDbContext _dbContext;
+	private readonly WebApiFactory _factory;
+	private CollectPayDbContext _dbContext;
+	private IServiceScope _scope;
 
-	protected ISender Sender { get; }
-	protected IBillRepository BillRepository { get; }
-	private IServiceProvider ServiceProvider { get; }
-	protected IUnitOfWork UnitOfWork { get; }
+	protected ISender Sender { get; set; }
+	protected IBillRepository BillRepository { get; set; }
+	private IServiceProvider ServiceProvider { get; set; }
+	protected IUnitOfWork UnitOfWork { get; set; }
 
 	protected IntegrationTestBase(WebApiFactory factory)
 	{
-		_resetDb = factory.ResetDbAsync;
-
-		var scope = factory.Services.CreateScope();
-		ServiceProvider = scope.ServiceProvider;
-
-		_dbContext = ServiceProvider.GetRequiredService<CollectPayDbContext>();
-
-		Sender = ServiceProvider.GetRequiredService<ISender>();
-
-		BillRepository = ServiceProvider.GetRequiredService<IBillRepository>();
-		UnitOfWork = ServiceProvider.GetRequiredService<IUnitOfWork>();
+		_factory = factory;
+		_resetDb = _factory.ResetDbAsync;
+		RestartScope();
 	}
 
 	public Task InitializeAsync() => Task.CompletedTask;
@@ -44,6 +38,7 @@ public abstract class IntegrationTestBase : IClassFixture<WebApiFactory>, IAsync
 		}
 
 		UnitOfWork.SaveChangesAsync().GetAwaiter().GetResult();
+		RestartScope();
 	}
 
 	protected async Task AssumeEntityInDbAsync<TEntity>(params TEntity[] entities)
@@ -55,5 +50,19 @@ public abstract class IntegrationTestBase : IClassFixture<WebApiFactory>, IAsync
 		}
 
 		await UnitOfWork.SaveChangesAsync();
+		RestartScope();
+	}
+
+	private void RestartScope()
+	{
+		_scope = _factory.Services.CreateScope();
+		ServiceProvider = _scope.ServiceProvider;
+
+		_dbContext = ServiceProvider.GetRequiredService<CollectPayDbContext>();
+
+		Sender = ServiceProvider.GetRequiredService<ISender>();
+
+		BillRepository = ServiceProvider.GetRequiredService<IBillRepository>();
+		UnitOfWork = ServiceProvider.GetRequiredService<IUnitOfWork>();
 	}
 }

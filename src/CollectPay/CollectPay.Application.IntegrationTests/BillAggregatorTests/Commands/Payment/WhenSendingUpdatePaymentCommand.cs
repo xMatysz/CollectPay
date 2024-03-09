@@ -13,8 +13,9 @@ public class WhenSendingUpdatePaymentCommand : SendPaymentCommandBase
 	[Fact]
 	public async Task ShouldUpdatePayment()
 	{
+		var bill = await BillRepository.GetByIdAsync(Bill.Id);
 		var payment = new PaymentBuilder().Build();
-		Bill.AddPayment(payment);
+		bill!.AddPayment(payment);
 		await UnitOfWork.SaveChangesAsync();
 
 		var newCreator = Guid.NewGuid();

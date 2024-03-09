@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Json;
 using CollectionPay.Contracts.Requests.Bill;
 using CollectionPay.Contracts.Routes;
+using CollectionPay.Maui.Pages.Bills.BillDetails;
 using CollectionPay.Maui.Pages.Bills.BillList;
 
 namespace CollectionPay.Maui.Services;
@@ -9,6 +10,7 @@ public interface IBillService
 {
 	Task<BillModel[]> GetAllBillsAsync(CancellationToken cancellationToken = default);
 	Task CreateBillAsync(BillModel bill, CancellationToken cancellationToken = default);
+	Task<PaymentModel[]> GetAllPaymentsForBill(Guid billId, CancellationToken cancellationToken = default);
 }
 
 public class BillService : IBillService
@@ -29,5 +31,10 @@ public class BillService : IBillService
 	{
 		var request = new CreateBillRequest(bill.CreatorId, bill.Name);
 		return _httpClient.PostAsJsonAsync(BillRoutes.Create, request, cancellationToken);
+	}
+
+	public async Task<PaymentModel[]> GetAllPaymentsForBill(Guid billId, CancellationToken cancellationToken = default)
+	{
+		return await _httpClient.GetFromJsonAsync<PaymentModel[]>($"{PaymentRoutes.List}?billId={billId}", cancellationToken);
 	}
 }
