@@ -1,5 +1,4 @@
-﻿using CollectionPay.Maui.Common;
-using CollectionPay.Maui.Pages.Bills.BillDetails;
+﻿using CollectionPay.Maui.Pages.Bills.BillDetails;
 using CollectionPay.Maui.Pages.Bills.BillList;
 using CollectionPay.Maui.Services;
 
