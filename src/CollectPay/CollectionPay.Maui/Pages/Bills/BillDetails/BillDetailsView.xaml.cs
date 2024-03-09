@@ -7,4 +7,11 @@ public partial class BillDetailsView : ContentPage
 		InitializeComponent();
 		BindingContext = viewModel;
 	}
+
+	protected override void OnAppearing()
+	{
+		base.OnAppearing();
+		var vm = (BillDetailsViewModel)BindingContext;
+		vm.GetPaymentsCommand.ExecuteAsync(vm.Bill);
+	}
 }

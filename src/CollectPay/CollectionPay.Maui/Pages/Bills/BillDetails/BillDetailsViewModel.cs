@@ -25,15 +25,16 @@ public partial class BillDetailsViewModel : ViewModelBase
 	[RelayCommand]
 	private async Task GetPayments()
 	{
-		IsRefreshing = true;
-		var payments = await _billService.GetAllPaymentsForBill(Bill.Id);
-
-		Payments.Clear();
-
-		foreach (var payment in payments)
+		await OnRefreshingAsync(async () =>
 		{
-			Payments.Add(payment);
-		}
-		IsRefreshing = false;
+			var payments = await _billService.GetAllPaymentsForBill(Bill.Id);
+
+			Payments.Clear();
+
+			foreach (var payment in payments)
+			{
+				Payments.Add(payment);
+			}
+		});
 	}
 }
