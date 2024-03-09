@@ -54,6 +54,13 @@ public partial class BillListViewModel : ViewModelBase
 	}
 
 	[RelayCommand]
+	public async Task DeleteBill(BillModel model)
+	{
+		await _billService.DeleteBillAsync(model.Id);
+		await GetBills();
+	}
+
+	[RelayCommand]
 	public async Task GoToCreate()
 	{
 		await _shellService.GoToAsync(nameof(CreateBillView));

@@ -11,6 +11,7 @@ public interface IBillService
 	Task<BillModel[]> GetAllBillsAsync(CancellationToken cancellationToken = default);
 	Task CreateBillAsync(BillModel bill, CancellationToken cancellationToken = default);
 	Task<PaymentModel[]> GetAllPaymentsForBill(Guid billId, CancellationToken cancellationToken = default);
+	Task DeleteBillAsync(Guid modelId, CancellationToken cancellationToken = default);
 }
 
 public class BillService : IBillService
@@ -36,5 +37,10 @@ public class BillService : IBillService
 	public async Task<PaymentModel[]> GetAllPaymentsForBill(Guid billId, CancellationToken cancellationToken = default)
 	{
 		return await _httpClient.GetFromJsonAsync<PaymentModel[]>($"{PaymentRoutes.List}?billId={billId}", cancellationToken);
+	}
+
+	public async Task DeleteBillAsync(Guid billId, CancellationToken cancellationToken = default)
+	{
+		await _httpClient.DeleteAsync($"{BillRoutes.Remove}?billId={billId}", cancellationToken);
 	}
 }

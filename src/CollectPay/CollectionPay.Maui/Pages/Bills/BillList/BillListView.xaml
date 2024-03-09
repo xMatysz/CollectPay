@@ -18,30 +18,40 @@
                     SelectionMode="None">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="local:BillModel">
-                            <Frame Padding="10"
-                                   Margin="1"
-                                   Background="Pink">
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer
-                                        Command="{Binding Path=GoToDetailsCommand,
-                                            Source={RelativeSource AncestorType={x:Type local:BillListViewModel}}}"
-                                        CommandParameter="{Binding .}"/>
-                                    <SwipeGestureRecognizer/>
-                                </Frame.GestureRecognizers>
-                                <Grid>
-                                    <HorizontalStackLayout Spacing="10">
-                                        <Image Source="test_image.jpg"
-                                               HeightRequest="50"
-                                               Width="50"/>
-                                        <VerticalStackLayout VerticalOptions="Center"
-                                                             HorizontalOptions="Center">
-                                            <Label Text="{Binding Name}"
-                                                   FontAttributes="Bold"
-                                                   FontSize="15"/>
-                                        </VerticalStackLayout>
-                                    </HorizontalStackLayout>
-                                </Grid>
-                            </Frame>
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem Text="Delete"
+                                                   Command="{Binding Path=DeleteBillCommand,
+                                                    Source={RelativeSource AncestorType={x:Type local:BillListViewModel}}}"
+                                                   CommandParameter="{Binding .}"/>
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+                                    <Frame Padding="10"
+                                           Margin="1"
+                                           Background="Pink">
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Path=GoToDetailsCommand,
+                                                    Source={RelativeSource AncestorType={x:Type local:BillListViewModel}}}"
+                                                CommandParameter="{Binding .}"/>
+                                            <SwipeGestureRecognizer Direction="Right"/>
+                                        </Frame.GestureRecognizers>
+                                        <Grid>
+                                            <HorizontalStackLayout Spacing="10">
+                                                <Image Source="test_image.jpg"
+                                                       HeightRequest="50"
+                                                       Width="50"/>
+                                                <VerticalStackLayout VerticalOptions="Center"
+                                                                     HorizontalOptions="Center">
+                                                    <Label Text="{Binding Name}"
+                                                           FontAttributes="Bold"
+                                                           FontSize="15"/>
+                                                </VerticalStackLayout>
+                                            </HorizontalStackLayout>
+                                        </Grid>
+                                    </Frame>
+                            </SwipeView>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
