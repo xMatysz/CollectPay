@@ -1,6 +1,7 @@
 ﻿using CollectionPay.Maui.Common;
 using CollectionPay.Maui.Pages.Bills.BillList;
 using CollectionPay.Maui.Services;
+using NSubstitute.ReceivedExtensions;
 
 namespace CollectPay.Maui.Tests.Pages.BillsTests;
 
@@ -33,5 +34,16 @@ public class BillListTests
 		await _sut.GetBillsCommand.ExecuteAsync(null);
 
 		_sut.Bills.Should().HaveCount(2);
+	}
+
+	[Fact]
+	public async Task ShouldSendDeleteBill()
+	{
+		_billService.DeleteBillAsync(Arg.Any<Guid>()).Returns(Task.CompletedTask);
+		var model = new BillModel(Guid.NewGuid(), "TestName");
+
+		await _sut.DeleteBill(model);
+
+		await _billService.Received(1).DeleteBillAsync(Arg.Is(model.Id));
 	}
 }
