@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ui:ContentPageBase x:TypeArguments="local:BillListViewModel"
+                    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:ui="clr-namespace:CollectionPay.Maui.Abstraction"
+                    xmlns:local="clr-namespace:CollectionPay.Maui.Pages.BillPages.BillList"
+                    xmlns:models="clr-namespace:CollectionPay.Maui.Models"
+                    xmlns:converters="clr-namespace:CollectionPay.Maui.Converters.MultiBindingConverter"
+                    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+                    x:Class="CollectionPay.Maui.Pages.BillPages.BillList.BillListPage"
+                    x:DataType="local:BillListViewModel"
+                    Title="{Binding Title}">
+    <ContentPage.Resources>
+        <converters:AndConverter x:Key="AndConverter"/>
+        <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid>
+            <RefreshView
+                IsRefreshing="{Binding IsRefreshing}"
+                Command="{Binding RefreshCommand}">
+                <CollectionView
+                    ItemsSource="{Binding Bills}"
+                    IsEnabled="{Binding IsNotBusy}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate
+                            x:DataType="models:BillModel">
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItem
+                                        Text="Delete"
+                                        BackgroundColor="IndianRed"
+                                        Command="{Binding RemoveBillCommand, Source={RelativeSource AncestorType={x:Type local:BillListViewModel}}}"
+                                        CommandParameter="{Binding .}"/>
+                                </SwipeView.RightItems>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="100"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding GoToBillDetailsPageCommand,
+                                                Source={RelativeSource AncestorType={x:Type local:BillListViewModel}}}"
+                                            CommandParameter="{Binding .}"/>
+                                    </Grid.GestureRecognizers>
+
+                                    <!-- <Image Source="{Binding Image}" -->
+                                    <Image
+                                        Source="dotnet_bot"
+                                        WidthRequest="100"
+                                        HeightRequest="100"
+                                        Grid.Column="0"
+                                        Grid.Row="0"/>
+
+                                    <Label
+                                        Text="{Binding Name}"
+                                        VerticalTextAlignment="Center"
+                                        Grid.Column="1"
+                                        Grid.Row="0"/>
+                                </Grid>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+
+            <Button
+                Text="+"
+                Command="{Binding GoToBillCreatePageCommand}"
+                HeightRequest="70"
+                WidthRequest="70"
+                CornerRadius="5"
+                VerticalOptions="End"
+                HorizontalOptions="End"
+                Margin="20"
+                IsEnabled="{Binding IsNotBusy}"/>
+
+            <ActivityIndicator
+                HorizontalOptions="Fill"
+                IsRunning="{Binding IsBusy}"
+                Color="{StaticResource Primary}"
+                VerticalOptions="Center">
+                <ActivityIndicator.IsVisible>
+                    <MultiBinding Converter="{StaticResource AndConverter}">
+                        <Binding Path="IsBusy"/>
+                        <Binding Path="IsRefreshing" Converter="{StaticResource InvertedBoolConverter}"/>
+                    </MultiBinding>
+                </ActivityIndicator.IsVisible>
+            </ActivityIndicator>
+        </Grid>
+    </ContentPage.Content>
+</ui:ContentPageBase>

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ui:ContentPageBase x:TypeArguments="local:BillCreateViewModel"
+                    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:ui="clr-namespace:CollectionPay.Maui.Abstraction"
+                    xmlns:local="clr-namespace:CollectionPay.Maui.Pages.BillPages.BillCreate"
+                    x:Class="CollectionPay.Maui.Pages.BillPages.BillCreate.BillCreatePage"
+                    x:DataType="local:BillCreateViewModel">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="70"/>
+            </Grid.RowDefinitions>
+            <Grid
+                Grid.Row="0"
+                Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <Entry
+                    Grid.Row="0"
+                    Placeholder="Bill image"
+                    Text="{Binding Model.Image}"/>
+                <Entry
+                    Grid.Row="1"
+                    Placeholder="Bill name"
+                    Text="{Binding Model.Name}"/>
+            </Grid>
+            <Grid
+                Grid.Row="1"
+                Margin="10"
+                ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button
+                    Grid.Column="0"
+                    Text="Clear"
+                    Command="{Binding ClearCommand}"/>
+                <Button
+                    Grid.Column="1"
+                    Text="Save Bill"
+                    Command="{Binding CreateBillCommand}"/>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ui:ContentPageBase>

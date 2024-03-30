@@ -1,7 +1,7 @@
-﻿using CollectionPay.Maui.Common;
-using CollectionPay.Maui.Pages.Bills.BillDetails;
-using CollectionPay.Maui.Pages.Bills.BillList;
-using CollectionPay.Maui.Pages.Bills.CreateBill;
+﻿using CollectionPay.Maui.Pages.BillPages.BillCreate;
+using CollectionPay.Maui.Pages.BillPages.BillList;
+using CollectionPay.Maui.Pages.PaymentPages.PaymentCreate;
+using CollectionPay.Maui.Pages.PaymentPages.PaymentList;
 using CollectionPay.Maui.Services;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
@@ -20,42 +20,37 @@ public static class MauiProgram
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-				fonts.AddFont("fontello.ttf", "Icons");
 			});
 
-		builder.Services.AddSingleton<IShellService, ShellService>();
-		builder.AddPages();
-
 		builder.Services.AddSingleton(Connectivity.Current);
-		builder.Services.AddScoped<IBillService, BillService>();
 
-		builder.Services.AddHttpClient<IBillService, BillService>(client =>
-		{
-			var baseAddress = DeviceInfo.Platform == DevicePlatform.Android
-				? "http://10.0.2.2:5066"
-				: "http://localhost:5066";
+		builder.Services.AddTransient<BillListPage>();
+		builder.Services.AddTransient<BillListViewModel>();
 
-			client.BaseAddress = new Uri(baseAddress);
-			client.Timeout = TimeSpan.FromSeconds(39);
-		});
+		builder.Services.AddTransient<BillCreatePage>();
+		builder.Services.AddTransient<BillCreateViewModel>();
+
+		builder.Services.AddTransient<PaymentListPage>();
+		builder.Services.AddTransient<PaymentListViewModel>();
+
+		builder.Services.AddTransient<PaymentCreatePage>();
+		builder.Services.AddTransient<PaymentCreateViewModel>();
+
+		builder.Services.AddSingleton<IShellService, ShellService>();
+
+		// builder.Services.AddHttpClient<IBillService, BillService>(client =>
+		// {
+		// 	var baseAddress = DeviceInfo.Platform == DevicePlatform.Android
+		// 		? "http://10.0.2.2:5066"
+		// 		: "http://localhost:5066";
+		//
+		// 	client.BaseAddress = new Uri(baseAddress);
+		// 	client.Timeout = TimeSpan.FromSeconds(39);
+		// });
 
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
 		return builder.Build();
-	}
-
-	public static MauiAppBuilder AddPages(this MauiAppBuilder builder)
-	{
-		builder.Services.AddTransient<BillListViewModel>();
-		builder.Services.AddTransient<BillListView>();
-
-		builder.Services.AddTransient<CreateBillViewModel>();
-		builder.Services.AddTransient<CreateBillView>();
-
-		builder.Services.AddTransient<BillDetailsViewModel>();
-		builder.Services.AddTransient<BillDetailsView>();
-
-		return builder;
 	}
 }

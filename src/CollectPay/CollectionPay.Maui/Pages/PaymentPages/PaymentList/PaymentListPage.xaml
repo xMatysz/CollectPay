@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ui:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                             xmlns:ui="clr-namespace:CollectionPay.Maui.Abstraction"
+                             xmlns:local="clr-namespace:CollectionPay.Maui.Pages.PaymentPages.PaymentList"
+                             xmlns:models="clr-namespace:CollectionPay.Maui.Models"
+                             x:Class="CollectionPay.Maui.Pages.PaymentPages.PaymentList.PaymentListPage"
+                             x:TypeArguments="local:PaymentListViewModel"
+                             x:DataType="local:PaymentListViewModel"
+                             Title="{Binding Title}">
+    <ContentPage.Content>
+        <Grid>
+            <RefreshView
+                IsRefreshing="{Binding IsRefreshing}"
+                Command="{Binding RefreshCommand}">
+                <CollectionView
+                    ItemsSource="{Binding Payments}"
+                    IsEnabled="{Binding IsNotBusy}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate
+                            x:DataType="models:PaymentModel">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding GoToPaymentDetailsCommand,
+                                                Source={RelativeSource AncestorType={x:Type local:PaymentListViewModel}}}"
+                                        CommandParameter="{Binding .}"/>
+                                </Grid.GestureRecognizers>
+
+                                <Image
+                                    Grid.Column="0"
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"
+                                    Source="dotnet_bot"
+                                    HeightRequest="100"
+                                    WidthRequest="100"/>
+                                <Label
+                                    Grid.Column="1"
+                                    Grid.Row="0"
+                                    Text="{Binding Name}"/>
+                                <Label
+                                    Grid.Column="1"
+                                    Grid.Row="1">
+                                    <Label.Text>
+                                        <MultiBinding StringFormat="{} {0}$ {1}">
+                                            <Binding Path="Amount"/>
+                                            <Binding Path="Currency"/>
+                                        </MultiBinding>
+                                    </Label.Text>
+                                </Label>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+
+            <Button
+                Text="+"
+                Command="{Binding GoToPaymentCreateCommand}"
+                HeightRequest="70"
+                WidthRequest="70"
+                CornerRadius="5"
+                VerticalOptions="End"
+                HorizontalOptions="End"
+                Margin="20"
+                IsEnabled="{Binding IsNotBusy}"/>
+
+        </Grid>
+    </ContentPage.Content>
+</ui:ContentPageBase>

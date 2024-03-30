@@ -50,37 +50,31 @@ dotnet_naming_rule.public_property_pascalcase.style = public_properties_style
 dotnet_naming_rule.public_property_pascalcase.severity = error
 
 
-# this and Me preferences (IDE0003 and IDE0009)
-dotnet_style_qualification_for_field = false:error
-dotnet_style_qualification_for_property = false:error
-dotnet_style_qualification_for_method = false:error
-dotnet_style_qualification_for_event = false:error
+# var
+csharp_style_var_for_built_in_types = true
+csharp_style_var_when_type_is_apparent = true
+csharp_style_var_elsewhere = true
 
-# 'var' preferences (IDE0007 and IDE0008)
-csharp_style_var_for_built_in_types = true:error
-csharp_style_var_when_type_is_apparent = true:error
-csharp_style_var_elsewhere = true:error
-
-# spaces before
+# new line
 csharp_new_line_before_open_brace = all
 csharp_new_line_before_else = true
 csharp_new_line_before_catch = true
 csharp_new_line_before_finally = true
-csharp_new_line_before_members_in_object_initializers = true
-csharp_new_line_before_members_in_anonymous_types = true
+csharp_new_line_before_members_in_object_initializers = false
+csharp_new_line_before_members_in_anonymous_types = false
 csharp_new_line_between_query_expression_clauses = true
 
-# indents
+# indent
 csharp_indent_case_contents = true
 csharp_indent_switch_labels = true
+csharp_indent_labels = no_change
 csharp_indent_block_contents = true
 csharp_indent_braces = false
-csharp_indent_case_contents_when_block = true
+csharp_indent_case_contents_when_block = false
 
-#spasing
+# spacing
 csharp_space_after_cast = false
 csharp_space_after_keywords_in_control_flow_statements = true
-csharp_space_between_parentheses = expressions
 csharp_space_before_colon_in_inheritance_clause = true
 csharp_space_after_colon_in_inheritance_clause = true
 csharp_space_around_binary_operators = before_and_after
@@ -100,8 +94,6 @@ csharp_space_around_declaration_statements = false
 csharp_space_before_open_square_brackets = false
 csharp_space_between_empty_square_brackets = false
 csharp_space_between_square_brackets = false
-
-# wrap options
 csharp_preserve_single_line_statements = false
 csharp_preserve_single_line_blocks = true
 
