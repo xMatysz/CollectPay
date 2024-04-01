@@ -6,8 +6,54 @@
                     xmlns:local="clr-namespace:CollectionPay.Maui.Pages.PaymentPages.PaymentCreate"
                     x:Class="CollectionPay.Maui.Pages.PaymentPages.PaymentCreate.PaymentCreatePage"
                     x:TypeArguments="local:PaymentCreateViewModel"
-                    x:DataType="local:PaymentCreateViewModel">
+                    x:DataType="local:PaymentCreateViewModel"
+                    Title="{Binding Title}">
     <ContentPage.Content>
-
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="70"/>
+            </Grid.RowDefinitions>
+            <Grid
+                Grid.Row="0"
+                Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <Entry
+                    Grid.Row="0"
+                    Placeholder="Name"
+                    Text="{Binding Payment.Name}"/>
+                <Entry
+                    Grid.Row="1"
+                    Placeholder="Amount"
+                    Text="{Binding Payment.Amount}"
+                    Keyboard="Numeric"/>
+                <Entry
+                    Grid.Row="2"
+                    Placeholder="Currency"
+                    Text="{Binding Payment.Currency}"
+                    MaxLength="3"/>
+            </Grid>
+            <Grid
+                Grid.Row="1"
+                Margin="10"
+                ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button
+                    Grid.Column="0"
+                    Text="Clear"
+                    Command="{Binding ClearCommand}"/>
+                <Button
+                    Grid.Column="1"
+                    Text="Save Bill"
+                    Command="{Binding CreatePaymentCommand}"/>
+            </Grid>
+        </Grid>
     </ContentPage.Content>
 </ui:ContentPageBase >

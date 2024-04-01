@@ -2,6 +2,7 @@
 using CollectionPay.Maui.Abstraction;
 using CollectionPay.Maui.Models;
 using CollectionPay.Maui.Pages.PaymentPages.PaymentCreate;
+using CollectionPay.Maui.Pages.PaymentPages.PaymentDetails;
 using CollectionPay.Maui.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -46,7 +47,7 @@ public partial class PaymentListViewModel : ViewModelBase, IHaveDataToLoad, IQue
 	[RelayCommand]
 	private async Task GoToPaymentDetails(PaymentModel model)
 	{
-		await _shellService.GoToAsync(AppShell.GetRoute<PaymentCreatePage>(), new Dictionary<string, object>
+		await _shellService.GoToAsync(AppShell.GetRoute<PaymentDetailsPage>(), new Dictionary<string, object>
 		{
 			["model"] = model
 		});
