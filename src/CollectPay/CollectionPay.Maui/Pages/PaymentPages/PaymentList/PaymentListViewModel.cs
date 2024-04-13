@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using CollectionPay.Maui.Abstraction;
 using CollectionPay.Maui.Models;
+using CollectionPay.Maui.Pages.BillPages.BillDetails;
 using CollectionPay.Maui.Pages.PaymentPages.PaymentCreate;
 using CollectionPay.Maui.Pages.PaymentPages.PaymentDetails;
 using CollectionPay.Maui.Services;
@@ -57,6 +58,15 @@ public partial class PaymentListViewModel : ViewModelBase, IHaveDataToLoad, IQue
 	private async Task GoToPaymentCreate()
 	{
 		await _shellService.GoToAsync(AppShell.GetRoute<PaymentCreatePage>());
+	}
+
+	[RelayCommand]
+	private async Task GoToBillDetails()
+	{
+		await _shellService.GoToAsync(AppShell.GetRoute<BillDetailsPage>(), new Dictionary<string, object>()
+		{
+			{"model", Bill}
+		});
 	}
 
 	private async Task LoadPayments()

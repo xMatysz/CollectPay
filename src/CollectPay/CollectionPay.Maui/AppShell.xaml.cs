@@ -1,4 +1,5 @@
 ﻿using CollectionPay.Maui.Pages.BillPages.BillCreate;
+using CollectionPay.Maui.Pages.BillPages.BillDetails;
 using CollectionPay.Maui.Pages.BillPages.BillList;
 using CollectionPay.Maui.Pages.PaymentPages.PaymentCreate;
 using CollectionPay.Maui.Pages.PaymentPages.PaymentDetails;
@@ -19,6 +20,7 @@ public partial class AppShell : Shell
 	{
 		RegisterFor<BillListPage>();
 		RegisterFor<BillCreatePage>();
+		RegisterFor<BillDetailsPage>();
 
 		RegisterFor<PaymentListPage>();
 		RegisterFor<PaymentCreatePage>();
@@ -37,10 +39,11 @@ public partial class AppShell : Shell
 		return pageType switch
 		{
 			not null when pageType == typeof(BillListPage) => $"//{nameof(BillListPage)}",
-			not null when pageType == typeof(BillCreatePage) => $"//{nameof(BillListPage)}//{nameof(BillCreatePage)}",
-			not null when pageType == typeof(PaymentListPage) => $"//{nameof(BillListPage)}//{nameof(PaymentListPage)}",
-			not null when pageType == typeof(PaymentCreatePage) => $"//{nameof(BillListPage)}//{nameof(PaymentListPage)}//{nameof(PaymentCreatePage)}",
-			not null when pageType == typeof(PaymentDetailsPage) => $"//{nameof(BillListPage)}//{nameof(PaymentListPage)}//{nameof(PaymentDetailsPage)}",
+			not null when pageType == typeof(BillCreatePage) => $"//{nameof(BillListPage)}/{nameof(BillCreatePage)}",
+			not null when pageType == typeof(PaymentListPage) => $"//{nameof(BillListPage)}/{nameof(PaymentListPage)}",
+			not null when pageType == typeof(BillDetailsPage) => $"//{nameof(BillListPage)}/{nameof(PaymentListPage)}/{nameof(BillDetailsPage)}",
+			not null when pageType == typeof(PaymentCreatePage) => $"//{nameof(BillListPage)}/{nameof(PaymentListPage)}/{nameof(PaymentCreatePage)}",
+			not null when pageType == typeof(PaymentDetailsPage) => $"//{nameof(BillListPage)}/{nameof(PaymentListPage)}/{nameof(PaymentDetailsPage)}",
 			_ => throw new ArgumentException($"Route for {pageType.Name} is not implemented")
 		};
 	}

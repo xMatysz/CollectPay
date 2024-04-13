@@ -13,6 +13,6 @@ public partial class PaymentDetailsViewModel : ViewModelBase, IQueryAttributable
 	{
 		var item = query["model"] as PaymentModel ?? throw new InvalidCastException();
 		Model = item;
-		Title = Model.Name;
+		Title = $"Edit {Model.Name}";
 	}
 }
