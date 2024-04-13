@@ -69,9 +69,9 @@ public partial class PaymentListViewModel : ViewModelBase, IHaveDataToLoad, IQue
 
 		var payments = new[]
 		{
-			new PaymentModel(photo,"New Payment", 21.37m, "USD"),
-			new PaymentModel(photo,"New Payment", 21.37m, "USD"),
-			new PaymentModel(photo,"New Payment", 21.37m, "USD"),
+			new PaymentModel(photo,"New Payment1", 21.37m, "USD"),
+			new PaymentModel(photo,"New Payment2", 21.37m, "USD"),
+			new PaymentModel(photo,"New Payment3", 21.37m, "USD"),
 		};
 
 		foreach (var payment in payments)

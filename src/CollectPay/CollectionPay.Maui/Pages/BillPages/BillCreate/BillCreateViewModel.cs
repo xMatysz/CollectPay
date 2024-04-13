@@ -16,6 +16,8 @@ public partial class BillCreateViewModel : ViewModelBase
 	public BillCreateViewModel(IShellService shellService)
 	{
 		_shellService = shellService;
+
+		Title = "Create Bill";
 	}
 
 	[RelayCommand]

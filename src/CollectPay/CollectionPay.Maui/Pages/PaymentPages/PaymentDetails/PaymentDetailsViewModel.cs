@@ -4,9 +4,15 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CollectionPay.Maui.Pages.PaymentPages.PaymentDetails;
 
-public partial class PaymentDetailsViewModel : ViewModelBase
+public partial class PaymentDetailsViewModel : ViewModelBase, IQueryAttributable
 {
-
 	[ObservableProperty]
-	private PaymentCreateModel _model = new();
+	private PaymentModel _model = new();
+
+	public void ApplyQueryAttributes(IDictionary<string, object> query)
+	{
+		var item = query["model"] as PaymentModel ?? throw new InvalidCastException();
+		Model = item;
+		Title = Model.Name;
+	}
 }

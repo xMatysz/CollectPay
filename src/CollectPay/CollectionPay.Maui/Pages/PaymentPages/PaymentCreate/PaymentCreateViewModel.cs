@@ -16,6 +16,7 @@ public partial class PaymentCreateViewModel : ViewModelBase
 	public PaymentCreateViewModel(IShellService shellService)
 	{
 		_shellService = shellService;
+		Title = "Create Payment";
 	}
 
 	[RelayCommand]

@@ -6,7 +6,8 @@
                     xmlns:ui="clr-namespace:CollectionPay.Maui.Abstraction"
                     xmlns:local="clr-namespace:CollectionPay.Maui.Pages.BillPages.BillCreate"
                     x:Class="CollectionPay.Maui.Pages.BillPages.BillCreate.BillCreatePage"
-                    x:DataType="local:BillCreateViewModel">
+                    x:DataType="local:BillCreateViewModel"
+                    Title="{Binding Title}">
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>

@@ -6,7 +6,8 @@
                     xmlns:local="clr-namespace:CollectionPay.Maui.Pages.PaymentPages.PaymentDetails"
                     x:Class="CollectionPay.Maui.Pages.PaymentPages.PaymentDetails.PaymentDetailsPage"
                     x:TypeArguments="local:PaymentDetailsViewModel"
-                    x:DataType="local:PaymentDetailsViewModel">
+                    x:DataType="local:PaymentDetailsViewModel"
+                    Title="{Binding Title}">
 
     <ContentPage.Content>
 

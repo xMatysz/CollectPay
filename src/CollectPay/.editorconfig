@@ -109,3 +109,14 @@ dotnet_diagnostic.IDE0051.severity = warning
 
 # Elements Must Be Documented
 dotnet_diagnostic.CS1591.severity = none
+
+# Two or more consecutive blank lines: Remove down to one blank line. SA1507
+dotnet_diagnostic.SA1507.severity = error
+
+# Blank line immediately before or after a { line: remove it. SA1505, SA1509
+dotnet_diagnostic.SA1505.severity = error
+dotnet_diagnostic.SA1509.severity = error
+
+# Blank line immediately before a } line: remove it. SA1508
+dotnet_diagnostic.SA1508.severity = error
+dotnet_diagnostic.SA1513.severity = error
