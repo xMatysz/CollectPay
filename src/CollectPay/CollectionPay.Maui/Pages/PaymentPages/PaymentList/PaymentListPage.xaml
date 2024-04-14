@@ -11,7 +11,7 @@
                     Title="{Binding Title}">
     <ContentPage.ToolbarItems>
         <ToolbarItem
-            Text="Edit Bill"
+            Text="Edit"
             Command="{Binding GoToBillDetailsCommand}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>

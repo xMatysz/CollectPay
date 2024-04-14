@@ -3,12 +3,18 @@
     x:Class="CollectionPay.Maui.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:bills="clr-namespace:CollectionPay.Maui.Pages.BillPages.BillList"
+    xmlns:login="clr-namespace:CollectionPay.Maui.Pages.LoginPages.Login"
+    xmlns:billList="clr-namespace:CollectionPay.Maui.Pages.BillPages.BillList"
     FlyoutBehavior="Disabled">
 
     <ShellContent
         Title="Shell"
-        ContentTemplate="{DataTemplate bills:BillListPage}"
+        ContentTemplate="{DataTemplate login:LoginPage}"
+        Route="LoginPage" />
+
+    <ShellContent
+        Title="Shell"
+        ContentTemplate="{DataTemplate billList:BillListPage}"
         Route="BillListPage" />
 
 </Shell>

@@ -2,6 +2,7 @@
 using CollectionPay.Maui.Abstraction;
 using CollectionPay.Maui.Models;
 using CollectionPay.Maui.Pages.BillPages.BillCreate;
+using CollectionPay.Maui.Pages.LoginPages.Login;
 using CollectionPay.Maui.Pages.PaymentPages.PaymentList;
 using CollectionPay.Maui.Services;
 using CommunityToolkit.Mvvm.Input;
@@ -50,7 +51,10 @@ public sealed partial class BillListViewModel : ViewModelBase, IHaveDataToLoad
 	[RelayCommand]
 	private async Task GoToBillCreatePage()
 	{
-		await _shellService.GoToAsync(AppShell.GetRoute<BillCreatePage>());
+		// TEMP
+		// await _shellService.GoToAsync(AppShell.GetRoute<BillCreatePage>());
+
+		await _shellService.GoToAsync(AppShell.GetRoute<LoginPage>());
 	}
 
 	[RelayCommand]

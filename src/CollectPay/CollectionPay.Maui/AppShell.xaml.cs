@@ -1,6 +1,8 @@
 ﻿using CollectionPay.Maui.Pages.BillPages.BillCreate;
 using CollectionPay.Maui.Pages.BillPages.BillDetails;
 using CollectionPay.Maui.Pages.BillPages.BillList;
+using CollectionPay.Maui.Pages.LoginPages.Login;
+using CollectionPay.Maui.Pages.LoginPages.Register;
 using CollectionPay.Maui.Pages.PaymentPages.PaymentCreate;
 using CollectionPay.Maui.Pages.PaymentPages.PaymentDetails;
 using CollectionPay.Maui.Pages.PaymentPages.PaymentList;
@@ -25,6 +27,9 @@ public partial class AppShell : Shell
 		RegisterFor<PaymentListPage>();
 		RegisterFor<PaymentCreatePage>();
 		RegisterFor<PaymentDetailsPage>();
+
+		RegisterFor<LoginPage>();
+		RegisterFor<RegisterPage>();
 	}
 
 	private static void RegisterFor<T>() where T : Page
@@ -38,6 +43,9 @@ public partial class AppShell : Shell
 
 		return pageType switch
 		{
+			not null when pageType == typeof(LoginPage) => $"//{nameof(LoginPage)}",
+			not null when pageType == typeof(RegisterPage) => $"//{nameof(LoginPage)}/{nameof(RegisterPage)}",
+
 			not null when pageType == typeof(BillListPage) => $"//{nameof(BillListPage)}",
 			not null when pageType == typeof(BillCreatePage) => $"//{nameof(BillListPage)}/{nameof(BillCreatePage)}",
 			not null when pageType == typeof(PaymentListPage) => $"//{nameof(BillListPage)}/{nameof(PaymentListPage)}",

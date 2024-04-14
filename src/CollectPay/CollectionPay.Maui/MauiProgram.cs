@@ -1,6 +1,8 @@
 ﻿using CollectionPay.Maui.Pages.BillPages.BillCreate;
 using CollectionPay.Maui.Pages.BillPages.BillDetails;
 using CollectionPay.Maui.Pages.BillPages.BillList;
+using CollectionPay.Maui.Pages.LoginPages.Login;
+using CollectionPay.Maui.Pages.LoginPages.Register;
 using CollectionPay.Maui.Pages.PaymentPages.PaymentCreate;
 using CollectionPay.Maui.Pages.PaymentPages.PaymentDetails;
 using CollectionPay.Maui.Pages.PaymentPages.PaymentList;
@@ -25,6 +27,8 @@ public static class MauiProgram
 			});
 
 		builder.Services.AddSingleton(Connectivity.Current);
+		builder.Services.AddSingleton(Preferences.Default);
+		builder.Services.AddSingleton(SecureStorage.Default);
 
 		builder.Services.AddTransient<BillListPage>();
 		builder.Services.AddTransient<BillListViewModel>();
@@ -43,6 +47,12 @@ public static class MauiProgram
 
 		builder.Services.AddTransient<BillDetailsPage>();
 		builder.Services.AddTransient<BillDetailsViewModel>();
+
+		builder.Services.AddTransient<LoginPage>();
+		builder.Services.AddTransient<LoginViewModel>();
+
+		builder.Services.AddTransient<RegisterPage>();
+		builder.Services.AddTransient<RegisterViewModel>();
 
 		builder.Services.AddSingleton<IShellService, ShellService>();
 
