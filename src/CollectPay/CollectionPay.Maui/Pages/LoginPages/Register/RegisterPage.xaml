@@ -31,19 +31,23 @@
                     </Grid.RowDefinitions>
                     <Entry
                         Grid.Row="0"
-                        Placeholder="Email"/>
+                        Placeholder="Email"
+                        Text="{Binding Model.Login}"/>
                     <Entry
                         Grid.Row="1"
-                        Placeholder="Password"/>
+                        Placeholder="Password"
+                        Text="{Binding Model.Password}"/>
                     <Entry
                         Grid.Row="2"
-                        Placeholder="Confirm Password"/>
+                        Placeholder="Confirm Password"
+                        Text="{Binding Model.ConfirmPassword}"/>
                 </Grid>
             </Frame>
 
             <Button
                 Grid.Row="1"
-                Text="Register"/>
+                Text="Register"
+                Command="{Binding RegisterCommand}"/>
         </Grid>
     </ContentPage.Content>
 </ui:ContentPageBase>

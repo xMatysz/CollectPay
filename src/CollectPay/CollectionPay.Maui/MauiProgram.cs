@@ -55,6 +55,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<RegisterViewModel>();
 
 		builder.Services.AddSingleton<IShellService, ShellService>();
+		builder.Services.AddSingleton<ILoginService, LoginService>();
 
 		// builder.Services.AddHttpClient<IBillService, BillService>(client =>
 		// {
