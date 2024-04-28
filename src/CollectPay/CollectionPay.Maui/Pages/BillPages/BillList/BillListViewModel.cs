@@ -12,17 +12,15 @@ public sealed partial class BillListViewModel : ViewModelBase, IHaveDataToLoad
 {
 	private readonly IDispatcher _dispatcher;
 	private readonly IShellService _shellService;
-	private readonly ILoginService _loginService;
 
 	public bool IsDataLoaded => Bills.Any();
 
 	public ObservableCollection<BillModel> Bills { get; } = [];
 
-	public BillListViewModel(IDispatcher dispatcher, IShellService shellService, ILoginService loginService)
+	public BillListViewModel(IDispatcher dispatcher, IShellService shellService)
 	{
  		_dispatcher = dispatcher;
 		_shellService = shellService;
-		_loginService = loginService;
 
 		Title = "Bill List";
 	}
