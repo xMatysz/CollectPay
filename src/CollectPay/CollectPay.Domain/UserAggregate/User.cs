@@ -11,23 +11,23 @@ public sealed class User : AggregateRoot
 
 	public string Email { get; set; }
 	public object Password { get; set; }
-	public object Salt { get; set; }
+	public object PasswordSalt { get; set; }
 
-	private User(string email, object password, object salt)
+	private User(string email, object password, object passwordSalt)
 	{
 		Email = email;
 		Password = password;
-		Salt = salt;
+		PasswordSalt = passwordSalt;
 	}
 
-	public static ErrorOr<User> Create(string email, object password, object salt)
+	public static ErrorOr<User> Create(string email, object password, object passwordSalt)
 	{
 		if (!IsValidEmail(email))
 		{
 			return UserErrors.InvalidEmail;
 		}
 
-		return new User(email, password, salt);
+		return new User(email, password, passwordSalt);
 	}
 
 	private static bool IsValidEmail(string email)

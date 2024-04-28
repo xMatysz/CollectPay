@@ -1,5 +1,7 @@
-﻿using CollectPay.Application.Services;
+﻿using CollectPay.Application.Common.Repositories;
+using CollectPay.Application.Services;
 using CollectPay.Application.UserAggregate.Register;
+using CollectPay.Domain.UserAggregate.Errors;
 
 namespace CollectPay.Application.Tests.Unit.UserAggregateTests.Register;
 
@@ -7,11 +9,13 @@ public class WhenHandlingRegisterUserCommand
 {
 	private readonly RegisterUserCommandHandler _sut;
 	private readonly IPasswordHasher _hasher;
+	private readonly IUserRepository _userRepository;
 
 	public WhenHandlingRegisterUserCommand()
 	{
 		_hasher = Substitute.For<IPasswordHasher>();
-		_sut = new(_hasher);
+		_userRepository = Substitute.For<IUserRepository>();
+		_sut = new(_hasher, _userRepository);
 	}
 
 	[Fact]
@@ -42,5 +46,27 @@ public class WhenHandlingRegisterUserCommand
 
 		result.IsError.Should().BeFalse();
 		result.Value.Password.Should().BeEquivalentTo(hashedPassword);
+		result.Value.PasswordSalt.Should().BeEquivalentTo(salt);
+	}
+
+	[Fact]
+	public async Task ShouldReturnErrorWhenUserEmailIsAlreadyRegistered()
+	{
+		const string email = "email@domain.com";
+		const string password = "Test123!@#";
+
+		var existingUser = new UserBuilder()
+			.WithEmail(email)
+			.Build();
+
+		_userRepository.GetByEmail(Arg.Is(email), CancellationToken.None)
+			.Returns(existingUser);
+
+		var command = new RegisterUserCommand(email, password);
+
+		var result = await _sut.Handle(command, CancellationToken.None);
+
+		result.IsError.Should().BeTrue();
+		result.FirstError.Should().BeEquivalentTo(UserErrors.UserAlreadyExist);
 	}
 }
