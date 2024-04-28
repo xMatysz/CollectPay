@@ -38,7 +38,12 @@ public class PaymentController : ApiController
 			request.Debtors);
 
 		var result = await Sender.Send(command);
-		return CreateResult(result);
+
+		// TODO: fix location
+		return result.Match(
+			val => Created(PaymentRoutes.List, val),
+			Problem);
+
 	}
 
 	[HttpPut(PaymentRoutes.Update)]

@@ -22,12 +22,6 @@ public class ApiController : ControllerBase
 			Problem);
 	}
 
-	protected IActionResult CreateResult<T>(ErrorOr<T> result, [CallerMemberName] string callerName = "")
-	{
-		return result.Match(
-			val => CreatedAtAction(callerName, val),
-			Problem);
-	}
 
 	protected IActionResult Problem(List<Error> errors)
 	{

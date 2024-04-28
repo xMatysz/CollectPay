@@ -34,7 +34,10 @@ public class BillsController : ApiController
 
 		var result = await Sender.Send(command);
 
-		return CreateResult(result);
+		// TODO: fix location
+		return result.Match(
+			val => Created(BillRoutes.List, val),
+			Problem);
 	}
 
 	[HttpPut(BillRoutes.Update)]
