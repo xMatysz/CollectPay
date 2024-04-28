@@ -1,9 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+
+        <IsPackable>false</IsPackable>
+        <IsTestProject>true</IsTestProject>
     </PropertyGroup>
 
     <ItemGroup>
@@ -11,8 +14,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CollectionPay.Maui\CollectionPay.Maui.csproj" />
+      <ProjectReference Include="..\CollectPay.Application\CollectPay.Application.csproj" />
       <ProjectReference Include="..\CollectPay.Tests.Unit.Shared\CollectPay.Tests.Unit.Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="UserAggregateTests\Login\" />
     </ItemGroup>
 
 </Project>

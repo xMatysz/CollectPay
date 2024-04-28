@@ -17,19 +17,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollectPay.Api", "CollectPa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollectPay.Persistence", "CollectPay.Persistence\CollectPay.Persistence.csproj", "{38AFF374-3C77-474D-ABAA-EBD9A71D64ED}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollectPay.UnitTests.Shared", "CollectPay.UnitTests.Shared\CollectPay.UnitTests.Shared.csproj", "{9AEFF140-9A2D-460D-9382-E3FB1DC85A28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollectPay.Tests.Unit.Shared", "CollectPay.Tests.Unit.Shared\CollectPay.Tests.Unit.Shared.csproj", "{9AEFF140-9A2D-460D-9382-E3FB1DC85A28}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollectPay.Domain.UnitTests", "CollectPay.Domain.UnitTests\CollectPay.Domain.UnitTests.csproj", "{DCDD733E-F3A9-4EAC-8536-B0CF812FC5D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollectPay.Domain.Tests.Unit", "CollectPay.Domain.Tests.Unit\CollectPay.Domain.Tests.Unit.csproj", "{DCDD733E-F3A9-4EAC-8536-B0CF812FC5D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollectPay.Application.UnitTests", "CollectPay.Application.UnitTests\CollectPay.Application.UnitTests.csproj", "{16C6C4DB-6759-4FC5-9450-D00243373BB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollectPay.Application.Tests.Unit", "CollectPay.Application.Tests.Unit\CollectPay.Application.Tests.Unit.csproj", "{16C6C4DB-6759-4FC5-9450-D00243373BB7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollectPay.IntegrationTests.Shared", "CollectPay.IntegrationTests.Shared\CollectPay.IntegrationTests.Shared.csproj", "{B827C17F-A913-4793-A88B-A198CCC35E7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollectPay.Tests.Integration.Shared", "CollectPay.Tests.Integration.Shared\CollectPay.Tests.Integration.Shared.csproj", "{B827C17F-A913-4793-A88B-A198CCC35E7D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollectPay.Application.IntegrationTests", "CollectPay.Application.IntegrationTests\CollectPay.Application.IntegrationTests.csproj", "{7DF5658F-D8C3-470A-88F7-F1C8685265E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollectPay.Application.Tests.Integration", "CollectPay.Application.Tests.Integration\CollectPay.Application.Tests.Integration.csproj", "{7DF5658F-D8C3-470A-88F7-F1C8685265E4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollectPay.Tests.Shared", "CollectPay.Tests.Shared\CollectPay.Tests.Shared.csproj", "{DA903FC0-49AF-410E-BBE9-62192B3281EB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollectPay.Infrastructure.UnitTests", "CollectPay.Infrastructure.UnitTests\CollectPay.Infrastructure.UnitTests.csproj", "{C5624D05-3403-4B3E-B884-D19C9456A37D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollectPay.Infrastructure.Tests.Unit", "CollectPay.Infrastructure.Tests.Unit\CollectPay.Infrastructure.Tests.Unit.csproj", "{C5624D05-3403-4B3E-B884-D19C9456A37D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollectPay.Api.ApiTests", "CollectPay.Api.ApiTests\CollectPay.Api.ApiTests.csproj", "{42D8175E-FE69-4694-8DBA-B45DADE18BC9}"
 EndProject

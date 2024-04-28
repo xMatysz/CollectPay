@@ -14,7 +14,8 @@ public static class DependencyInjection
 		services.AddScoped<IUnitOfWork, UnitOfWork>();
 		services.AddScoped<IBillRepository, BillRepository>();
 
-		services.AddScoped<IDebtService, DebtService>();
+		services.AddTransient<IDebtService, DebtService>();
+		services.AddTransient<IPasswordHasher, PasswordHasher>();
 
 		return services;
 	}
