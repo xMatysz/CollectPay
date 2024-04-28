@@ -53,8 +53,8 @@ public class ValidationBehavior<TCommand, TResult> : IPipelineBehavior<TCommand,
 			.GetMethod(
 				name: nameof(ErrorOr<object>.From),
 				bindingAttr: BindingFlags.Static | BindingFlags.Public,
-				types: new[] { typeof(List<Error>) })?
-			.Invoke(null, new[] { errors })!;
+				types: [typeof(List<Error>)])
+			?.Invoke(null, [errors]);
 
 		return response is not null;
 	}
