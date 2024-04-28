@@ -20,15 +20,24 @@ public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, U
 
 	public async Task<ErrorOr<User>> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
 	{
-		var user = await _userRepository.GetByEmail(command.Email, cancellationToken);
+		var existingUser = await _userRepository.GetByEmail(command.Email, cancellationToken);
 
-		if (user is not null)
+		if (existingUser is not null)
 		{
 			return UserErrors.UserAlreadyExist;
 		}
 
 		var hashResult = _hasher.HashString(command.Password);
 
-		return User.Create(command.Email, hashResult.HashedString, hashResult.Salt);
+		var createUserResult = User.Create(command.Email, hashResult.HashedString, hashResult.Salt);
+
+		if (createUserResult.IsError)
+		{
+			return createUserResult.Errors;
+		}
+
+		await _userRepository.AddAsync(createUserResult.Value, cancellationToken);
+
+		return createUserResult.Value;
 	}
 }

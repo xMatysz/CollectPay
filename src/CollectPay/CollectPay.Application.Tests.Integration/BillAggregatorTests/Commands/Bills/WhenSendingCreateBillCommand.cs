@@ -1,4 +1,5 @@
 ﻿using CollectPay.Application.BillAggregate.Commands.Bills.CreateBill;
+using CollectPay.Domain.BillAggregate;
 using CollectPay.Tests.Integration.Shared;
 using ErrorOr;
 
@@ -22,7 +23,7 @@ public class WhenSendingCreateBillCommand : IntegrationTestBase
 		result.Value.Should().BeEquivalentTo(Result.Created);
 		await UnitOfWork.SaveChangesAsync();
 
-		var allBills = await BillRepository.GetAllAsync();
+		var allBills = await GetAllFromDb<Bill>();
 		var bill = allBills.Single();
 
 		bill.CreatorId.Should().Be(creatorId);

@@ -13,6 +13,11 @@ public class UserRepository : Repository, IUserRepository
 	{
 	}
 
+	public async Task AddAsync(User user, CancellationToken cancellationToken)
+	{
+		await DbContext.AddAsync(user, cancellationToken);
+	}
+
 	public Task<User?> GetByEmail(string email, CancellationToken cancellationToken)
 	{
 		return DbContext.Set<User>().FirstOrDefaultAsync(x => x.Email == email, cancellationToken);

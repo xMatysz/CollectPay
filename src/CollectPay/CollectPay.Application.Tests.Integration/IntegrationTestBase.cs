@@ -3,6 +3,7 @@ using CollectPay.Domain.Common.Models;
 using CollectPay.Persistence;
 using CollectPay.Tests.Integration.Shared;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CollectPay.Application.Tests.Integration;
@@ -14,10 +15,12 @@ public abstract class IntegrationTestBase : IClassFixture<WebApiFactory>, IAsync
 	private CollectPayDbContext _dbContext;
 	private IServiceScope _scope;
 
+	private IServiceProvider ServiceProvider { get; set; }
+
 	protected ISender Sender { get; set; }
 	protected IBillRepository BillRepository { get; set; }
-	private IServiceProvider ServiceProvider { get; set; }
 	protected IUnitOfWork UnitOfWork { get; set; }
+	protected IUserRepository UserRepository { get; set; }
 
 	protected IntegrationTestBase(WebApiFactory factory)
 	{
@@ -54,6 +57,12 @@ public abstract class IntegrationTestBase : IClassFixture<WebApiFactory>, IAsync
 		RestartScope();
 	}
 
+	protected Task<TEntity[]> GetAllFromDb<TEntity>()
+		where TEntity : Entity
+	{
+		return _dbContext.Set<TEntity>().ToArrayAsync();
+	}
+
 	private void RestartScope()
 	{
 		_scope = _factory.Services.CreateScope();
@@ -65,5 +74,6 @@ public abstract class IntegrationTestBase : IClassFixture<WebApiFactory>, IAsync
 
 		BillRepository = ServiceProvider.GetRequiredService<IBillRepository>();
 		UnitOfWork = ServiceProvider.GetRequiredService<IUnitOfWork>();
+		UserRepository = ServiceProvider.GetRequiredService<IUserRepository>();
 	}
 }
