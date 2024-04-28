@@ -13,6 +13,7 @@ public static class DependencyInjection
 	{
 		services.AddScoped<IUnitOfWork, UnitOfWork>();
 		services.AddScoped<IBillRepository, BillRepository>();
+		services.AddScoped<IUserRepository, UserRepository>();
 
 		services.AddTransient<IDebtService, DebtService>();
 		services.AddTransient<IPasswordHasher, PasswordHasher>();
