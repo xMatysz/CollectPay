@@ -1,0 +1,38 @@
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using CollectPay.Application.Common.Configuration;
+using CollectPay.Application.Services;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+
+namespace CollectPay.Infrastructure.Services;
+
+public class TokenService : ITokenService
+{
+	private readonly SecretProvider _secretProvider;
+
+	public TokenService(IOptions<SecretProvider> secretProvider)
+	{
+		_secretProvider = secretProvider.Value;
+	}
+
+	public string GenerateToken(string email)
+	{
+		var claims = new List<Claim>
+		{
+			new(ClaimTypes.Email, email)
+		};
+
+		var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretProvider.TokenKey));
+
+		var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
+
+		var token = new JwtSecurityToken(
+			claims: claims,
+			expires: DateTime.Now.AddDays(1),
+			signingCredentials: credentials);
+
+		return new JwtSecurityTokenHandler().WriteToken(token);
+	}
+}

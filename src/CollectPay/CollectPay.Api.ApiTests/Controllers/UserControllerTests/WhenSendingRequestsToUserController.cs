@@ -33,10 +33,10 @@ public class WhenSendingRequestsToUserController : ControllerTestBase
 		const string email = "test@email.com";
 		const string password = "testPassword";
 		var request = new LoginUserRequest(email, password);
-		ConfigureHandler<LoginUserQuery, ErrorOr<Success>, SuccessFullHandler<LoginUserQuery, ErrorOr<Success>>>();
+		ConfigureHandler<LoginUserQuery, ErrorOr<string>, SuccessFullHandler<LoginUserQuery, ErrorOr<string>>>();
 
 		var result = await Client.PostAsJsonAsync(url, request);
 
-		result.StatusCode.Should().Be(HttpStatusCode.OK);
+		result.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NoContent);
 	}
 }

@@ -8,8 +8,7 @@ namespace CollectPay.Infrastructure.Installers;
 
 public static class DependencyInjection
 {
-	public static IServiceCollection AddInfrastructure(
-		this IServiceCollection services)
+	public static IServiceCollection AddInfrastructure(this IServiceCollection services)
 	{
 		services.AddScoped<IUnitOfWork, UnitOfWork>();
 		services.AddScoped<IBillRepository, BillRepository>();
@@ -17,7 +16,9 @@ public static class DependencyInjection
 
 		services.AddTransient<IDebtService, DebtService>();
 		services.AddTransient<IPasswordHasher, PasswordHasher>();
+		services.AddTransient<ITokenService, TokenService>();
 
+		// services.Configure<ISecretProvider>(config.GetSection("Secrets"));
 		return services;
 	}
 }

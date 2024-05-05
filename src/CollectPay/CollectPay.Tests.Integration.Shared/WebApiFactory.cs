@@ -1,5 +1,6 @@
 ﻿using System.Data.Common;
 using CollectPay.Api;
+using CollectPay.Application.Common.Configuration;
 using CollectPay.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -32,6 +33,9 @@ public sealed class WebApiFactory : WebApplicationFactory<IApiAssemblyMarker>, I
 			services.RemoveAll(typeof(DbContextOptions<CollectPayDbContext>));
 			services.AddDbContext<CollectPayDbContext>(options =>
 				options.UseNpgsql(_dbContainer.GetConnectionString()));
+
+			services.Configure<SecretProvider>(provider =>
+				provider.TokenKey = "tseasdassssssssssssssssssssssssssssssssssssssss654654645t54456465456456564ssss");
 		});
 	}
 
@@ -69,4 +73,12 @@ public sealed class WebApiFactory : WebApplicationFactory<IApiAssemblyMarker>, I
 
 	public new async Task DisposeAsync() =>
 		await _dbContainer.DisposeAsync().AsTask();
+}
+
+public class FakeSecretProvider : SecretProvider
+{
+	public FakeSecretProvider()
+	{
+		TokenKey = "XDD";
+	}
 }

@@ -5,4 +5,4 @@ namespace CollectPay.Application.UserAggregate.Login;
 
 public sealed record LoginUserQuery(
 	string Email,
-	string Password) : IQuery<Success>;
+	string Password) : IQuery<string>;

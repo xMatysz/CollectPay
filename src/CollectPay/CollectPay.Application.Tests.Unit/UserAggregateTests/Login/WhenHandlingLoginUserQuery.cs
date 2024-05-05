@@ -8,12 +8,14 @@ public class WhenHandlingLoginUserQuery : UnitTestBase
 {
 	private readonly LoginUserQueryHandler _sut;
 	private readonly IPasswordHasher _passwordHasher;
+	private readonly ITokenService _tokenService;
 
 	public WhenHandlingLoginUserQuery()
 	{
 		_passwordHasher = Substitute.For<IPasswordHasher>();
+		_tokenService = Substitute.For<ITokenService>();
 
-		_sut = new(UserRepository, _passwordHasher);
+		_sut = new(UserRepository, _passwordHasher, _tokenService);
 	}
 
 	[Fact]
@@ -29,13 +31,38 @@ public class WhenHandlingLoginUserQuery : UnitTestBase
 
 		_passwordHasher
 			.ValidateHash(Arg.Is(passwordString), Arg.Any<byte[]>(), Arg.Any<byte[]>())
-			.Returns(false);
+			.Returns(true);
 
-		var query = new LoginUserQuery(user.Email, "test");
+		var query = new LoginUserQuery(user.Email, passwordString);
 
 		var result = await _sut.Handle(query, CancellationToken.None);
 
-		result.Value.Should().Be(Result.Success);
+		result.IsError.Should().BeFalse();
+	}
+
+	[Fact]
+	public async Task Should_Return_JWT_When_UserExistAndCredentialsAreCorrect()
+	{
+		var user = new UserBuilder().Build();
+
+		UserRepository
+			.GetByEmail(Arg.Is(user.Email), CancellationToken.None)
+			.Returns(user);
+
+		var passwordString = user.Password.ToString()!;
+
+		_passwordHasher
+			.ValidateHash(Arg.Is(passwordString), Arg.Any<byte[]>(), Arg.Any<byte[]>())
+			.Returns(true);
+
+		const string token = "goodToken";
+		_tokenService.GenerateToken(Arg.Any<string>()).Returns(token);
+
+		var query = new LoginUserQuery(user.Email, passwordString);
+
+		var result = await _sut.Handle(query, CancellationToken.None);
+
+		result.Value.Should().Be(token);
 	}
 
 	[Fact]

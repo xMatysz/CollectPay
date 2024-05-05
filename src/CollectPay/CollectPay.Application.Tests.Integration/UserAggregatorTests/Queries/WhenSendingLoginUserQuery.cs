@@ -1,5 +1,4 @@
 ﻿using CollectPay.Application.UserAggregate.Login;
-using CollectPay.Domain.UserAggregate;
 using CollectPay.Infrastructure.Services;
 using CollectPay.Tests.Integration.Shared;
 
@@ -24,7 +23,6 @@ public class WhenSendingLoginUserQuery : IntegrationTestBase
 			.Build();
 
 		await AssumeEntityInDbAsync(user);
-
 
 		var query = new LoginUserQuery(user.Email, password);
 

@@ -34,7 +34,7 @@ public class UserController : ApiController
 		var result = await Sender.Send(query);
 
 		return result.Match(
-			_ => Ok(),
+			Ok,
 			Problem);
 	}
 }

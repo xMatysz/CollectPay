@@ -6,18 +6,20 @@ using ErrorOr;
 
 namespace CollectPay.Application.UserAggregate.Login;
 
-public class LoginUserQueryHandler : IQueryHandler<LoginUserQuery, Success>
+public class LoginUserQueryHandler : IQueryHandler<LoginUserQuery, string>
 {
 	private readonly IUserRepository _userRepository;
 	private readonly IPasswordHasher _passwordHasher;
+	private readonly ITokenService _tokenService;
 
-	public LoginUserQueryHandler(IUserRepository userRepository, IPasswordHasher passwordHasher)
+	public LoginUserQueryHandler(IUserRepository userRepository, IPasswordHasher passwordHasher, ITokenService tokenService)
 	{
 		_userRepository = userRepository;
 		_passwordHasher = passwordHasher;
+		_tokenService = tokenService;
 	}
 
-	public async Task<ErrorOr<Success>> Handle(LoginUserQuery query, CancellationToken cancellationToken)
+	public async Task<ErrorOr<string>> Handle(LoginUserQuery query, CancellationToken cancellationToken)
 	{
 		var user = await _userRepository.GetByEmail(query.Email, cancellationToken);
 
@@ -32,7 +34,7 @@ public class LoginUserQueryHandler : IQueryHandler<LoginUserQuery, Success>
 		var isValid = _passwordHasher.ValidateHash(query.Password, bytePassword, byteSalt);
 
 		return isValid
-			? Result.Success
+			? _tokenService.GenerateToken(user.Email)
 			: UserErrors.InvalidCredentials;
 	}
 }
