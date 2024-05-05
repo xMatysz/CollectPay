@@ -1,5 +1,4 @@
-﻿using CollectPay.Persistence.Mappings.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace CollectPay.Persistence;
 

@@ -20,8 +20,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
-	app.UseSerilogRequestLogging();
 	app.UseExceptionHandler("/error");
+	app.UseSerilogRequestLogging();
 	app.MapControllers();
 
 	app.Run();
