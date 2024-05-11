@@ -13,9 +13,10 @@ public class WhenSendingRemoveBillCommand : IntegrationTestBase
 	[Fact]
 	public async Task ShouldRemoveBillFromRepository()
 	{
-		var bill = new BillBuilder().Build();
+		var userId = Guid.NewGuid();
+		var bill = new BillBuilder().WithCreatorId(userId).Build();
 		AssumeEntityInDb(bill);
-		var request = new RemoveBillCommand(bill.Id);
+		var request = new RemoveBillCommand(userId, bill.Id);
 
 		await Sender.Send(request);
 

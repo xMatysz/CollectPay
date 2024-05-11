@@ -15,7 +15,7 @@ public class WhenHandlingRemoveBillCommand : UnitTestBase
 	[Fact]
 	public async Task ShouldFailWhenBillIsNotFound()
 	{
-		var command = new RemoveBillCommand(Guid.NewGuid());
+		var command = new RemoveBillCommand(Guid.NewGuid(), Guid.NewGuid());
 
 		var result = await _handler.Handle(command);
 
@@ -23,13 +23,28 @@ public class WhenHandlingRemoveBillCommand : UnitTestBase
 		result.FirstError.Should().BeEquivalentTo(BillErrors.BillNotFound);
 	}
 
+	[Fact]
+	public async Task Should_Fail_When_CreatorIdNotMatch()
+	{
+		var userId = Guid.NewGuid();
+		var differentUserId = Guid.NewGuid();
+		var bill = new BillBuilder().WithCreatorId(userId).Build();
+		BillRepository.GetByIdAsync(Arg.Is(bill.Id)).Returns(bill);
+		var command = new RemoveBillCommand(differentUserId, bill.Id);
+
+		var result = await _handler.Handle(command);
+
+		result.IsError.Should().BeTrue();
+		result.FirstError.Should().Be(BillErrors.CannotBeRemovedByNotOwner);
+	}
 
 	[Fact]
 	public async Task ShouldSuccessFullyFinishHandling()
 	{
-		var bill = new BillBuilder().Build();
+		var userId = Guid.NewGuid();
+		var bill = new BillBuilder().WithCreatorId(userId).Build();
 		BillRepository.GetByIdAsync(Arg.Is(bill.Id)).Returns(bill);
-		var command = new RemoveBillCommand(bill.Id);
+		var command = new RemoveBillCommand(userId, bill.Id);
 
 		var result = await _handler.Handle(command);
 
