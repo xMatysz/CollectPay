@@ -23,6 +23,11 @@ public class RemoveBillCommandHandler : ICommandHandler<RemoveBillCommand, Delet
 			return BillErrors.BillNotFound;
 		}
 
+		if (bill.CreatorId != request.UserId)
+		{
+			return BillErrors.CannotBeRemovedByNotOwner;
+		}
+
 		await _billRepository.RemoveAsync(bill, cancellationToken);
 		return Result.Deleted;
 	}

@@ -3,4 +3,4 @@ using ErrorOr;
 
 namespace CollectPay.Application.BillAggregate.Commands.Bills.RemoveBill;
 
-public record RemoveBillCommand(Guid BillId) : ICommand<ErrorOr<Deleted>>;
+public record RemoveBillCommand(Guid UserId, Guid BillId) : ICommand<ErrorOr<Deleted>>;

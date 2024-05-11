@@ -22,12 +22,7 @@ public class BillsController : ApiController
 	{
 		var userId = HttpContext.GetUserId();
 
-		if (userId is null)
-		{
-			return Problem(statusCode: 500, detail: "UserId cannot be taken from claims");
-		}
-
-		var results = await Sender.Send(new GetBillsQuery(userId.Value));
+		var results = await Sender.Send(new GetBillsQuery(userId!.Value));
 
 		return QueryResult(results);
 	}
@@ -35,8 +30,10 @@ public class BillsController : ApiController
 	[HttpPost(BillRoutes.Create)]
 	public async Task<IActionResult> CreateBill([FromBody] CreateBillRequest request)
 	{
+		var userId = HttpContext.GetUserId();
+
 		var command = new CreateBillCommand(
-			request.UserId,
+			userId!.Value,
 			request.Name);
 
 		var result = await Sender.Send(command);
@@ -60,10 +57,19 @@ public class BillsController : ApiController
 	[HttpDelete(BillRoutes.Remove)]
 	public async Task<IActionResult> RemoveBill([FromQuery] Guid billId)
 	{
-		var command = new RemoveBillCommand(billId);
+		var userId = HttpContext.GetUserId();
+
+		if (userId is null)
+		{
+			return Problem(statusCode: 500, detail: "UserId cannot be taken from claims");
+		}
+
+		var command = new RemoveBillCommand(userId!.Value, billId);
 
 		var result = await Sender.Send(command);
 
-		return Ok(result);
+		return result.Match(
+			_ => Ok(),
+			Problem);
 	}
 }
