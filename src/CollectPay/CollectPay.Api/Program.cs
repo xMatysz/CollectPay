@@ -1,14 +1,14 @@
 using CollectPay.Api.Installers;
-using CollectPay.Application.Common.Configuration;
 using CollectPay.Application.Installers;
 using CollectPay.Infrastructure.Installers;
+using CollectPay.Persistence;
 using CollectPay.Persistence.Installers;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 {
-	builder.Services.Configure<SecretProvider>(
-		builder.Configuration.GetSection("Secrets"));
+	builder.Services.AddAuth();
 
 	builder.Services
 		.AddApplication()
@@ -25,8 +25,25 @@ var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 {
 	app.UseExceptionHandler("/error");
+
 	app.UseSerilogRequestLogging();
+
+	app.UseAuthentication();
+	app.UseAuthorization();
+
 	app.MapControllers();
 
+	if (app.Environment.IsDevelopment())
+	{
+		// RunMigration(app);
+	}
+
 	app.Run();
+}
+
+static void RunMigration(IHost app)
+{
+	using var scope = app.Services.CreateScope();
+	using var dbContext = scope.ServiceProvider.GetRequiredService<CollectPayDbContext>();
+	dbContext.Database.Migrate();
 }

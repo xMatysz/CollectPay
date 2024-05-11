@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace CollectPay.Infrastructure.Services;
 
+//TODO: maybe it should not be a part of app
 public class TokenService : ITokenService
 {
 	private readonly SecretProvider _secretProvider;
@@ -19,19 +20,22 @@ public class TokenService : ITokenService
 
 	public string GenerateToken(string email)
 	{
-		var claims = new List<Claim>
+		var claims = new Claim[]
 		{
 			new(ClaimTypes.Email, email)
 		};
 
-		var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretProvider.TokenKey));
+		var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretProvider.Jwt.TokenKey));
 
 		var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
 
 		var token = new JwtSecurityToken(
-			claims: claims,
-			expires: DateTime.Now.AddDays(1),
-			signingCredentials: credentials);
+			_secretProvider.Jwt.Issuer,
+			_secretProvider.Jwt.Audience,
+			claims,
+			null,
+			DateTime.UtcNow.AddDays(1),
+			credentials);
 
 		return new JwtSecurityTokenHandler().WriteToken(token);
 	}

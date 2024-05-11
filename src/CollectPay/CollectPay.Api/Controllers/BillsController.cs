@@ -4,7 +4,6 @@ using CollectPay.Application.BillAggregate.Commands.Bills.CreateBill;
 using CollectPay.Application.BillAggregate.Commands.Bills.RemoveBill;
 using CollectPay.Application.BillAggregate.Commands.Bills.UpdateBill;
 using CollectPay.Application.BillAggregate.Queries.Bills.GetBills;
-using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

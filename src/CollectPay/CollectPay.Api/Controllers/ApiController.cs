@@ -1,10 +1,11 @@
-﻿using System.Runtime.CompilerServices;
-using ErrorOr;
+﻿using ErrorOr;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CollectPay.Api.Controllers;
 
+[Authorize]
 [ApiController]
 public class ApiController : ControllerBase
 {

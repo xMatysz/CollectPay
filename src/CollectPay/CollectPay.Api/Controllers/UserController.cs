@@ -3,6 +3,7 @@ using CollectionPay.Contracts.Routes;
 using CollectPay.Application.UserAggregate.Login;
 using CollectPay.Application.UserAggregate.Register;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CollectPay.Api.Controllers;
@@ -14,6 +15,7 @@ public class UserController : ApiController
 	{
 	}
 
+	[AllowAnonymous]
 	[HttpPost(UserRoutes.Register)]
 	public async Task<IActionResult> RegisterUser(RegisterUserRequest request)
 	{
@@ -26,6 +28,7 @@ public class UserController : ApiController
 			Problem);
 	}
 
+	[AllowAnonymous]
 	[HttpPost(UserRoutes.Login)]
 	public async Task<IActionResult> LoginUser(LoginUserRequest request)
 	{
