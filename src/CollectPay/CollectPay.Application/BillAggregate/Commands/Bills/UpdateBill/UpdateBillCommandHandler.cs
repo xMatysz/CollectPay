@@ -23,6 +23,12 @@ public class UpdateBillCommandHandler : ICommandHandler<UpdateBillCommand, Updat
 			return BillErrors.BillNotFound;
 		}
 
+		// TODO: should check if user is added to bill
+		if (bill.CreatorId != request.UserId)
+		{
+			return BillErrors.BillNotFound;
+		}
+
 		return bill.Update(request.UpdateBillInfo.Name);
 	}
 }

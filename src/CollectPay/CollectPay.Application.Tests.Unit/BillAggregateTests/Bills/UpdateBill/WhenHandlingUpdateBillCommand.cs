@@ -15,7 +15,18 @@ public class WhenHandlingUpdateBillCommand : UnitTestBase
 	[Fact]
 	public async Task ShouldFailWhenBillIsNotFound()
 	{
-		var command = new UpdateBillCommand(Guid.NewGuid(), null!);
+		var command = new UpdateBillCommand(Guid.NewGuid(), Guid.NewGuid(), null!);
+
+		var result = await _handler.Handle(command);
+
+		result.IsError.Should().BeTrue();
+		result.FirstError.Should().BeEquivalentTo(BillErrors.BillNotFound);
+	}
+
+	[Fact]
+	public async Task ShouldFailWhenCreatorNotMatch()
+	{
+		var command = new UpdateBillCommand(Guid.NewGuid(), Guid.NewGuid(), null!);
 
 		var result = await _handler.Handle(command);
 
@@ -26,9 +37,10 @@ public class WhenHandlingUpdateBillCommand : UnitTestBase
 	[Fact]
 	public async Task ShouldSuccessFullyFinishHandling()
 	{
-		var bill = new BillBuilder().Build();
+		var userId = Guid.NewGuid();
+		var bill = new BillBuilder().WithCreatorId(userId).Build();
 		BillRepository.GetByIdAsync(Arg.Is(bill.Id)).Returns(bill);
-		var command = new UpdateBillCommand(bill.Id, new UpdateBillInfo("NewName"));
+		var command = new UpdateBillCommand(bill.Id, userId, new UpdateBillInfo("NewName"));
 
 		var result = await _handler.Handle(command);
 

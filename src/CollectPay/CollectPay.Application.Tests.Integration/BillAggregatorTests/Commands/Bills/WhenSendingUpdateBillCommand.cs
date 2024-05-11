@@ -15,11 +15,13 @@ public class WhenSendingUpdateBillCommand : IntegrationTestBase
 	{
 		const string oldName = "Bill1";
 		const string newName = "Bill2";
+		var userId = Guid.NewGuid();
 		var bill = new BillBuilder()
 			.WithName(oldName)
+			.WithCreatorId(userId)
 			.Build();
 		AssumeEntityInDb(bill);
-		var request = new UpdateBillCommand(bill.Id, new UpdateBillInfo(newName));
+		var request = new UpdateBillCommand(bill.Id, userId, new UpdateBillInfo(newName));
 
 		await Sender.Send(request);
 		var billFromDb = await BillRepository.GetByIdAsync(bill.Id);

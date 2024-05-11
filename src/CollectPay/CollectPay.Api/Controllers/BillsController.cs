@@ -47,7 +47,14 @@ public class BillsController : ApiController
 	[HttpPut(BillRoutes.Update)]
 	public async Task<IActionResult> UpdateBill([FromBody] UpdateBillRequest request)
 	{
-		var command = new UpdateBillCommand(request.BillId, new UpdateBillInfo(request.Name));
+		var userId = HttpContext.GetUserId();
+
+		if (userId is null)
+		{
+			return Problem(statusCode: 500, detail: "UserId cannot be taken from claims");
+		}
+
+		var command = new UpdateBillCommand(request.BillId, userId.Value, new UpdateBillInfo(request.Name));
 
 		var result = await Sender.Send(command);
 
