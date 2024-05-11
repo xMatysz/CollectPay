@@ -1,5 +1,6 @@
 ﻿using CollectionPay.Contracts.Requests.Bill;
 using CollectionPay.Contracts.Routes;
+using CollectPay.Api.Authentication;
 using CollectPay.Application.BillAggregate.Commands.Bills.CreateBill;
 using CollectPay.Application.BillAggregate.Commands.Bills.RemoveBill;
 using CollectPay.Application.BillAggregate.Commands.Bills.UpdateBill;
@@ -19,7 +20,14 @@ public class BillsController : ApiController
 	[HttpGet(BillRoutes.List)]
 	public async Task<IActionResult> GetBills()
 	{
-		var results = await Sender.Send(new GetBillsQuery());
+		var userId = HttpContext.GetUserId();
+
+		if (userId is null)
+		{
+			return Problem(statusCode: 500, detail: "UserId cannot be taken from claims");
+		}
+
+		var results = await Sender.Send(new GetBillsQuery(userId.Value));
 
 		return QueryResult(results);
 	}

@@ -18,7 +18,7 @@ public sealed class WhenSendingRequestToBillController : ControllerTestBase
 	public async Task ShouldReturnListOfBills()
 	{
 		const string url = BillRoutes.List;
-		ConfigureHandler<GetBillsQuery, ErrorOr<List<Bill>>, SuccessFullHandler<GetBillsQuery, ErrorOr<List<Bill>>>>();
+		ConfigureHandler<GetBillsQuery, ErrorOr<Bill[]>, SuccessFullHandler<GetBillsQuery, ErrorOr<Bill[]>>>();
 
 		var response = await Client.GetAsync(url);
 		response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NoContent);

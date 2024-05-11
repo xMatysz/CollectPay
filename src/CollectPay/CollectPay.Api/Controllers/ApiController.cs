@@ -23,7 +23,6 @@ public class ApiController : ControllerBase
 			Problem);
 	}
 
-
 	protected IActionResult Problem(List<Error> errors)
 	{
 		HttpContext.Items["errors"] = errors;

@@ -24,15 +24,15 @@ public sealed class BillRepository : Repository, IBillRepository
 			.FirstOrDefaultAsync(x => x.Id == billId, cancellationToken);
 	}
 
-	public async Task<List<Bill>> GetAllAsync(CancellationToken cancellationToken)
-	{
-		 return await DbContext.Set<Bill>().ToListAsync(cancellationToken);
-	}
-
 	public Task RemoveAsync(Bill bill, CancellationToken cancellationToken = default)
 	{
 		DbContext.Remove(bill);
 
 		return Task.CompletedTask;
+	}
+
+	public async Task<Bill[]> GetAllForUserAsync(Guid userId, CancellationToken cancellationToken = default)
+	{
+		return await DbContext.Set<Bill>().Where(x => x.CreatorId == userId).ToArrayAsync(cancellationToken);
 	}
 }

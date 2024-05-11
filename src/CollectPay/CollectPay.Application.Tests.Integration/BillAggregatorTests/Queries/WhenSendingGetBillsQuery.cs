@@ -12,12 +12,14 @@ public class WhenSendingGetBillsQuery : IntegrationTestBase
 	}
 
 	[Fact]
-	public async Task ShouldReturnBillsFromDb()
+	public async Task ShouldReturnUserBills()
 	{
+		var userId = Guid.NewGuid();
+
 		var bills = new List<Bill>
 		{
-			new BillBuilder().Build(),
-			new BillBuilder().Build(),
+			new BillBuilder().WithCreatorId(userId).Build(),
+			new BillBuilder().WithCreatorId(userId).Build(),
 			new BillBuilder().Build()
 		};
 
@@ -28,8 +30,8 @@ public class WhenSendingGetBillsQuery : IntegrationTestBase
 
 		await UnitOfWork.SaveChangesAsync();
 
-		var result = await Sender.Send(new GetBillsQuery());
+		var result = await Sender.Send(new GetBillsQuery(userId));
 
-		result.Value.Should().BeEquivalentTo(bills);
+		result.Value.Should().HaveCount(2);
 	}
 }

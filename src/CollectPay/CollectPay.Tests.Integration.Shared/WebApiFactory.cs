@@ -71,8 +71,8 @@ public sealed class WebApiFactory : WebApplicationFactory<IApiAssemblyMarker>, I
 			new RespawnerOptions
 			{
 				DbAdapter = DbAdapter.Postgres,
-				SchemasToInclude = new[] { "public" },
-				TablesToIgnore = new[] { new Table("__EFMigrationsHistory") }
+				SchemasToInclude = ["public"],
+				TablesToIgnore = [new Table("__EFMigrationsHistory")]
 			});
 	}
 

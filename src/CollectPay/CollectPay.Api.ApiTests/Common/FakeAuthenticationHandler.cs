@@ -29,7 +29,9 @@ public class FakeAuthenticationHandler : AuthenticationHandler<AuthenticationSch
 
 	protected override Task<AuthenticateResult> HandleAuthenticateAsync()
 	{
-		var identity = new ClaimsIdentity(Array.Empty<Claim>(), "Test");
+		var userIdClaim = new Claim(ClaimTypes.Sid, Guid.NewGuid().ToString());
+
+		var identity = new ClaimsIdentity([userIdClaim], "Test");
 		var principal = new ClaimsPrincipal(identity);
 		var ticket = new AuthenticationTicket(principal, FakeSchemaName);
 
