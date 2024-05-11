@@ -18,11 +18,11 @@ public class TokenService : ITokenService
 		_secretProvider = secretProvider.Value;
 	}
 
-	public string GenerateToken(string email)
+	public string GenerateToken(Guid userId)
 	{
 		var claims = new Claim[]
 		{
-			new(ClaimTypes.Email, email)
+			new(ClaimTypes.Sid, userId.ToString())
 		};
 
 		var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretProvider.Jwt.TokenKey));

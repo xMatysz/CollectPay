@@ -1,4 +1,5 @@
-﻿using CollectPay.Api.ApiTests.Common;
+﻿using System.Net.Http.Headers;
+using CollectPay.Api.ApiTests.Common;
 using ErrorOr;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -15,7 +16,11 @@ public abstract class ControllerTestBase
 	private HttpClient CreateClient()
 	{
 		var api = new WebApiFactory(_configuration);
-		return api.CreateClient();
+
+		var client = api.CreateClient();
+		client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(FakeAuthenticationHandler.FakeSchemaName);
+
+		return client ;
 	}
 
 	protected void ConfigureHandler<TRequest, TResult, TDouble>()

@@ -1,9 +1,11 @@
-﻿using CollectPay.Domain.BillAggregate;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 
 namespace CollectPay.Api.ApiTests.Common;
 
@@ -25,6 +27,17 @@ public sealed class WebApiFactory : WebApplicationFactory<IApiAssemblyMarker>
 		builder.ConfigureTestServices(services =>
 		{
 			services.RemoveAll(typeof(IPipelineBehavior<,>));
+			services.RemoveAll(typeof(IConfigureNamedOptions<JwtBearerOptions>));
+
+			services.AddAuthentication(cfg =>
+				{
+					cfg.DefaultScheme = FakeAuthenticationHandler.FakeSchemaName;
+					cfg.DefaultAuthenticateScheme = FakeAuthenticationHandler.FakeSchemaName;
+					cfg.DefaultChallengeScheme = FakeAuthenticationHandler.FakeSchemaName;
+				})
+				.AddScheme<AuthenticationSchemeOptions, FakeAuthenticationHandler>(
+					FakeAuthenticationHandler.FakeSchemaName, _ => { });
+
 			_configure(services);
 		});
 	}

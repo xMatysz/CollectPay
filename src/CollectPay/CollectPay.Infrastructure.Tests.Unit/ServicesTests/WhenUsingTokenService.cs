@@ -12,18 +12,26 @@ public class WhenUsingTokenService
 	[Fact]
 	public void Should_GenerateValidToken()
 	{
-		const string email = "test@email.com";
+		var userId = Guid.NewGuid();
 		const string longTokenKey = "my top secret key which has to be long and long even more long and one more";
+		const string audience = nameof(audience);
+		const string issuer = nameof(issuer);
+
 		var provider = new SecretProvider
 		{
-			TokenKey = longTokenKey
+			Jwt = new JwtOptions
+			{
+				TokenKey = longTokenKey,
+				Audience = audience,
+				Issuer = issuer
+			}
 		};
 
 		var options = Substitute.For<IOptions<SecretProvider>>();
 		options.Value.Returns(provider);
 		var sut = new TokenService(options);
 
-		var result = sut.GenerateToken(email);
+		var result = sut.GenerateToken(userId);
 
 		result.Should().NotBeNullOrEmpty();
 	}

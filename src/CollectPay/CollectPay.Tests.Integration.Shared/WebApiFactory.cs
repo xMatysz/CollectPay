@@ -35,7 +35,12 @@ public sealed class WebApiFactory : WebApplicationFactory<IApiAssemblyMarker>, I
 				options.UseNpgsql(_dbContainer.GetConnectionString()));
 
 			services.Configure<SecretProvider>(provider =>
-				provider.TokenKey = "tseasdassssssssssssssssssssssssssssssssssssssss654654645t54456465456456564ssss");
+			{
+				provider.Jwt = new JwtOptions
+				{
+					TokenKey = "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest"
+				};
+			});
 		});
 	}
 
@@ -73,12 +78,4 @@ public sealed class WebApiFactory : WebApplicationFactory<IApiAssemblyMarker>, I
 
 	public new async Task DisposeAsync() =>
 		await _dbContainer.DisposeAsync().AsTask();
-}
-
-public class FakeSecretProvider : SecretProvider
-{
-	public FakeSecretProvider()
-	{
-		TokenKey = "XDD";
-	}
 }

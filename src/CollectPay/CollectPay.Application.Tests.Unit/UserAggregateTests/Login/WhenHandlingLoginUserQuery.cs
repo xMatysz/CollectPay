@@ -56,7 +56,7 @@ public class WhenHandlingLoginUserQuery : UnitTestBase
 			.Returns(true);
 
 		const string token = "goodToken";
-		_tokenService.GenerateToken(Arg.Any<string>()).Returns(token);
+		_tokenService.GenerateToken(Arg.Any<Guid>()).Returns(token);
 
 		var query = new LoginUserQuery(user.Email, passwordString);
 

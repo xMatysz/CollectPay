@@ -34,7 +34,7 @@ public class LoginUserQueryHandler : IQueryHandler<LoginUserQuery, string>
 		var isValid = _passwordHasher.ValidateHash(query.Password, bytePassword, byteSalt);
 
 		return isValid
-			? _tokenService.GenerateToken(user.Email)
+			? _tokenService.GenerateToken(user.Id)
 			: UserErrors.InvalidCredentials;
 	}
 }
