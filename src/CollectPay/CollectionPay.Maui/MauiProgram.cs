@@ -57,15 +57,15 @@ public static class MauiProgram
 		builder.Services.AddSingleton<IShellService, ShellService>();
 		builder.Services.AddSingleton<ILoginService, LoginService>();
 
-		// builder.Services.AddHttpClient<IBillService, BillService>(client =>
-		// {
-		// 	var baseAddress = DeviceInfo.Platform == DevicePlatform.Android
-		// 		? "http://10.0.2.2:5066"
-		// 		: "http://localhost:5066";
-		//
-		// 	client.BaseAddress = new Uri(baseAddress);
-		// 	client.Timeout = TimeSpan.FromSeconds(39);
-		// });
+		builder.Services.AddHttpClient<IApiClient, ApiClient>(client =>
+		{
+			var baseAddress = DeviceInfo.Platform == DevicePlatform.Android
+				? "http://10.0.2.2:5066"
+				: "http://localhost:5066";
+
+			client.BaseAddress = new Uri(baseAddress);
+			client.Timeout = TimeSpan.FromSeconds(5);
+		});
 
 #if DEBUG
 		builder.Logging.AddDebug();

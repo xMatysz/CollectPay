@@ -1,4 +1,7 @@
-﻿using System.Diagnostics.SymbolStore;
+﻿using System.Net;
+using System.Net.Http.Json;
+using CollectionPay.Contracts.Requests.User;
+using CollectionPay.Maui.Abstraction;
 using CollectionPay.Maui.Models;
 
 namespace CollectionPay.Maui.Services;
@@ -7,43 +10,63 @@ public interface ILoginService
 {
 	public bool IsAuthenticated();
 	public Task<bool> LoginAsync(LoginModel model, CancellationToken cancellationToken = default);
-	public Task<bool> RegisterAsync(RegisterModel model, CancellationToken cancellationToken = default);
+	public Task RegisterAsync(RegisterModel model, CancellationToken cancellationToken = default);
 	public void LogOut();
 }
 
 public class LoginService : ILoginService
 {
-	private const string _isAuthenticatedKey = "IsAuth";
+	private const string _authenticationKey = "IsAuth";
 
 	private readonly IPreferences _preferences;
 	private readonly ISecureStorage _secureStorage;
-
-	private List<RegisterModel> _users = new();
+	private readonly IApiClient _client;
 
 	public LoginService(
 		IPreferences preferences,
-		ISecureStorage secureStorage)
+		ISecureStorage secureStorage,
+		IApiClient client)
 	{
 		_preferences = preferences;
 		_secureStorage = secureStorage;
+		_client = client;
 	}
 
 	public bool IsAuthenticated()
 	{
-		return _preferences.Get(_isAuthenticatedKey, false);
+		var test = _client.SendGet("/test", CancellationToken.None).GetAwaiter().GetResult();
+
+		return test.StatusCode != HttpStatusCode.Unauthorized;
 	}
 
 	public async Task<bool> LoginAsync(LoginModel model, CancellationToken cancellationToken)
 	{
-		var result = _users.Any(user => user.Login == model.Login && user.Password == model.Password);
-		_preferences.Set(_isAuthenticatedKey, result);
-		return result;
+		var loginRequest = new LoginUserRequest(model.Login, model.Password);
+		var result = await _client.SendPost("/user/login", loginRequest, cancellationToken);
+		if (!result.IsSuccessStatusCode)
+		{
+			return false;
+		}
+
+		var key = await result.Content.ReadAsStringAsync(cancellationToken);
+		await _secureStorage.SetAsync(_authenticationKey, key);
+		return true;
 	}
 
-	public async Task<bool> RegisterAsync(RegisterModel model, CancellationToken cancellationToken = default)
+	public async Task RegisterAsync(RegisterModel model, CancellationToken cancellationToken = default)
 	{
-		_users.Add(model);
-		return true;
+		var registerRequest = new RegisterUserRequest(model.Login, model.Password);
+
+		var response = await _client.SendPost("/user/register", registerRequest, cancellationToken);
+
+		if (response.IsSuccessStatusCode)
+		{
+			await Shell.Current.DisplayAlert("Success", "User registered", "Ok");
+		}
+
+		var error = await response.Content.ReadFromJsonAsync<ProblemDetails>(cancellationToken);
+
+		await Shell.Current.DisplayAlert("Error", error.Title, "Ok");
 	}
 
 	public void LogOut()

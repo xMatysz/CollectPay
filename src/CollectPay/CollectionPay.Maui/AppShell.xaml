@@ -5,16 +5,20 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:login="clr-namespace:CollectionPay.Maui.Pages.LoginPages.Login"
     xmlns:billList="clr-namespace:CollectionPay.Maui.Pages.BillPages.BillList"
-    FlyoutBehavior="Disabled">
+    FlyoutBehavior="Flyout"
+    TabBarIsVisible="False">
 
-    <ShellContent
-        Title="Shell"
-        ContentTemplate="{DataTemplate login:LoginPage}"
-        Route="LoginPage" />
+    <FlyoutItem IsVisible="False" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent
+            Title="Login"
+            ContentTemplate="{DataTemplate login:LoginPage}"
+            Route="LoginPage"
+            Shell.FlyoutBehavior="Disabled"/>
 
-    <ShellContent
-        Title="Shell"
-        ContentTemplate="{DataTemplate billList:BillListPage}"
-        Route="BillListPage" />
+        <ShellContent
+            Title="Bills"
+            ContentTemplate="{DataTemplate billList:BillListPage}"
+            Route="BillListPage" />
+    </FlyoutItem>
 
 </Shell>
