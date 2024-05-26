@@ -3,22 +3,28 @@
     x:Class="CollectionPay.Maui.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:user="clr-namespace:CollectionPay.Maui.Pages.LoginPages.User"
     xmlns:login="clr-namespace:CollectionPay.Maui.Pages.LoginPages.Login"
     xmlns:billList="clr-namespace:CollectionPay.Maui.Pages.BillPages.BillList"
-    FlyoutBehavior="Flyout"
-    TabBarIsVisible="False">
+    FlyoutBehavior="Disabled"
+    TabBarIsVisible="True">
 
-    <FlyoutItem IsVisible="False" FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent
-            Title="Login"
-            ContentTemplate="{DataTemplate login:LoginPage}"
-            Route="LoginPage"
-            Shell.FlyoutBehavior="Disabled"/>
+    <ShellContent
+        Title="Login"
+        ContentTemplate="{DataTemplate login:LoginPage}"
+        Route="LoginPage"/>
 
+    <TabBar>
         <ShellContent
             Title="Bills"
             ContentTemplate="{DataTemplate billList:BillListPage}"
             Route="BillListPage" />
-    </FlyoutItem>
+
+        <ShellContent
+            Title="User"
+            ContentTemplate="{DataTemplate user:UserPage}"
+            Route="UserPage"/>
+    </TabBar>
+
 
 </Shell>

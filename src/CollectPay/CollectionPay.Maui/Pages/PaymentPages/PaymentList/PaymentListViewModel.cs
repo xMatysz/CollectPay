@@ -1,4 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using System.Net.Http.Json;
+using CollectionPay.Contracts.Responses;
+using CollectionPay.Contracts.Routes;
 using CollectionPay.Maui.Abstraction;
 using CollectionPay.Maui.Models;
 using CollectionPay.Maui.Pages.BillPages.BillDetails;
@@ -14,6 +17,7 @@ public partial class PaymentListViewModel : ViewModelBase, IHaveDataToLoad, IQue
 {
 	private readonly IDispatcher _dispatcher;
 	private readonly IShellService _shellService;
+	private readonly IApiClient _apiClient;
 
 	[ObservableProperty]
 	private BillModel _bill;
@@ -22,10 +26,11 @@ public partial class PaymentListViewModel : ViewModelBase, IHaveDataToLoad, IQue
 
 	public ObservableCollection<PaymentModel> Payments { get; } = new();
 
-	public PaymentListViewModel(IDispatcher dispatcher, IShellService shellService)
+	public PaymentListViewModel(IDispatcher dispatcher, IShellService shellService, IApiClient apiClient)
 	{
 		_dispatcher = dispatcher;
 		_shellService = shellService;
+		_apiClient = apiClient;
 	}
 
 	public void ApplyQueryAttributes(IDictionary<string, object> query)
@@ -57,7 +62,10 @@ public partial class PaymentListViewModel : ViewModelBase, IHaveDataToLoad, IQue
 	[RelayCommand]
 	private async Task GoToPaymentCreate()
 	{
-		await _shellService.GoToAsync(AppShell.GetRoute<PaymentCreatePage>());
+		await _shellService.GoToAsync(AppShell.GetRoute<PaymentCreatePage>(), new Dictionary<string, object>
+		{
+			{"modelId", Bill.Id}
+		});
 	}
 
 	[RelayCommand]
@@ -75,18 +83,20 @@ public partial class PaymentListViewModel : ViewModelBase, IHaveDataToLoad, IQue
 
 		await _dispatcher.DispatchAsync(Payments.Clear);
 
-		var photo = "https://png.pngtree.com/png-vector/20230523/ourmid/pngtree-money-bag-vector-png-image_7106786.png";
+		var response = await _apiClient.SendGet($"{PaymentRoutes.List}?billId={Bill.Id}", CancellationToken.None);
 
-		var payments = new[]
+		if (!response.IsSuccessStatusCode)
 		{
-			new PaymentModel(photo,"New Payment1", 21.37m, "USD"),
-			new PaymentModel(photo,"New Payment2", 21.37m, "USD"),
-			new PaymentModel(photo,"New Payment3", 21.37m, "USD"),
-		};
+			await Shell.Current.DisplayAlert("Error", "SomethingWrong", "Ok");
+			return;
+		}
+
+		var payments = await response.Content.ReadFromJsonAsync<GetPaymentsResponse[]>(CancellationToken.None);
 
 		foreach (var payment in payments)
 		{
-			await _dispatcher.DispatchAsync(() => Payments.Add(payment));
+			var model = new PaymentModel(payment.Name, payment.Amount, payment.Currency);
+			await _dispatcher.DispatchAsync(() => Payments.Add(model));
 		}
 
 		IsBusy = false;

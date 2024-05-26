@@ -3,6 +3,7 @@ using CollectionPay.Maui.Pages.BillPages.BillDetails;
 using CollectionPay.Maui.Pages.BillPages.BillList;
 using CollectionPay.Maui.Pages.LoginPages.Login;
 using CollectionPay.Maui.Pages.LoginPages.Register;
+using CollectionPay.Maui.Pages.LoginPages.User;
 using CollectionPay.Maui.Pages.PaymentPages.PaymentCreate;
 using CollectionPay.Maui.Pages.PaymentPages.PaymentDetails;
 using CollectionPay.Maui.Pages.PaymentPages.PaymentList;
@@ -54,6 +55,9 @@ public static class MauiProgram
 		builder.Services.AddTransient<RegisterPage>();
 		builder.Services.AddTransient<RegisterViewModel>();
 
+		builder.Services.AddTransient<UserPage>();
+		builder.Services.AddTransient<UserViewModel>();
+
 		builder.Services.AddSingleton<IShellService, ShellService>();
 		builder.Services.AddSingleton<ILoginService, LoginService>();
 
@@ -64,7 +68,7 @@ public static class MauiProgram
 				: "http://localhost:5066";
 
 			client.BaseAddress = new Uri(baseAddress);
-			client.Timeout = TimeSpan.FromSeconds(5);
+			client.Timeout = TimeSpan.FromSeconds(60);
 		});
 
 #if DEBUG

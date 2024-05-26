@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using CollectionPay.Contracts.Requests.User;
+using CollectionPay.Contracts.Responses;
 using CollectionPay.Maui.Abstraction;
 using CollectionPay.Maui.Models;
 
@@ -34,6 +35,7 @@ public class LoginService : ILoginService
 
 	public bool IsAuthenticated()
 	{
+		// TODO: Do better
 		var test = _client.SendGet("/test", CancellationToken.None).GetAwaiter().GetResult();
 
 		return test.StatusCode != HttpStatusCode.Unauthorized;
@@ -48,8 +50,9 @@ public class LoginService : ILoginService
 			return false;
 		}
 
-		var key = await result.Content.ReadAsStringAsync(cancellationToken);
-		await _secureStorage.SetAsync(_authenticationKey, key);
+		var response = result.Content.ReadFromJsonAsync<LoginUserResponse>(cancellationToken).GetAwaiter().GetResult();
+		await _secureStorage.SetAsync(_authenticationKey, response.TokenValue);
+		_preferences.Set("email", response.Email);
 		return true;
 	}
 
@@ -62,6 +65,7 @@ public class LoginService : ILoginService
 		if (response.IsSuccessStatusCode)
 		{
 			await Shell.Current.DisplayAlert("Success", "User registered", "Ok");
+			return;
 		}
 
 		var error = await response.Content.ReadFromJsonAsync<ProblemDetails>(cancellationToken);

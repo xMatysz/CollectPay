@@ -1,4 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using System.Net.Http.Json;
+using CollectionPay.Contracts.Responses;
+using CollectionPay.Contracts.Routes;
 using CollectionPay.Maui.Abstraction;
 using CollectionPay.Maui.Models;
 using CollectionPay.Maui.Pages.BillPages.BillCreate;
@@ -12,15 +15,17 @@ public sealed partial class BillListViewModel : ViewModelBase, IHaveDataToLoad
 {
 	private readonly IDispatcher _dispatcher;
 	private readonly IShellService _shellService;
+	private readonly IApiClient _apiClient;
 
 	public bool IsDataLoaded => Bills.Any();
 
 	public ObservableCollection<BillModel> Bills { get; } = [];
 
-	public BillListViewModel(IDispatcher dispatcher, IShellService shellService)
+	public BillListViewModel(IDispatcher dispatcher, IShellService shellService, IApiClient apiClient)
 	{
  		_dispatcher = dispatcher;
 		_shellService = shellService;
+		_apiClient = apiClient;
 
 		Title = "Bill List";
 	}
@@ -62,22 +67,21 @@ public sealed partial class BillListViewModel : ViewModelBase, IHaveDataToLoad
 		});
 	}
 
-	private async Task LoadBills()
+	private async Task LoadBills(CancellationToken cancellationToken = default)
 	{
 		IsBusy = true;
-		await _dispatcher.DispatchAsync(Bills.Clear).ConfigureAwait(false);
 
-		var bills = new[]
-		{
-			new BillModel("Wakacje"),
-			new BillModel("Tailandia"),
-			new BillModel("Opłacenie rachunków za życzie"),
-			new BillModel("Studniówka"),
-		};
+		var response = await _apiClient.SendGet(BillRoutes.List, cancellationToken);
+
+		var bills = await response.Content.ReadFromJsonAsync<GetBillsResponse[]>(cancellationToken);
+
+		await _dispatcher.DispatchAsync(Bills.Clear).ConfigureAwait(false);
 
 		foreach (var bill in bills)
 		{
-			await _dispatcher.DispatchAsync(() => Bills.Add(bill)).ConfigureAwait(false);
+			var model = new BillModel(bill.Id, bill.Name);
+
+			await _dispatcher.DispatchAsync(() => Bills.Add(model)).ConfigureAwait(false);
 		}
 
 		IsBusy = false;

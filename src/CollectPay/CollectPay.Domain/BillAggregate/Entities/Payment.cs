@@ -10,6 +10,8 @@ public sealed class Payment : Entity
 {
 	public Guid CreatorId { get; private set; }
 
+    public string Name { get; set; }
+
     public bool IsCreatorIncluded { get; private set; }
 
     public Amount Amount { get; private set; }
@@ -20,9 +22,11 @@ public sealed class Payment : Entity
     public IEnumerable<Guid> DebtorIds { get; private set; }
 
 
-    private Payment(Guid billId, Guid creatorId, bool isCreatorIncluded, Amount amount, IEnumerable<Guid> debtorIds)
+
+    private Payment(Guid billId, string name, Guid creatorId, bool isCreatorIncluded, Amount amount, IEnumerable<Guid> debtorIds)
     {
 	    Id = Guid.NewGuid();
+	    Name = name;
 	    BillId = billId;
 	    CreatorId = creatorId;
 	    IsCreatorIncluded = isCreatorIncluded;
@@ -30,7 +34,7 @@ public sealed class Payment : Entity
 	    DebtorIds = debtorIds;
     }
 
-    public static ErrorOr<Payment> Create(Guid billId, Guid creator, bool isCreatorIncluded, Amount amount, IEnumerable<Guid> debtorIds)
+    public static ErrorOr<Payment> Create(Guid billId, string name, Guid creator, bool isCreatorIncluded, Amount amount, IEnumerable<Guid> debtorIds)
     {
 	    var ids = debtorIds.ToArray();
 	    var result = ValidateCreatorAndDebtors(creator, ids);
@@ -40,7 +44,7 @@ public sealed class Payment : Entity
 		    return result.Errors;
 	    }
 
-        return new Payment(billId, creator, isCreatorIncluded, amount, ids);
+        return new Payment(billId, name, creator, isCreatorIncluded, amount, ids);
     }
 
     public ErrorOr<Updated> Update(Guid? creatorId,

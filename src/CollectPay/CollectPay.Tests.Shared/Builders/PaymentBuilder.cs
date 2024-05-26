@@ -44,7 +44,7 @@ public class PaymentBuilder
 
 	public Payment Build()
 	{
-		var payment = Payment.Create(_billId, _creatorId, _isCreatorIncluded, _amount, _debtors);
+		var payment = Payment.Create(_billId, "Test",_creatorId, _isCreatorIncluded, _amount, _debtors);
 		return payment.Value;
 	}
 }

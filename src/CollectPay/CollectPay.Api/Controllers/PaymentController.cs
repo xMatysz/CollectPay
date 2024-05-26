@@ -1,6 +1,8 @@
 ﻿using CollectionPay.Contracts.Requests.Bill;
 using CollectionPay.Contracts.Requests.Payment;
+using CollectionPay.Contracts.Responses;
 using CollectionPay.Contracts.Routes;
+using CollectPay.Api.Authentication;
 using CollectPay.Application.BillAggregate.Commands.Payments.CreatePayment;
 using CollectPay.Application.BillAggregate.Commands.Payments.RemovePayment;
 using CollectPay.Application.BillAggregate.Commands.Payments.UpdatePayment;
@@ -24,15 +26,21 @@ public class PaymentController : ApiController
 		var query = new GetPaymentsQuery(billId);
 
 		var result = await Sender.Send(query);
-		return QueryResult(result);
+
+		return result.Match(
+			list => Ok(list.Select(payment => new GetPaymentsResponse(payment.Id, payment.Name,  payment.Amount.Value, payment.Amount.Currency))),
+			Problem);
 	}
 
 	[HttpPost(PaymentRoutes.Create)]
 	public async Task<IActionResult> CreatePayment([FromBody] CreatePaymentRequest request)
 	{
+		var userId = HttpContext.GetUserId();
+
 		var command = new CreatePaymentCommand(
+			request.Name,
 			request.BillId,
-			request.CreatorId,
+			userId!.Value,
 			request.IsCreatorIncluded,
 			Amount.Create(request.Amount, request.Currency).Value,
 			request.Debtors);

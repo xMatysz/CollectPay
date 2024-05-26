@@ -13,6 +13,7 @@ public class PaymentSpecificationTests
 
 		var payment = Payment
 			.Create(Guid.NewGuid(),
+				"Test",
 				user1,
 				false,
 				null!,

@@ -1,4 +1,5 @@
 ﻿using CollectionPay.Contracts.Requests.User;
+using CollectionPay.Contracts.Responses;
 using CollectionPay.Contracts.Routes;
 using CollectPay.Application.UserAggregate.Login;
 using CollectPay.Application.UserAggregate.Register;
@@ -37,7 +38,7 @@ public class UserController : ApiController
 		var result = await Sender.Send(query);
 
 		return result.Match(
-			Ok,
+			val => Ok(new LoginUserResponse(val.Token, val.Email)),
 			Problem);
 	}
 }

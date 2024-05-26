@@ -10,6 +10,6 @@ public static class IdentityExtensions
 
 		return Guid.TryParse(userId?.Value, out var parsedId)
 			? parsedId
-			: null;
+			: throw new ArgumentException("Can't Get Id From header");
 	}
 }

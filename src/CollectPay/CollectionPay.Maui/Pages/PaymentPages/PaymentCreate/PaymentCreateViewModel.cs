@@ -1,4 +1,6 @@
-﻿using CollectionPay.Maui.Abstraction;
+﻿using CollectionPay.Contracts.Requests.Payment;
+using CollectionPay.Contracts.Routes;
+using CollectionPay.Maui.Abstraction;
 using CollectionPay.Maui.Models;
 using CollectionPay.Maui.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -6,16 +8,22 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CollectionPay.Maui.Pages.PaymentPages.PaymentCreate;
 
+[QueryProperty(nameof(BillId), "modelId")]
 public partial class PaymentCreateViewModel : ViewModelBase
 {
 	private readonly IShellService _shellService;
+	private readonly IApiClient _apiClient;
 
 	[ObservableProperty]
 	private PaymentModel _payment = new();
 
-	public PaymentCreateViewModel(IShellService shellService)
+	[ObservableProperty]
+	private Guid _billId;
+
+	public PaymentCreateViewModel(IShellService shellService, IApiClient apiClient)
 	{
 		_shellService = shellService;
+		_apiClient = apiClient;
 		Title = "Create Payment";
 	}
 
@@ -32,6 +40,16 @@ public partial class PaymentCreateViewModel : ViewModelBase
 	[RelayCommand]
 	private async Task CreatePayment()
 	{
-		await _shellService.GoToAsync("..");
+		var request = new CreatePaymentRequest(Payment.Name, BillId, true, Payment.Amount, Payment.Currency, []);
+
+		var response = await _apiClient.SendPost(PaymentRoutes.Create, request, CancellationToken.None);
+
+		if (response.IsSuccessStatusCode)
+		{
+			await _shellService.GoToAsync("..");
+			return;
+		}
+
+		await Shell.Current.DisplayAlert("Error", "Something wrong", "Ok");
 	}
 }

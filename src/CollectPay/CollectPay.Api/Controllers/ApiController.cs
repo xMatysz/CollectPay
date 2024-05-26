@@ -16,13 +16,6 @@ public class ApiController : ControllerBase
 		Sender = sender;
 	}
 
-	protected IActionResult QueryResult<T>(ErrorOr<T> results)
-	{
-		return results.Match(
-			val => Ok(val),
-			Problem);
-	}
-
 	protected IActionResult Problem(List<Error> errors)
 	{
 		HttpContext.Items["errors"] = errors;

@@ -5,6 +5,7 @@ using ErrorOr;
 namespace CollectPay.Application.BillAggregate.Commands.Payments.CreatePayment;
 
 public record CreatePaymentCommand(
+	string Name,
 	Guid BillId,
 	Guid CreatorId,
 	bool IsCreatorIncluded,

@@ -17,7 +17,7 @@ public class CreatePaymentCommandHandler : ICommandHandler<CreatePaymentCommand,
 
 	public async Task<ErrorOr<Created>> Handle(CreatePaymentCommand request, CancellationToken cancellationToken = default)
 	{
-		var payment = Payment.Create(request.BillId,request.CreatorId, request.IsCreatorIncluded, request.Amount, request.Debtors);
+		var payment = Payment.Create(request.BillId, request.Name, request.CreatorId, request.IsCreatorIncluded, request.Amount, request.Debtors);
 
 		if (payment.IsError)
 		{

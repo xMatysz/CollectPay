@@ -1,4 +1,5 @@
 ﻿using CollectionPay.Contracts.Requests.Bill;
+using CollectionPay.Contracts.Responses;
 using CollectionPay.Contracts.Routes;
 using CollectPay.Api.Authentication;
 using CollectPay.Application.BillAggregate.Commands.Bills.CreateBill;
@@ -24,7 +25,9 @@ public class BillsController : ApiController
 
 		var results = await Sender.Send(new GetBillsQuery(userId!.Value));
 
-		return QueryResult(results);
+		return results.Match(
+			list => Ok(list.Select(bill=>new GetBillsResponse(bill.Id, bill.Name, bill.CreatorId))),
+			Problem);
 	}
 
 	[HttpPost(BillRoutes.Create)]

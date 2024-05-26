@@ -1,4 +1,6 @@
-﻿using CollectionPay.Maui.Abstraction;
+﻿using CollectionPay.Contracts.Requests.Bill;
+using CollectionPay.Contracts.Routes;
+using CollectionPay.Maui.Abstraction;
 using CollectionPay.Maui.Models;
 using CollectionPay.Maui.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -9,13 +11,15 @@ namespace CollectionPay.Maui.Pages.BillPages.BillCreate;
 public partial class BillCreateViewModel : ViewModelBase
 {
 	private readonly IShellService _shellService;
+	private readonly IApiClient _apiClient;
 
 	[ObservableProperty]
 	private BillCreateModel _model = new();
 
-	public BillCreateViewModel(IShellService shellService)
+	public BillCreateViewModel(IShellService shellService, IApiClient apiClient)
 	{
 		_shellService = shellService;
+		_apiClient = apiClient;
 
 		Title = "Create Bill";
 	}
@@ -31,6 +35,16 @@ public partial class BillCreateViewModel : ViewModelBase
 	[RelayCommand]
 	private async Task CreateBill()
 	{
-		await _shellService.GoToAsync("..");
+		var request = new CreateBillRequest(Model.Name);
+
+		var response = await _apiClient.SendPost(BillRoutes.Create, request, CancellationToken.None);
+
+		if (response.IsSuccessStatusCode)
+		{
+			await _shellService.GoToAsync("..");
+			return;
+		}
+
+		await Shell.Current.DisplayAlert("Error", "Something wrong", "Ok");
 	}
 }

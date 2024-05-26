@@ -53,6 +53,10 @@ namespace CollectPay.Persistence.Migrations
                     b.Property<bool>("IsCreatorIncluded")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BillId");
