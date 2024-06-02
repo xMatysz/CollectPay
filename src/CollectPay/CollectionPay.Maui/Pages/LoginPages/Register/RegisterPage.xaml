@@ -10,10 +10,17 @@
                     Title="{Binding Title}"
                     Background="{StaticResource Gray100}">
     <ContentPage.Content>
-        <Grid
-            Padding="10"
-            VerticalOptions="Center"
-            RowSpacing="10">
+        <Grid Padding="10"
+              VerticalOptions="Center"
+              RowSpacing="10">
+            <Grid.Resources>
+                <Style TargetType="Entry">
+                    <Setter Property="TextColor"
+                            Value="Black"/>
+                    <Setter Property="PlaceholderColor"
+                            Value="Grey"/>
+                </Style>
+            </Grid.Resources>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/>

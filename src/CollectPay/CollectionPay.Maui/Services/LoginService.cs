@@ -12,7 +12,7 @@ public interface ILoginService
 {
 	public Task<bool> IsAuthenticated();
 	public Task<bool> TryLoginAsync(LoginModel model, CancellationToken cancellationToken = default);
-	public Task RegisterAsync(RegisterModel model, CancellationToken cancellationToken = default);
+	public Task<bool> TryRegisterAsync(RegisterModel model, CancellationToken cancellationToken = default);
 	public void LogOut();
 }
 
@@ -43,9 +43,16 @@ public class LoginService : ILoginService
 			return false;
 		}
 
-		var testResponse = await _client.SendGet(BillRoutes.List, CancellationToken.None);
-
-		return testResponse.StatusCode != HttpStatusCode.Unauthorized;
+		try
+		{
+			var testResponse = await _client.SendGet(BillRoutes.List, CancellationToken.None);
+			return testResponse.StatusCode != HttpStatusCode.Unauthorized;
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine(e);
+			return false;
+		}
 	}
 
 	public async Task<bool> TryLoginAsync(LoginModel model, CancellationToken cancellationToken)
@@ -74,7 +81,7 @@ public class LoginService : ILoginService
 		_preferences.Set("email", response.Email);
 	}
 
-	public async Task RegisterAsync(RegisterModel model, CancellationToken cancellationToken = default)
+	public async Task<bool> TryRegisterAsync(RegisterModel model, CancellationToken cancellationToken = default)
 	{
 		var registerRequest = new RegisterUserRequest(model.Login, model.Password);
 
@@ -83,12 +90,13 @@ public class LoginService : ILoginService
 		if (response.IsSuccessStatusCode)
 		{
 			await Shell.Current.DisplayAlert("Success", "User registered", "Ok");
-			return;
+			return true;
 		}
 
 		var error = await response.Content.ReadFromJsonAsync<ProblemDetails>(cancellationToken);
 
-		await Shell.Current.DisplayAlert("Error", error.Title, "Ok");
+		await Shell.Current.DisplayAlert(error.Title, error.Detail, "Ok");
+		return false;
 	}
 
 	public void LogOut()

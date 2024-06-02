@@ -26,12 +26,13 @@ public partial class RegisterViewModel : ViewModelBase
 	{
 		if (Model.Password != Model.ConfirmPassword)
 		{
-			await Shell.Current.DisplayAlert("Error", "Incorrect Passwords", "Ok");
+			await Shell.Current.DisplayAlert("Error", "Passwords doesn't match", "Ok");
 		}
-		else
+
+		var success = await _loginService.TryRegisterAsync(Model);
+		if (success)
 		{
-			await _loginService.RegisterAsync(Model);
-			await _shellService.GoToAsync("..");
+			await _shellService.GoToAsync(AppShell.GetRoute<LoginPage>());
 		}
 	}
 

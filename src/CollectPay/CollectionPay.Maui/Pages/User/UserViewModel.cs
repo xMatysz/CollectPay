@@ -1,5 +1,4 @@
 ﻿using CollectionPay.Maui.Abstraction;
-using CollectionPay.Maui.Models;
 using CollectionPay.Maui.Pages.LoginPages.Login;
 using CollectionPay.Maui.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
