@@ -31,13 +31,11 @@ public partial class LoginViewModel : ViewModelBase
 	[RelayCommand]
 	private async Task Login()
 	{
-		if (await _loginService.LoginAsync(Model))
+		var isSuccessfully = await _loginService.TryLoginAsync(Model);
+
+		if (isSuccessfully)
 		{
 			await _shellService.GoToAsync(AppShell.GetRoute<BillListPage>());
-		}
-		else
-		{
-			await Shell.Current.DisplayAlert("ValidationError", "User does not exist", "ok");
 		}
 	}
 }

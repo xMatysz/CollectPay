@@ -7,6 +7,7 @@ using CollectionPay.Maui.Pages.LoginPages.User;
 using CollectionPay.Maui.Pages.PaymentPages.PaymentCreate;
 using CollectionPay.Maui.Pages.PaymentPages.PaymentDetails;
 using CollectionPay.Maui.Pages.PaymentPages.PaymentList;
+using CollectionPay.Maui.Pages.Start;
 using CollectionPay.Maui.Services;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
@@ -57,6 +58,9 @@ public static class MauiProgram
 
 		builder.Services.AddTransient<UserPage>();
 		builder.Services.AddTransient<UserViewModel>();
+
+		builder.Services.AddTransient<StartPage>();
+		builder.Services.AddTransient<StartViewModel>();
 
 		builder.Services.AddSingleton<IShellService, ShellService>();
 		builder.Services.AddSingleton<ILoginService, LoginService>();

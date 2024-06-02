@@ -9,9 +9,6 @@
                     x:DataType="local:RegisterViewModel"
                     Title="{Binding Title}"
                     Background="{StaticResource Gray100}">
-    <Shell.BackgroundColor>
-        <x:StaticResource Key="Gray100"/>
-    </Shell.BackgroundColor>
     <ContentPage.Content>
         <Grid
             Padding="10"
@@ -20,10 +17,10 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Frame Grid.Row="0">
-                <Grid
-                    RowSpacing="10">
+                <Grid RowSpacing="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
                         <RowDefinition Height="50"/>
@@ -48,6 +45,17 @@
                 Grid.Row="1"
                 Text="Register"
                 Command="{Binding RegisterCommand}"/>
+
+            <Label
+                Grid.Row="2"
+                HorizontalOptions="Center"
+                Text="Already have account?"
+                TextColor="Black"
+                TextDecorations="Underline">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoToLoginPageCommand}"/>
+                </Label.GestureRecognizers>
+            </Label>
         </Grid>
     </ContentPage.Content>
 </ui:ContentPageBase>

@@ -13,6 +13,14 @@
         <Style TargetType="Label">
             <Setter Property="HorizontalOptions"
                     Value="Center"/>
+            <Setter Property="TextColor"
+                    Value="Black"/>
+        </Style>
+        <Style TargetType="Entry">
+            <Setter Property="TextColor"
+                    Value="Black"/>
+            <Setter Property="PlaceholderColor"
+                    Value="Black"/>
         </Style>
     </ContentPage.Resources>
     <ContentPage.Content>
@@ -57,8 +65,17 @@
 
             <Label
                 Grid.Row="3"
-                Text="Forgotten password"
+                Text="Forgot your password?"
                 TextDecorations="Underline"/>
+
+            <ActivityIndicator Grid.Row="0"
+                               Grid.RowSpan="4"
+                               IsRunning="{Binding IsBusy}"
+                               HorizontalOptions="Fill"
+                               VerticalOptions="Fill"
+                               Margin="100"
+                               Color="OrangeRed"/>
         </Grid>
+
     </ContentPage.Content>
 </ui:ContentPageBase>

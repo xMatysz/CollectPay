@@ -2,6 +2,7 @@
 using System.Net.Http.Json;
 using CollectionPay.Contracts.Requests.User;
 using CollectionPay.Contracts.Responses;
+using CollectionPay.Contracts.Routes;
 using CollectionPay.Maui.Abstraction;
 using CollectionPay.Maui.Models;
 
@@ -9,15 +10,16 @@ namespace CollectionPay.Maui.Services;
 
 public interface ILoginService
 {
-	public bool IsAuthenticated();
-	public Task<bool> LoginAsync(LoginModel model, CancellationToken cancellationToken = default);
+	public Task<bool> IsAuthenticated();
+	public Task<bool> TryLoginAsync(LoginModel model, CancellationToken cancellationToken = default);
 	public Task RegisterAsync(RegisterModel model, CancellationToken cancellationToken = default);
 	public void LogOut();
 }
 
 public class LoginService : ILoginService
 {
-	private const string _authenticationKey = "IsAuth";
+	private const string _authenticationTokenKey = "IsAuth";
+	private const string _isAuthenticatedKey = "IsAuthenticatedUser";
 
 	private readonly IPreferences _preferences;
 	private readonly ISecureStorage _secureStorage;
@@ -33,34 +35,50 @@ public class LoginService : ILoginService
 		_client = client;
 	}
 
-	public bool IsAuthenticated()
+	public async Task<bool> IsAuthenticated()
 	{
-		// TODO: Do better
-		var test = _client.SendGet("/test", CancellationToken.None).GetAwaiter().GetResult();
-
-		return test.StatusCode != HttpStatusCode.Unauthorized;
-	}
-
-	public async Task<bool> LoginAsync(LoginModel model, CancellationToken cancellationToken)
-	{
-		var loginRequest = new LoginUserRequest(model.Login, model.Password);
-		var result = await _client.SendPost("/user/login", loginRequest, cancellationToken);
-		if (!result.IsSuccessStatusCode)
+		var haveToken = _preferences.Get(_isAuthenticatedKey, false);
+		if (!haveToken)
 		{
 			return false;
 		}
 
-		var response = result.Content.ReadFromJsonAsync<LoginUserResponse>(cancellationToken).GetAwaiter().GetResult();
-		await _secureStorage.SetAsync(_authenticationKey, response.TokenValue);
-		_preferences.Set("email", response.Email);
+		var testResponse = await _client.SendGet(BillRoutes.List, CancellationToken.None);
+
+		return testResponse.StatusCode != HttpStatusCode.Unauthorized;
+	}
+
+	public async Task<bool> TryLoginAsync(LoginModel model, CancellationToken cancellationToken)
+	{
+		var loginRequest = new LoginUserRequest(model.Login, model.Password);
+		var result = await _client.SendPost(UserRoutes.Login, loginRequest, cancellationToken);
+
+		if (!result.IsSuccessStatusCode)
+		{
+			var problem = await result.Content.ReadFromJsonAsync<ProblemDetails>(cancellationToken: cancellationToken);
+			await Shell.Current.DisplayAlert(problem.Title, problem.Detail, "OK");
+			return false;
+		}
+
+		var response = await result.Content.ReadFromJsonAsync<LoginUserResponse>(cancellationToken);
+
+		await SetValuesFromResponse(response);
+
 		return true;
+	}
+
+	private async Task SetValuesFromResponse(LoginUserResponse response)
+	{
+		await _secureStorage.SetAsync(_authenticationTokenKey, response.TokenValue);
+		_preferences.Set(_isAuthenticatedKey, true);
+		_preferences.Set("email", response.Email);
 	}
 
 	public async Task RegisterAsync(RegisterModel model, CancellationToken cancellationToken = default)
 	{
 		var registerRequest = new RegisterUserRequest(model.Login, model.Password);
 
-		var response = await _client.SendPost("/user/register", registerRequest, cancellationToken);
+		var response = await _client.SendPost(UserRoutes.Register, registerRequest, cancellationToken);
 
 		if (response.IsSuccessStatusCode)
 		{

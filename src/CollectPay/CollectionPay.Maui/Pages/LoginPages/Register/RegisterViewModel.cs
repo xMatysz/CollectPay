@@ -1,5 +1,6 @@
 ﻿using CollectionPay.Maui.Abstraction;
 using CollectionPay.Maui.Models;
+using CollectionPay.Maui.Pages.LoginPages.Login;
 using CollectionPay.Maui.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -32,5 +33,11 @@ public partial class RegisterViewModel : ViewModelBase
 			await _loginService.RegisterAsync(Model);
 			await _shellService.GoToAsync("..");
 		}
+	}
+
+	[RelayCommand]
+	public async Task GoToLoginPage()
+	{
+		await Shell.Current.GoToAsync(AppShell.GetRoute<LoginPage>());
 	}
 }
