@@ -14,6 +14,10 @@
             Command="{Binding GoBackCommand}"/>
     </Shell.BackButtonBehavior>
     <ContentPage.Content>
-
+        <VerticalStackLayout>
+            <CollectionView ItemsSource="{Binding Debtors}"/>
+            <Entry Placeholder="email" Text="{Binding UserEmail}"/>
+            <Button Text="Add user to bill" Command="{Binding UpdateBillCommand}"/>
+        </VerticalStackLayout>
     </ContentPage.Content>
 </ui:ContentPageBase>

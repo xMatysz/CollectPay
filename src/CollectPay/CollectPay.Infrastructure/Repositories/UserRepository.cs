@@ -22,4 +22,9 @@ public class UserRepository : Repository, IUserRepository
 	{
 		return DbContext.Set<User>().FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
 	}
+
+	public Task<User[]> GetByEmail(string[] emails, CancellationToken cancellationToken)
+	{
+		return DbContext.Set<User>().Where(x => emails.Contains(x.Email)).ToArrayAsync(cancellationToken);
+	}
 }

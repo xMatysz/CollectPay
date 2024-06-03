@@ -40,7 +40,7 @@ public class PaymentController : ApiController
 		var command = new CreatePaymentCommand(
 			request.Name,
 			request.BillId,
-			userId!.Value,
+			userId,
 			request.IsCreatorIncluded,
 			Amount.Create(request.Amount, request.Currency).Value,
 			request.Debtors);

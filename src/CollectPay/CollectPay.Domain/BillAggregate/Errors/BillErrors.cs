@@ -8,11 +8,19 @@ public static class BillErrors
 		code: $"{nameof(BillErrors)}.{nameof(BillNotFound)}",
 		description: "Bill was not found");
 
-	public static Error BillNameCannotBeEmpty => Error.Validation(
-		code: $"{nameof(BillErrors)}.{nameof(BillNameCannotBeEmpty)}",
-		description: "Bill name cannot be null or empty");
-
 	public static Error CannotBeRemovedByNotOwner => Error.Forbidden(
 		code: $"{nameof(BillErrors)}.{nameof(CannotBeRemovedByNotOwner)}",
 		description: "Only creator can remove bill");
+
+	public static Error CreatorCannotBeDebtor => Error.Validation(
+		code: $"{nameof(BillErrors)}.{nameof(CreatorCannotBeDebtor)}",
+		description: "Creator cannot be a debtor");
+
+	public static Error DebtorIsAlreadyAdded(Guid  userId) => Error.Conflict(
+		code: $"{nameof(BillErrors)}.{nameof(DebtorIsAlreadyAdded)}",
+		description: $"User with id {userId} is already added as a debtor");
+
+	public static Error DebtorNotFound(Guid userId) => Error.NotFound(
+		code: $"{nameof(BillErrors)}.{nameof(DebtorNotFound)}",
+		description: $"User with {userId} id is not on Debtors list");
 }

@@ -72,7 +72,7 @@ public static class MauiProgram
 				: "http://localhost:5066";
 
 			client.BaseAddress = new Uri(baseAddress);
-			client.Timeout = TimeSpan.FromSeconds(5);
+			client.Timeout = TimeSpan.FromSeconds(70);
 		});
 
 #if DEBUG

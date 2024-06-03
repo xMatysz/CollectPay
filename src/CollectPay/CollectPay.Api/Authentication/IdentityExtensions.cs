@@ -4,7 +4,7 @@ namespace CollectPay.Api.Authentication;
 
 public static class IdentityExtensions
 {
-	public static Guid? GetUserId(this HttpContext context)
+	public static Guid GetUserId(this HttpContext context)
 	{
 		var userId = context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid);
 

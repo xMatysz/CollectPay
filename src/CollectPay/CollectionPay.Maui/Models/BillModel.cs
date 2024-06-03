@@ -3,4 +3,4 @@
 public record BillModel(
 	Guid Id,
 	string Name,
-	ImageSource Image = null);
+	Guid[] Debtors);

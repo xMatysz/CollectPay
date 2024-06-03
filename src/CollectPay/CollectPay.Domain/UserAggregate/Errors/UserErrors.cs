@@ -15,4 +15,8 @@ public static class UserErrors
 	public static Error InvalidCredentials => Error.Validation(
 		code: $"{nameof(UserErrors)}.{nameof(InvalidCredentials)}",
 		description: "Email and Password combination don't work");
+
+	public static Error UserNotFound(string email) => Error.NotFound(
+		code: $"{nameof(UserErrors)}.{nameof(UserNotFound)}",
+		description: $"User with {email} not found");
 }

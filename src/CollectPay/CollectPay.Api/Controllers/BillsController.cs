@@ -23,10 +23,10 @@ public class BillsController : ApiController
 	{
 		var userId = HttpContext.GetUserId();
 
-		var results = await Sender.Send(new GetBillsQuery(userId!.Value));
+		var results = await Sender.Send(new GetBillsQuery(userId));
 
 		return results.Match(
-			list => Ok(list.Select(bill=>new GetBillsResponse(bill.Id, bill.Name, bill.CreatorId))),
+			list => Ok(list.Select(bill => new GetBillsResponse(bill.Id, bill.Name, bill.CreatorId, bill.Debtors.ToArray()))),
 			Problem);
 	}
 
@@ -36,7 +36,7 @@ public class BillsController : ApiController
 		var userId = HttpContext.GetUserId();
 
 		var command = new CreateBillCommand(
-			userId!.Value,
+			userId,
 			request.Name);
 
 		var result = await Sender.Send(command);
@@ -47,21 +47,24 @@ public class BillsController : ApiController
 			Problem);
 	}
 
-	[HttpPut(BillRoutes.Update)]
+	[HttpPost(BillRoutes.Update)]
 	public async Task<IActionResult> UpdateBill([FromBody] UpdateBillRequest request)
 	{
 		var userId = HttpContext.GetUserId();
 
-		if (userId is null)
-		{
-			return Problem(statusCode: 500, detail: "UserId cannot be taken from claims");
-		}
-
-		var command = new UpdateBillCommand(request.BillId, userId.Value, new UpdateBillInfo(request.Name));
+		var command = new UpdateBillCommand(
+			request.BillId,
+			userId,
+			new UpdateBillInfo(
+				request.Name,
+				request.DebtorsEmailsToAdd,
+				request.DebtorsEmailsToRemove));
 
 		var result = await Sender.Send(command);
 
-		return Ok(result);
+		return result.Match(
+			val => Ok(val),
+			Problem);
 	}
 
 	[HttpDelete(BillRoutes.Remove)]
@@ -69,12 +72,7 @@ public class BillsController : ApiController
 	{
 		var userId = HttpContext.GetUserId();
 
-		if (userId is null)
-		{
-			return Problem(statusCode: 500, detail: "UserId cannot be taken from claims");
-		}
-
-		var command = new RemoveBillCommand(userId!.Value, billId);
+		var command = new RemoveBillCommand(userId, billId);
 
 		var result = await Sender.Send(command);
 
