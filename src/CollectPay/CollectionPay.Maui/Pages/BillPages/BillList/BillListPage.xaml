@@ -8,11 +8,13 @@
                     xmlns:models="clr-namespace:CollectionPay.Maui.Models"
                     xmlns:converters="clr-namespace:CollectionPay.Maui.Converters.MultiBindingConverter"
                     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+                    xmlns:converters1="clr-namespace:CollectionPay.Maui.Converters"
                     x:Class="CollectionPay.Maui.Pages.BillPages.BillList.BillListPage"
                     x:DataType="local:BillListViewModel"
                     Title="{Binding Title}">
     <ContentPage.Resources>
         <converters:AndConverter x:Key="AndConverter"/>
+        <converters1:SharedToColorConverter x:Key="SharedToColorConverter2"/>
         <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
     </ContentPage.Resources>
     <ContentPage.Content>
@@ -26,7 +28,8 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate
                             x:DataType="models:BillModel">
-                            <SwipeView>
+                            <SwipeView
+                                Background="{Binding IsShared, Converter={StaticResource SharedToColorConverter2}}">
                                 <SwipeView.RightItems>
                                     <SwipeItem
                                         Text="Delete"

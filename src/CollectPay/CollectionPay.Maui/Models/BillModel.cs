@@ -3,4 +3,5 @@
 public record BillModel(
 	Guid Id,
 	string Name,
-	Guid[] Debtors);
+	Guid[] Debtors,
+	bool IsShared);

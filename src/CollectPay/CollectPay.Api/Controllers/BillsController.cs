@@ -32,7 +32,8 @@ public class BillsController : ApiController
 						bill.Id,
 						bill.Name,
 						bill.CreatorId,
-						bill.Debtors.ToArray()))),
+						bill.Debtors.ToArray(),
+						bill.Debtors.Contains(userId)))),
 			Problem);
 	}
 

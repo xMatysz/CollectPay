@@ -79,7 +79,7 @@ public sealed partial class BillListViewModel : ViewModelBase, IHaveDataToLoad
 
 		foreach (var bill in bills)
 		{
-			var model = new BillModel(bill.Id, bill.Name, bill.Debtors);
+			var model = new BillModel(bill.Id, bill.Name, bill.Debtors, bill.IsShared);
 
 			await _dispatcher.DispatchAsync(() => Bills.Add(model)).ConfigureAwait(false);
 		}
