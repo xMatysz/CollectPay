@@ -64,27 +64,6 @@ namespace CollectPay.Persistence.Migrations
                     b.ToTable("Payments", (string)null);
                 });
 
-            modelBuilder.Entity("CollectPay.Domain.BillAggregate.SpecialId", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<Guid?>("BillId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("Value")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BillId");
-
-                    b.ToTable("SpecialIds", (string)null);
-                });
-
             modelBuilder.Entity("CollectPay.Domain.UserAggregate.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -116,7 +95,7 @@ namespace CollectPay.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("CollectPay.Domain.BillAggregate.ValueObjects.Amount", "Amount", b1 =>
+                    b.OwnsOne("CollectPay.Domain.BillAggregate.Entities.Payment.Amount#CollectPay.Domain.BillAggregate.ValueObjects.Amount", "Amount", b1 =>
                         {
                             b1.Property<Guid>("PaymentId")
                                 .HasColumnType("uuid");
@@ -133,7 +112,7 @@ namespace CollectPay.Persistence.Migrations
 
                             b1.HasKey("PaymentId");
 
-                            b1.ToTable("Payments");
+                            b1.ToTable("Payments", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("PaymentId");
@@ -143,18 +122,8 @@ namespace CollectPay.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CollectPay.Domain.BillAggregate.SpecialId", b =>
-                {
-                    b.HasOne("CollectPay.Domain.BillAggregate.Bill", null)
-                        .WithMany("Debtors2")
-                        .HasForeignKey("BillId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("CollectPay.Domain.BillAggregate.Bill", b =>
                 {
-                    b.Navigation("Debtors2");
-
                     b.Navigation("Payments");
                 });
 #pragma warning restore 612, 618

@@ -5,25 +5,15 @@ using ErrorOr;
 
 namespace CollectPay.Domain.BillAggregate;
 
-public class SpecialId
-{
-	public int Id { get; set; }
-	public Guid Value { get; set; }
-
-	public SpecialId(Guid value)
-	{
-		Value = value;
-	}
-}
-
 public class Bill : AggregateRoot
 {
     private readonly List<Payment> _payments = [];
     private readonly List<Guid> _debtors = [];
 
     public IReadOnlyCollection<Payment> Payments => _payments.AsReadOnly();
-    public IReadOnlyCollection<Guid> Debtors => _debtors.AsReadOnly();
-    public List<SpecialId> Debtors2 { get; set; } = [];
+
+    // fix for IReadOnlyCollection in ef core 9
+    public IList<Guid> Debtors => _debtors.AsReadOnly();
 
     public Guid CreatorId { get; init; }
     public string Name { get; set; }
@@ -110,7 +100,6 @@ public class Bill : AggregateRoot
 	    }
 
 	    _debtors.AddRange(userIdsToAdd);
-	    Debtors2.Add(new SpecialId(userIdsToAdd[0]));
 	    return Result.Success;
     }
 
