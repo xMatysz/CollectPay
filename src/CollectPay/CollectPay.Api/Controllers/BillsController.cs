@@ -26,7 +26,7 @@ public class BillsController : ApiController
 		var results = await Sender.Send(new GetBillsQuery(userId));
 
 		return results.Match(
-			list => Ok(list.Select(bill => new GetBillsResponse(bill.Id, bill.Name, bill.CreatorId, bill.Debtors.ToArray()))),
+			list => Ok(list.Select(bill => new GetBillsResponse(bill.Id, bill.Name, bill.CreatorId, bill.Debtors2.Select(x=>x.Value).ToArray()))),
 			Problem);
 	}
 

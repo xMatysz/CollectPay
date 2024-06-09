@@ -21,6 +21,7 @@ public sealed class BillRepository : Repository, IBillRepository
 	{
 		return await DbContext.Set<Bill>()
 			.Include(x => x.Payments)
+			.Include(x=>x.Debtors2)
 			.FirstOrDefaultAsync(x => x.Id == billId, cancellationToken);
 	}
 
@@ -33,6 +34,9 @@ public sealed class BillRepository : Repository, IBillRepository
 
 	public async Task<Bill[]> GetAllForUserAsync(Guid userId, CancellationToken cancellationToken = default)
 	{
-		return await DbContext.Set<Bill>().Where(x => x.CreatorId == userId).ToArrayAsync(cancellationToken);
+		return await DbContext.Set<Bill>()
+			.Include(x => x.Debtors2)
+			.Where(x => x.CreatorId == userId || x.Debtors2.Select(x => x.Value).Contains(userId))
+			.ToArrayAsync(cancellationToken);
 	}
 }

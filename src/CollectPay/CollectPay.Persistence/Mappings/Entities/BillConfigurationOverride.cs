@@ -22,16 +22,30 @@ public class BillConfigurationOverride : IEntityTypeConfiguration<Bill>
 			.HasForeignKey(x=>x.BillId)
 			.OnDelete(DeleteBehavior.Cascade);
 
-		builder
-			.Property(b => b.Debtors)
-			.HasConversion(
-				from => JsonSerializer.Serialize(from, JsonSerializerOptions.Default),
-				to => string.IsNullOrEmpty(to)
-					? new List<Guid>()
-					: JsonSerializer.Deserialize<IReadOnlyCollection<Guid>>(to, JsonSerializerOptions.Default)!,
-				new ValueComparer<IReadOnlyCollection<Guid>>(
-					(c1, c2) => c1.SequenceEqual(c2),
-					c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
-					c => c.ToList()));
+		// builder
+		// 	.Property(b => b.Debtors)
+		// 	.HasConversion(
+		// 		from => JsonSerializer.Serialize(from, JsonSerializerOptions.Default),
+		// 		to => string.IsNullOrEmpty(to)
+		// 			? new List<Guid>()
+		// 			: JsonSerializer.Deserialize<IReadOnlyCollection<Guid>>(to, JsonSerializerOptions.Default)!,
+		// 		new ValueComparer<IReadOnlyCollection<Guid>>(
+		// 			(c1, c2) => c1.SequenceEqual(c2),
+		// 			c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+		// 			c => c.ToList()));
+
+		builder.HasMany(x => x.Debtors2)
+			.WithOne()
+			.HasForeignKey("BillId")
+			.OnDelete(DeleteBehavior.Cascade);
+	}
+}
+
+public class TestOvveride : IEntityTypeConfiguration<SpecialId>
+{
+	public void Configure(EntityTypeBuilder<SpecialId> builder)
+	{
+		builder.ToTable("SpecialIds");
+		builder.HasKey(x => x.Id);
 	}
 }
