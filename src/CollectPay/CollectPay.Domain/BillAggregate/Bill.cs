@@ -99,6 +99,11 @@ public class Bill : AggregateRoot
 		    return existingDebtors.Select(BillErrors.DebtorIsAlreadyAdded).ToArray();
 	    }
 
+	    if (userIdsToAdd.Contains(CreatorId))
+	    {
+		    return BillErrors.CreatorCannotBeDebtor;
+	    }
+
 	    _debtors.AddRange(userIdsToAdd);
 	    return Result.Success;
     }
@@ -110,6 +115,7 @@ public class Bill : AggregateRoot
 	    {
 		    return notExistingDebtors.Select(BillErrors.DebtorNotFound).ToArray();
 	    }
+
 	    _debtors.RemoveAll(userIdsToRemove.Contains);
 	    return Result.Success;
     }
