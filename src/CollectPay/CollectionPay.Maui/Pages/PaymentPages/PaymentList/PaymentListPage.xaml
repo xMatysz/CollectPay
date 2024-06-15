@@ -19,9 +19,15 @@
             <RefreshView
                 IsRefreshing="{Binding IsRefreshing}"
                 Command="{Binding RefreshCommand}">
-                <CollectionView
-                    ItemsSource="{Binding Payments}"
-                    IsEnabled="{Binding IsNotBusy}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <CollectionView
+                        Grid.Row="0"
+                        ItemsSource="{Binding Payments}"
+                        IsEnabled="{Binding IsNotBusy}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate
                             x:DataType="models:PaymentModel">
@@ -66,7 +72,26 @@
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </CollectionView>
+                    <CollectionView Grid.Row="1"
+                                    ItemsSource="{Binding Debts}"
+                                    IsEnabled="{Binding IsNotBusy}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate
+                                x:DataType="models:DebtModel">
+                            <Label>
+                                <Label.Text>
+                                    <MultiBinding StringFormat="{} {0} jest winny {1} dla {2}">
+                                        <Binding Path="Debtor"/>
+                                        <Binding Path="DebtAmount"/>
+                                        <Binding Path="Creditor"/>
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
             </RefreshView>
 
             <Button

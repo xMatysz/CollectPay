@@ -9,10 +9,10 @@ public class DebtService : IDebtService
 	private readonly Dictionary<Guid, decimal> _balance = new();
 	private readonly List<Debt> _allDebts = new();
 
-	public Task<List<Debt>> CalculateDebt(IReadOnlyList<Payment> payments)
+	public Task<List<Debt>> CalculateDebt(IReadOnlyCollection<Payment> payments)
 	{
 		var usersFromPayments = payments.Select(x => x.CreatorId).ToList();
-		usersFromPayments.AddRange(payments.SelectMany(x => x.DebtorIds));
+		usersFromPayments.AddRange(payments.SelectMany(x => x.Debtors));
 
 		var allUsers = usersFromPayments.Distinct().ToList();
 
@@ -41,17 +41,17 @@ public class DebtService : IDebtService
 		switch (payment.IsCreatorIncluded)
 		{
 			case true:
-				debt = payment.Amount.Value / (payment.DebtorIds.Count() + 1);
+				debt = payment.Amount.Value / (payment.Debtors.Count() + 1);
 				_balance[payment.CreatorId] -= payment.Amount.Value - debt;
 				break;
 
 			case false:
-				debt = payment.Amount.Value / payment.DebtorIds.Count();
+				debt = payment.Amount.Value / payment.Debtors.Count();
 				_balance[payment.CreatorId] -= payment.Amount.Value;
 				break;
 		}
 
-		foreach (var debtorId in payment.DebtorIds)
+		foreach (var debtorId in payment.Debtors)
 		{
 			_balance[debtorId] += debt;
 		}

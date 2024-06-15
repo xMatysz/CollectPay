@@ -8,6 +8,8 @@ namespace CollectPay.Domain.BillAggregate.Entities;
 
 public sealed class Payment : Entity
 {
+	private readonly List<Guid> _debtors = [];
+
 	public Guid CreatorId { get; private set; }
 
     public string Name { get; set; }
@@ -18,12 +20,9 @@ public sealed class Payment : Entity
 
     public Guid BillId { get; private set; }
 
-    [NotMapped]
-    public IEnumerable<Guid> DebtorIds { get; private set; }
+    public IList<Guid> Debtors => _debtors.AsReadOnly();
 
-
-
-    private Payment(Guid billId, string name, Guid creatorId, bool isCreatorIncluded, Amount amount, IEnumerable<Guid> debtorIds)
+    private Payment(Guid billId, string name, Guid creatorId, bool isCreatorIncluded, Amount amount, Guid[] debtorIds)
     {
 	    Id = Guid.NewGuid();
 	    Name = name;
@@ -31,7 +30,11 @@ public sealed class Payment : Entity
 	    CreatorId = creatorId;
 	    IsCreatorIncluded = isCreatorIncluded;
 	    Amount = amount;
-	    DebtorIds = debtorIds;
+
+	    foreach (var ids in debtorIds)
+	    {
+		    _debtors.Add(ids);
+	    }
     }
 
     public static ErrorOr<Payment> Create(Guid billId, string name, Guid creator, bool isCreatorIncluded, Amount amount, IEnumerable<Guid> debtorIds)
@@ -75,7 +78,10 @@ public sealed class Payment : Entity
 			    return canUpdate.Errors;
 		    }
 
-		    DebtorIds = debtors;
+		    foreach (var ids in debtors)
+		    {
+			    _debtors.Add(ids);
+		    }
 	    }
 
 	    return Result.Updated;

@@ -3,6 +3,7 @@ using System;
 using CollectPay.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CollectPay.Persistence.Migrations
 {
     [DbContext(typeof(CollectPayDbContext))]
-    partial class CollectPayDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240609185010_AddDebtorsToPayments")]
+    partial class AddDebtorsToPayments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -14,6 +14,8 @@ public class PaymentConfigurationOverride : IEntityTypeConfiguration<Payment>
 		builder.Property(x => x.Id)
 			.ValueGeneratedNever();
 
+		builder.PrimitiveCollection(x => x.Debtors);
+
 		builder.OwnsOne(x => x.Amount, y =>
 		{
 			y.Property(c => c.Value)

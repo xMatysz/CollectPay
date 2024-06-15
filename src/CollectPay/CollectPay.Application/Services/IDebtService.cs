@@ -5,5 +5,5 @@ namespace CollectPay.Application.Services;
 
 public interface IDebtService
 {
-	Task<List<Debt>> CalculateDebt(IReadOnlyList<Payment> payments);
+	Task<List<Debt>> CalculateDebt(IReadOnlyCollection<Payment> payments);
 }

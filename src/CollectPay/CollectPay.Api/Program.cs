@@ -35,7 +35,7 @@ var app = builder.Build();
 
 	if (app.Environment.IsDevelopment())
 	{
-		RunMigration(app);
+		// RunMigration(app);
 	}
 
 	app.Run();

@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Net.Http.Json;
+using CollectionPay.Contracts.Requests;
 using CollectionPay.Contracts.Responses;
 using CollectionPay.Contracts.Routes;
 using CollectionPay.Maui.Abstraction;
@@ -25,6 +26,7 @@ public partial class PaymentListViewModel : ViewModelBase, IHaveDataToLoad, IQue
 	public bool IsDataLoaded => Payments.Any();
 
 	public ObservableCollection<PaymentModel> Payments { get; } = new();
+	public ObservableCollection<DebtModel> Debts { get; } = new();
 
 	public PaymentListViewModel(IDispatcher dispatcher, IShellService shellService, IApiClient apiClient)
 	{
@@ -45,6 +47,7 @@ public partial class PaymentListViewModel : ViewModelBase, IHaveDataToLoad, IQue
 		IsRefreshing = true;
 
 		await LoadPayments();
+		await LoadDebts();
 
 		IsRefreshing = false;
 	}
@@ -97,6 +100,32 @@ public partial class PaymentListViewModel : ViewModelBase, IHaveDataToLoad, IQue
 		{
 			var model = new PaymentModel(payment.Name, payment.Amount, payment.Currency);
 			await _dispatcher.DispatchAsync(() => Payments.Add(model));
+		}
+
+		IsBusy = false;
+	}
+
+
+	private async Task LoadDebts()
+	{
+		IsBusy = true;
+
+		await _dispatcher.DispatchAsync(Debts.Clear);
+
+		var response = await _apiClient.SendGet($"{BillRoutes.Debts}?billId={Bill.Id}", CancellationToken.None);
+
+		if (!response.IsSuccessStatusCode)
+		{
+			await Shell.Current.DisplayAlert("Error", "SomethingWrong", "Ok");
+			return;
+		}
+
+		var debts = await response.Content.ReadFromJsonAsync<GetDebtsResponse[]>(CancellationToken.None);
+
+		foreach (var debt in debts)
+		{
+			var model = new DebtModel(debt.Debtor, debt.DebtAmount, debt.Creditor);
+			await _dispatcher.DispatchAsync(() => Debts.Add(model));
 		}
 
 		IsBusy = false;
