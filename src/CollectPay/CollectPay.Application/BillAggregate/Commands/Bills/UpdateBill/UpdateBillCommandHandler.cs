@@ -21,7 +21,7 @@ public class UpdateBillCommandHandler : ICommandHandler<UpdateBillCommand, Updat
 	{
 		var bill = await _billRepository.GetByIdAsync(request.BillId, cancellationToken);
 
-		if (bill is null)
+		if (bill is null || !bill.Debtors.Contains(request.UserId))
 		{
 			return BillErrors.BillNotFound;
 		}
@@ -29,7 +29,7 @@ public class UpdateBillCommandHandler : ICommandHandler<UpdateBillCommand, Updat
 		var emails = request.UpdateBillInfo.EmailsToAdd.Concat(request.UpdateBillInfo.EmailsToRemove).ToArray();
 
 		var users = emails.Any()
-			? await _userRepository.GetByEmail(emails, cancellationToken)
+			? await _userRepository.GetByEmails(emails, cancellationToken)
 			: [];
 
 		if (emails.Length != users.Length)
@@ -39,13 +39,6 @@ public class UpdateBillCommandHandler : ICommandHandler<UpdateBillCommand, Updat
 
 			var errors = notFoundedUsers.Select(UserErrors.UserNotFound).ToList();
 			return errors;
-		}
-
-		var usersIds = users.Select(x => x.Id).ToArray();
-
-		if (bill.CreatorId != request.UserId && !bill.Debtors.All(d => usersIds.Contains(d)))
-		{
-			return BillErrors.BillNotFound;
 		}
 
 		var userIdsToAdd = users

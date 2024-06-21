@@ -1,5 +1,4 @@
 ﻿using CollectPay.Domain.BillAggregate;
-using ErrorOr;
 
 namespace CollectPay.Application.Common.Repositories;
 

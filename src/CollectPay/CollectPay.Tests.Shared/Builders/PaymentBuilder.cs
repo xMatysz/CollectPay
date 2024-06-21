@@ -1,38 +1,39 @@
 ﻿using CollectPay.Domain.BillAggregate.Entities;
 using CollectPay.Domain.BillAggregate.ValueObjects;
-using ErrorOr;
 
 namespace CollectPay.Tests.Shared.Builders;
 
-public class PaymentBuilder
+public class PaymentBuilder : TestBuilder<Payment>
 {
-	private Guid _creatorId = Guid.NewGuid();
-	private bool _isCreatorIncluded = false;
-	private Amount _amount = Amount.Create(21.37m ,"PLN").Value;
-	private IEnumerable<Guid> _debtors = new[] { Guid.NewGuid() };
+	private Guid _id = Guid.NewGuid();
 	private Guid _billId = Guid.NewGuid();
+	private Guid _creatorId = Guid.NewGuid();
+	private Amount _amount = DefaultAmount;
+	private string _name = DefaultName;
+	private IEnumerable<Guid> _debtors = [];
 
-	public PaymentBuilder WithCreatorId(Guid creatorId)
+	public static string DefaultName => "Test Payment";
+	public static Amount DefaultAmount { get; } = Amount.Create(100, "USD").Value;
+
+	public static PaymentBuilder Default()
 	{
-		_creatorId = creatorId;
-		return this;
+		return new PaymentBuilder();
 	}
 
-	public PaymentBuilder WithCreatorIncluded()
+	public static PaymentBuilder Like(Payment payment)
 	{
-		_isCreatorIncluded = true;
-		return this;
+		return new PaymentBuilder()
+			.WithId(payment.Id)
+			.WithBillId(payment.BillId)
+			.WithName(payment.Name)
+			.WithCreatorId(payment.CreatorId)
+			.WithAmount(payment.Amount)
+			.WithDebtors(payment.Debtors);
 	}
 
-	public PaymentBuilder WithAmount(ErrorOr<Amount> amount)
+	public PaymentBuilder WithId(Guid id)
 	{
-		_amount = amount.Value;
-		return this;
-	}
-
-	public PaymentBuilder WithDebtors(params Guid[] debtors)
-	{
-		_debtors = debtors;
+		_id = id;
 		return this;
 	}
 
@@ -42,9 +43,34 @@ public class PaymentBuilder
 		return this;
 	}
 
-	public Payment Build()
+	public PaymentBuilder WithName(string name)
 	{
-		var payment = Payment.Create(_billId, "Test",_creatorId, _isCreatorIncluded, _amount, _debtors);
-		return payment.Value;
+		_name = name;
+		return this;
+	}
+
+	public PaymentBuilder WithCreatorId(Guid creatorId)
+	{
+		_creatorId = creatorId;
+		return this;
+	}
+
+	public PaymentBuilder WithAmount(Amount amount)
+	{
+		_amount = amount;
+		return this;
+	}
+
+	public PaymentBuilder WithDebtors(IEnumerable<Guid> debtors)
+	{
+		_debtors = debtors;
+		return this;
+	}
+
+	public override Payment Build()
+	{
+		var payment = new Payment(_billId, _name, _creatorId, _amount, _debtors);
+		OverrideProperty(nameof(Payment.Id), payment, _id);
+		return payment;
 	}
 }

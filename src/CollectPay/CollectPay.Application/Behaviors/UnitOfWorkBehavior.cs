@@ -30,20 +30,20 @@ public sealed class UnitOfWorkBehavior<TCommand, TResult> : IPipelineBehavior<TC
 			}
 			else
 			{
-				OnFailure();
+				await OnFailure();
 			}
 
 			return result;
 		}
 		catch
 		{
-			OnFailure();
+			await OnFailure();
 			throw;
 		}
 	}
 
-	private void OnFailure()
+	private Task OnFailure()
 	{
-		_unitOfWork.RollbackTransaction();
+		return _unitOfWork.RollbackTransactionAsync();
 	}
 }

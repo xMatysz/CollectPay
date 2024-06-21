@@ -1,5 +1,4 @@
-﻿using ErrorOr;
-using MediatR;
+﻿using MediatR;
 
 namespace CollectPay.Application.Common.Abstraction;
 

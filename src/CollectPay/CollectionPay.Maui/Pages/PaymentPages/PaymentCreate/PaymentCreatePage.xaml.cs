@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace CollectionPay.Maui.Pages.PaymentPages.PaymentCreate;
+﻿namespace CollectionPay.Maui.Pages.PaymentPages.PaymentCreate;
 
 public partial class PaymentCreatePage
 {

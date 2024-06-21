@@ -8,13 +8,26 @@ public static class BillErrors
 		code: $"{nameof(BillErrors)}.{nameof(BillNotFound)}",
 		description: "Bill was not found");
 
-	public static Error CannotBeRemovedByNotOwner => Error.Forbidden(
-		code: $"{nameof(BillErrors)}.{nameof(CannotBeRemovedByNotOwner)}",
+	public static Error OnlyCreatorCanRemoveBill => Error.Forbidden(
+		code: $"{nameof(BillErrors)}.{nameof(OnlyCreatorCanRemoveBill)}",
 		description: "Only creator can remove bill");
 
-	public static Error CreatorCannotBeDebtor => Error.Validation(
-		code: $"{nameof(BillErrors)}.{nameof(CreatorCannotBeDebtor)}",
-		description: "Creator cannot be a debtor");
+	// After Tests
+	public static Error PaymentAlreadyExist => Error.Conflict(
+		code: $"{nameof(BillErrors)}.{nameof(PaymentAlreadyExist)}",
+		description: "Payment is already added to bill");
+
+	public static Error PaymentNotExist => Error.NotFound(
+		code: $"{nameof(BillErrors)}.{nameof(PaymentNotExist)}",
+		description: "Payment not exist in bill");
+
+	public static Error NameCannotBeEmpty => Error.NotFound(
+		code: $"{nameof(BillErrors)}.{nameof(NameCannotBeEmpty)}",
+		description: "Bill name cannot be empty");
+
+	public static Error CannotRemoveCreatorFromDebtors => Error.Conflict(
+		code: $"{nameof(BillErrors)}.{nameof(CannotRemoveCreatorFromDebtors)}",
+		description: "Cannot remove Creator from bill Debtors");
 
 	public static Error DebtorIsAlreadyAdded(Guid  userId) => Error.Conflict(
 		code: $"{nameof(BillErrors)}.{nameof(DebtorIsAlreadyAdded)}",

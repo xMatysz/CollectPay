@@ -1,11 +1,11 @@
 ﻿using CollectPay.Application.Common.Abstraction;
 using CollectPay.Application.Common.Repositories;
-using CollectPay.Domain.BillAggregate;
+using CollectPay.Application.Dtos;
 using ErrorOr;
 
 namespace CollectPay.Application.BillAggregate.Queries.Bills.GetBills;
 
-public class GetBillsQueryHandler : IQueryHandler<GetBillsQuery, Bill[]>
+public class GetBillsQueryHandler : IQueryHandler<GetBillsQuery, BillDto[]>
 {
 	private readonly IBillRepository _billRepository;
 
@@ -14,8 +14,9 @@ public class GetBillsQueryHandler : IQueryHandler<GetBillsQuery, Bill[]>
 		_billRepository = billRepository;
 	}
 
-	public async Task<ErrorOr<Bill[]>> Handle(GetBillsQuery request, CancellationToken cancellationToken)
+	public async Task<ErrorOr<BillDto[]>> Handle(GetBillsQuery request, CancellationToken cancellationToken)
 	{
-		return await _billRepository.GetAllForUserAsync(request.UserId, cancellationToken);
+		var bills = await _billRepository.GetAllForUserAsync(request.UserId, cancellationToken);
+		return bills.Select(bill => new BillDto(bill)).ToArray();
 	}
 }

@@ -8,6 +8,5 @@ public record CreatePaymentCommand(
 	string Name,
 	Guid BillId,
 	Guid CreatorId,
-	bool IsCreatorIncluded,
 	Amount Amount,
 	Guid[] Debtors) : ICommand<ErrorOr<Created>>;

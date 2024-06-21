@@ -9,12 +9,13 @@ public class DebtService : IDebtService
 	private readonly Dictionary<Guid, decimal> _balance = new();
 	private readonly List<Debt> _allDebts = new();
 
-	public Task<List<Debt>> CalculateDebt(IReadOnlyCollection<Payment> payments)
+	public Debt[] CalculateDebt(IReadOnlyCollection<Payment> payments)
 	{
-		var usersFromPayments = payments.Select(x => x.CreatorId).ToList();
-		usersFromPayments.AddRange(payments.SelectMany(x => x.Debtors));
-
-		var allUsers = usersFromPayments.Distinct().ToList();
+		var allUsers = payments
+			.SelectMany(x=>x.Debtors)
+			.Concat(payments.Select(x=>x.CreatorId))
+			.Distinct()
+			.ToList();
 
 		Initialization(allUsers);
 
@@ -36,20 +37,8 @@ public class DebtService : IDebtService
 
 	private void AssignDebt(Payment payment)
 	{
-		decimal debt;
-
-		switch (payment.IsCreatorIncluded)
-		{
-			case true:
-				debt = payment.Amount.Value / (payment.Debtors.Count() + 1);
-				_balance[payment.CreatorId] -= payment.Amount.Value - debt;
-				break;
-
-			case false:
-				debt = payment.Amount.Value / payment.Debtors.Count();
-				_balance[payment.CreatorId] -= payment.Amount.Value;
-				break;
-		}
+		var debt = payment.Amount.Value / payment.Debtors.Count;
+		_balance[payment.CreatorId] -= payment.Amount.Value;
 
 		foreach (var debtorId in payment.Debtors)
 		{
@@ -57,7 +46,7 @@ public class DebtService : IDebtService
 		}
 	}
 
-	private Task<List<Debt>> CalculateDebt()
+	private Debt[] CalculateDebt()
 	{
 		var sortedPayers = _balance
 			.Where(x => x.Value < 0)
@@ -102,6 +91,6 @@ public class DebtService : IDebtService
 			}
 		}
 
-		return Task.FromResult(_allDebts.ToList());
+		return _allDebts.ToArray();
 	}
 }

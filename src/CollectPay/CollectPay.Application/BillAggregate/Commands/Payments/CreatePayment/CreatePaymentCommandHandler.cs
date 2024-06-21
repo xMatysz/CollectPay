@@ -17,21 +17,16 @@ public class CreatePaymentCommandHandler : ICommandHandler<CreatePaymentCommand,
 
 	public async Task<ErrorOr<Created>> Handle(CreatePaymentCommand request, CancellationToken cancellationToken = default)
 	{
-		var payment = Payment.Create(request.BillId, request.Name, request.CreatorId, request.IsCreatorIncluded, request.Amount, request.Debtors);
-
-		if (payment.IsError)
-		{
-			return payment.Errors;
-		}
-
 		var bill = await _billRepository.GetByIdAsync(request.BillId, cancellationToken);
 
-		if (bill is null)
+		if (bill is null || !bill.Debtors.Contains(request.CreatorId))
 		{
 			return BillErrors.BillNotFound;
 		}
 
-		var result = bill.AddPayment(payment.Value);
+		var payment = new Payment(request.BillId, request.Name, request.CreatorId, request.Amount, request.Debtors);
+
+		var result = bill.AddPayment(payment);
 
 		if (result.IsError)
 		{

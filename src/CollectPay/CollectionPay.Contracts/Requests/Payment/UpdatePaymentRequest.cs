@@ -1,9 +1,10 @@
 ﻿namespace CollectionPay.Contracts.Requests.Payment;
 
-public record UpdatePaymentRequest(Guid BillId,
+public record UpdatePaymentRequest(
+	string Name,
+	Guid BillId,
 	Guid PaymentId,
-	Guid? CreatorId,
-	bool? IsCreatorIncluded,
 	decimal? Amount,
 	string? Currency,
-	Guid[]? Debtors);
+	Guid[]? DebtorsToAdd,
+	Guid[]? DebtorsToRemove);

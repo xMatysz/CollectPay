@@ -29,13 +29,12 @@ public class BillsController : ApiController
 
 		return results.Match(
 			list =>
-				Ok(list.Select(bill =>
+				Ok(list.Select(dto =>
 					new GetBillsResponse(
-						bill.Id,
-						bill.Name,
-						bill.CreatorId,
-						bill.Debtors.ToArray(),
-						bill.Debtors.Contains(userId)))),
+						dto.Id,
+						dto.Name,
+						dto.CreatorId,
+						dto.Debtors.ToArray()))),
 			Problem);
 	}
 
@@ -93,9 +92,7 @@ public class BillsController : ApiController
 	[HttpGet(BillRoutes.Debts)]
 	public async Task<IActionResult> GetDebts([FromQuery] Guid billId)
 	{
-		var userId = HttpContext.GetUserId();
-
-		var results = await Sender.Send(new GetDebtsQuery(billId, userId));
+		var results = await Sender.Send(new GetDebtsQuery(HttpContext.GetUserId(), billId));
 
 		return results.Match(
 			list =>

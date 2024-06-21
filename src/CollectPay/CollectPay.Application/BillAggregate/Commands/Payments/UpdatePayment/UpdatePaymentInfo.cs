@@ -3,7 +3,7 @@
 namespace CollectPay.Application.BillAggregate.Commands.Payments.UpdatePayment;
 
 public sealed record UpdatePaymentInfo(
-	Guid? CreatorId,
-	bool? IsCreatorIncluded,
+	string Name,
 	Amount? Amount,
-	Guid[]? Debtors);
+	Guid[] DebtorsToAdd,
+	Guid[] DebtorsToRemove);

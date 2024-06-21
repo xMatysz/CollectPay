@@ -18,14 +18,14 @@ public class RemoveBillCommandHandler : ICommandHandler<RemoveBillCommand, Delet
 	{
 		var bill = await _billRepository.GetByIdAsync(request.BillId, cancellationToken);
 
-		if (bill is null)
+		if (bill is null || bill.Debtors.All(debtor => debtor != request.UserId))
 		{
 			return BillErrors.BillNotFound;
 		}
 
 		if (bill.CreatorId != request.UserId)
 		{
-			return BillErrors.CannotBeRemovedByNotOwner;
+			return BillErrors.OnlyCreatorCanRemoveBill;
 		}
 
 		await _billRepository.RemoveAsync(bill, cancellationToken);

@@ -18,7 +18,7 @@ public class RemovePaymentCommandHandler : ICommandHandler<RemovePaymentCommand,
 	{
 		var bill = await _billRepository.GetByIdAsync(request.BillId, cancellationToken);
 
-		if (bill is null)
+		if (bill is null || !bill.Debtors.Contains(request.UserId))
 		{
 			return BillErrors.BillNotFound;
 		}

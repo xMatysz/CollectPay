@@ -3,4 +3,4 @@ using CollectPay.Domain.BillAggregate.Entities;
 
 namespace CollectPay.Application.BillAggregate.Queries.Payments.GetPayments;
 
-public record GetPaymentsQuery(Guid BillId) : IQuery<Payment[]>;
+public record GetPaymentsQuery(Guid UserId, Guid BillId) : IQuery<Payment[]>;

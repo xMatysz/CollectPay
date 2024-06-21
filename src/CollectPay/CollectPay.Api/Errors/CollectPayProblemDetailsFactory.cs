@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using ErrorOr;
+﻿using ErrorOr;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;

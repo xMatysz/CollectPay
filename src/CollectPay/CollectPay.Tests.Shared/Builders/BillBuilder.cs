@@ -2,14 +2,20 @@
 
 namespace CollectPay.Tests.Shared.Builders;
 
-public class BillBuilder
+public class BillBuilder : TestBuilder<Bill>
 {
-	private Guid _creatorId = Guid.NewGuid();
-	private static string _billName = "TestBill";
+	private Guid _creatorId = DefaultCreatorId;
+	private string _name = DefaultName;
 
-	public static readonly string TestName = _billName;
+	public static Guid DefaultCreatorId { get; } = Guid.NewGuid();
+	public static string DefaultName => "Test Bill";
 
-	public BillBuilder WithCreatorId(Guid creatorId)
+	public static BillBuilder Default()
+	{
+		return new BillBuilder();
+	}
+
+	public  BillBuilder WithCreatorId(Guid creatorId)
 	{
 		_creatorId = creatorId;
 		return this;
@@ -17,12 +23,19 @@ public class BillBuilder
 
 	public BillBuilder WithName(string name)
 	{
-		_billName = name;
+		_name = name;
 		return this;
 	}
 
-	public Bill Build()
+	public override Bill Build()
 	{
-		return new Bill(_creatorId, _billName);
+		return new Bill(_creatorId, _name);
+	}
+
+	public Bill BuildWithDebtors(Guid[] debtorIds)
+	{
+		var bill = Build();
+		bill.Update(bill.Name, debtorIds, []);
+		return bill;
 	}
 }

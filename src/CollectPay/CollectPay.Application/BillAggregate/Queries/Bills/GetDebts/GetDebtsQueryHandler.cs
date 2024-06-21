@@ -1,6 +1,7 @@
 ﻿using CollectPay.Application.Common.Abstraction;
 using CollectPay.Application.Common.Repositories;
 using CollectPay.Application.Services;
+using CollectPay.Domain.BillAggregate.Errors;
 using CollectPay.Domain.BillAggregate.ValueObjects;
 using ErrorOr;
 
@@ -17,13 +18,15 @@ public class GetDebtsQueryHandler : IQueryHandler<GetDebtsQuery, Debt[]>
 		_debtService = debtService;
 	}
 
-	public async Task<ErrorOr<Debt[]>> Handle(GetDebtsQuery request, CancellationToken cancellationToken)
+	public async Task<ErrorOr<Debt[]>> Handle(GetDebtsQuery query, CancellationToken cancellationToken)
 	{
-		var bill = await _billRepository.GetByIdAsync(request.BillId, cancellationToken);
+		var bill = await _billRepository.GetByIdAsync(query.BillId, cancellationToken);
 
-		var payments = bill!.Payments;
+		if (bill is null || !bill.Debtors.Contains(query.BillId))
+		{
+			return BillErrors.BillNotFound;
+		}
 
-		var debts = await _debtService.CalculateDebt(payments);
-		return debts.ToArray();
+		return _debtService.CalculateDebt(bill.Payments);
 	}
 }

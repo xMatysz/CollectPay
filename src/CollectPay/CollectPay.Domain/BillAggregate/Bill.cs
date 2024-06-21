@@ -1,4 +1,5 @@
-﻿using CollectPay.Domain.BillAggregate.Entities;
+﻿using CollectPay.Core.Extensions;
+using CollectPay.Domain.BillAggregate.Entities;
 using CollectPay.Domain.BillAggregate.Errors;
 using CollectPay.Domain.Common.Models;
 using ErrorOr;
@@ -23,18 +24,15 @@ public class Bill : AggregateRoot
 	    Id = Guid.NewGuid();
 	    CreatorId = creatorId;
         Name = name;
+
+        _debtors.Add(creatorId);
     }
 
-    public ErrorOr<Updated> AddPayment(Payment? newPayment)
+    public ErrorOr<Updated> AddPayment(Payment newPayment)
     {
-	    if (newPayment is null)
-	    {
-		    return PaymentErrors.InvalidPayment;
-	    }
-
 	    if (Payments.Any(x => Equals(x, newPayment)))
 	    {
-		    return PaymentErrors.PaymentAlreadyExist;
+		    return BillErrors.PaymentAlreadyExist;
 	    }
 
 	    _payments.Add(newPayment);
@@ -47,7 +45,7 @@ public class Bill : AggregateRoot
 
 	    if (itemToRemove is null)
 	    {
-		    return PaymentErrors.PaymentNotFound;
+		    return BillErrors.PaymentNotExist;
 	    }
 
 	    _payments.Remove(itemToRemove);
@@ -82,9 +80,9 @@ public class Bill : AggregateRoot
 
     private ErrorOr<Success> UpdateName(string name)
     {
-	    if (name is null or "" || name == Name)
+	    if (name.IsNullEmptyOrWhitespace())
 	    {
-		    return Result.Success;
+		    return BillErrors.NameCannotBeEmpty;
 	    }
 
 	    Name = name;
@@ -99,17 +97,17 @@ public class Bill : AggregateRoot
 		    return existingDebtors.Select(BillErrors.DebtorIsAlreadyAdded).ToArray();
 	    }
 
-	    if (userIdsToAdd.Contains(CreatorId))
-	    {
-		    return BillErrors.CreatorCannotBeDebtor;
-	    }
-
 	    _debtors.AddRange(userIdsToAdd);
 	    return Result.Success;
     }
 
     private ErrorOr<Success> RemoveDebtors(Guid[] userIdsToRemove)
     {
+	    if (userIdsToRemove.Contains(CreatorId))
+	    {
+		    return BillErrors.CannotRemoveCreatorFromDebtors;
+	    }
+
 	    var notExistingDebtors = userIdsToRemove.Where(id => !Debtors.Contains(id)).ToArray();
 	    if (notExistingDebtors.Any())
 	    {

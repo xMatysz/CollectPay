@@ -18,7 +18,7 @@ public class UpdatePaymentCommandHandler : ICommandHandler<UpdatePaymentCommand,
 	{
 		var bill = await _billRepository.GetByIdAsync(request.BillId, cancellationToken);
 
-		if (bill is null)
+		if (bill is null || !bill.Debtors.Contains(request.UserId))
 		{
 			return BillErrors.BillNotFound;
 		}
@@ -27,12 +27,12 @@ public class UpdatePaymentCommandHandler : ICommandHandler<UpdatePaymentCommand,
 
 		if (payment is null)
 		{
-			return PaymentErrors.PaymentNotFound;
+			return BillErrors.PaymentNotExist;
 		}
 
-		return payment.Update(request.UpdatePaymentInfo.CreatorId,
-			request.UpdatePaymentInfo.IsCreatorIncluded,
+		return payment.Update(request.UpdatePaymentInfo.Name,
 			request.UpdatePaymentInfo.Amount,
-			request.UpdatePaymentInfo.Debtors);
+			request.UpdatePaymentInfo.DebtorsToAdd,
+			request.UpdatePaymentInfo.DebtorsToRemove);
 	}
 }

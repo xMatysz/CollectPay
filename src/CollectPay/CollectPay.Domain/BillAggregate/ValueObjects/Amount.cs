@@ -6,7 +6,7 @@ namespace CollectPay.Domain.BillAggregate.ValueObjects;
 
 public class Amount : ValueObject
 {
-	private const int _maxLengthOfCurrency = 3;
+	private const int _currencyLength = 3;
 	public decimal Value { get; }
 	public string Currency { get; }
 
@@ -18,14 +18,14 @@ public class Amount : ValueObject
 
 	public static ErrorOr<Amount> Create(decimal amount, string currency)
 	{
-		if (amount < 0m)
+		if (amount <= decimal.Zero)
 		{
-			return AmountErrors.IncorrectValue;
+			return AmountErrors.AmountValueHaveToBePositive;
 		}
 
-		if (currency.Length > _maxLengthOfCurrency)
+		if (currency.Length != _currencyLength)
 		{
-			return AmountErrors.IncorrectCurrency;
+			return AmountErrors.CurrencyHaveToHave3CharactersLength;
 		}
 
 		return new Amount(amount, currency);

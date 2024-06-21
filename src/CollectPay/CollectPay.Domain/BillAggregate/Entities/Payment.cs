@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using CollectPay.Core.Extensions;
 using CollectPay.Domain.BillAggregate.Errors;
 using CollectPay.Domain.BillAggregate.ValueObjects;
 using CollectPay.Domain.Common.Models;
@@ -14,21 +14,18 @@ public sealed class Payment : Entity
 
     public string Name { get; set; }
 
-    public bool IsCreatorIncluded { get; private set; }
-
     public Amount Amount { get; private set; }
 
     public Guid BillId { get; private set; }
 
     public IList<Guid> Debtors => _debtors.AsReadOnly();
 
-    private Payment(Guid billId, string name, Guid creatorId, bool isCreatorIncluded, Amount amount, Guid[] debtorIds)
+    public Payment(Guid billId, string name, Guid creatorId, Amount amount, IEnumerable<Guid> debtorIds)
     {
 	    Id = Guid.NewGuid();
 	    Name = name;
 	    BillId = billId;
 	    CreatorId = creatorId;
-	    IsCreatorIncluded = isCreatorIncluded;
 	    Amount = amount;
 
 	    foreach (var ids in debtorIds)
@@ -37,63 +34,80 @@ public sealed class Payment : Entity
 	    }
     }
 
-    public static ErrorOr<Payment> Create(Guid billId, string name, Guid creator, bool isCreatorIncluded, Amount amount, IEnumerable<Guid> debtorIds)
+    public ErrorOr<Updated> Update(string name, Amount amount, Guid[] userIdsToAdd, Guid[] userIdsToRemove)
     {
-	    var ids = debtorIds.ToArray();
-	    var result = ValidateCreatorAndDebtors(creator, ids);
+	    var errors = new List<Error>();
 
-	    if (result.IsError)
+	    var updateName = UpdateName(name);
+	    if (updateName.IsError)
 	    {
-		    return result.Errors;
+		    errors.AddRange(updateName.Errors);
 	    }
 
-        return new Payment(billId, name, creator, isCreatorIncluded, amount, ids);
+	    var updateAmount = UpdateAmount(amount);
+	    if (updateAmount.IsError)
+	    {
+		    errors.AddRange(updateAmount.Errors);
+	    }
+
+	    var addUsers = AddUsers(userIdsToAdd);
+	    if (addUsers.IsError)
+	    {
+		    errors.AddRange(addUsers.Errors);
+	    }
+
+	    var userToRemove = RemoveUsers(userIdsToRemove);
+	    if (userToRemove.IsError)
+	    {
+		    errors.AddRange(userToRemove.Errors);
+	    }
+
+	    return errors.Any() ? errors : Result.Updated;
     }
 
-    public ErrorOr<Updated> Update(Guid? creatorId,
-	    bool? isCreatorIncluded,
-	    Amount? amount,
-	    Guid[]? debtors)
+    private ErrorOr<Success> UpdateName(string name)
     {
-	    if (creatorId is not null)
+	    if (name.IsNullEmptyOrWhitespace())
 	    {
-		    CreatorId = creatorId.Value;
+		    return PaymentErrors.NameCannotBeEmpty;
 	    }
 
-	    if (isCreatorIncluded is not null)
-	    {
-		    IsCreatorIncluded = isCreatorIncluded.Value;
-	    }
-
-	    if (amount is not null)
-	    {
-		    Amount = amount;
-	    }
-
-	    if (debtors is not null)
-	    {
-		    var canUpdate = ValidateCreatorAndDebtors(CreatorId, debtors);
-		    if (canUpdate.IsError)
-		    {
-			    return canUpdate.Errors;
-		    }
-
-		    foreach (var ids in debtors)
-		    {
-			    _debtors.Add(ids);
-		    }
-	    }
-
-	    return Result.Updated;
+	    Name = name;
+	    return  Result.Success;
     }
 
-    private static ErrorOr<Success> ValidateCreatorAndDebtors(Guid creatorId, Guid[] debtors)
+    private ErrorOr<Success> UpdateAmount(Amount amount)
     {
-	    if (debtors.Contains(creatorId))
+	    if (amount is null)
 	    {
-		    return PaymentErrors.CreatorCannotBeDebtor;
+		    return  PaymentErrors.InvalidAmount;
 	    }
 
+	    Amount = amount;
+	    return Result.Success;
+    }
+
+    private ErrorOr<Success> AddUsers(Guid[] userIdsToAdd)
+    {
+	    var existingDebtors = Debtors.Where(userIdsToAdd.Contains).ToArray();
+	    if (existingDebtors.Any())
+	    {
+		    return existingDebtors.Select(PaymentErrors.UserIsAlreadyAdded).ToArray();
+	    }
+
+	    _debtors.AddRange(userIdsToAdd);
+	    return Result.Success;
+    }
+
+    private ErrorOr<Success> RemoveUsers(Guid[] userIdsToRemove)
+    {
+	    var notExistingDebtors = userIdsToRemove.Where(id => !Debtors.Contains(id)).ToArray();
+	    if (notExistingDebtors.Any())
+	    {
+		    return notExistingDebtors.Select(PaymentErrors.UserNotFound).ToArray();
+	    }
+
+	    _debtors.RemoveAll(userIdsToRemove.Contains);
 	    return Result.Success;
     }
 

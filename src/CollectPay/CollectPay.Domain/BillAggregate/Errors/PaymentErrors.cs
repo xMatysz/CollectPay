@@ -8,15 +8,20 @@ public static class PaymentErrors
 		code: $"{nameof(PaymentErrors)}.{nameof(PaymentNotFound)}",
 		description: "Payment was not found");
 
-	public static Error PaymentAlreadyExist => Error.Conflict(
-		code: $"{nameof(PaymentErrors)}.{nameof(PaymentAlreadyExist)}",
-		description: "Payment already exist");
+	// after tests
+	public static Error NameCannotBeEmpty => Error.NotFound(
+		code: $"{nameof(PaymentErrors)}.{nameof(NameCannotBeEmpty)}",
+		description: "Payment name cannot be empty");
 
-	public static Error CreatorCannotBeDebtor => Error.Conflict(
-		code: $"{nameof(PaymentErrors)}.{nameof(CreatorCannotBeDebtor)}",
-		description: "Creator cannot be on Debtors list, please use 'Include Creator' option");
+	public static Error InvalidAmount => Error.NotFound(
+		code: $"{nameof(PaymentErrors)}.{nameof(InvalidAmount)}",
+		description: "Amount is invalid");
 
-	public static Error InvalidPayment => Error.Conflict(
-		code: $"{nameof(PaymentErrors)}.{nameof(InvalidPayment)}",
-		description: "Invalid payment");
+	public static Error UserIsAlreadyAdded(Guid  userId) => Error.Conflict(
+		code: $"{nameof(PaymentErrors)}.{nameof(UserIsAlreadyAdded)}",
+		description: $"User with id {userId} is already added to payment");
+
+	public static Error UserNotFound(Guid userId) => Error.NotFound(
+		code: $"{nameof(PaymentErrors)}.{nameof(UserNotFound)}",
+		description: $"User with {userId} id not is not assigned to payment");
 }
