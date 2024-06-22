@@ -32,7 +32,7 @@ public sealed class WebApiFactory : WebApplicationFactory<IApiAssemblyMarker>, I
 		{
 			services.RemoveAll(typeof(DbContextOptions<CollectPayDbContext>));
 			services.AddDbContext<CollectPayDbContext>(options =>
-				options.UseNpgsql(_dbContainer.GetConnectionString()));
+				options.UseNpgsql(_dbContainer.GetConnectionString() + ";Include Error Detail=true;"));
 
 			services.Configure<SecretProvider>(provider =>
 			{

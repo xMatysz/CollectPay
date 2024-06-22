@@ -40,7 +40,7 @@ public partial class PaymentCreateViewModel : ViewModelBase
 	[RelayCommand]
 	private async Task CreatePayment()
 	{
-		var request = new CreatePaymentRequest(Payment.Name, BillId, true, Payment.Amount, Payment.Currency, []);
+		var request = new CreatePaymentRequest(Payment.Name, BillId, Payment.Amount, Payment.Currency, []);
 
 		var response = await _apiClient.SendPost(PaymentRoutes.Create, request, CancellationToken.None);
 

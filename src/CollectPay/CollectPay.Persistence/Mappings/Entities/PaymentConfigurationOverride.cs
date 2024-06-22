@@ -16,16 +16,16 @@ public class PaymentConfigurationOverride : IEntityTypeConfiguration<Payment>
 
 		builder.PrimitiveCollection(x => x.Debtors);
 
-		builder.OwnsOne(x => x.Amount, y =>
-		{
-			y.Property(c => c.Value)
-				.HasColumnName("Amount")
-				.IsRequired();
+		var amountBuilder = builder.ComplexProperty(x => x.Amount);
 
-			y.Property(c => c.Currency)
-				.HasColumnName("Currency")
-				.HasMaxLength(3)
-				.IsRequired();
-		});
+		amountBuilder.Property(x => x.Value)
+			.HasColumnName("Amount")
+			.HasPrecision(18, 2)
+			.IsRequired();
+
+		amountBuilder.Property(x=>x.Currency)
+			.HasColumnName("Currency")
+			.HasMaxLength(3)
+			.IsRequired();
 	}
 }

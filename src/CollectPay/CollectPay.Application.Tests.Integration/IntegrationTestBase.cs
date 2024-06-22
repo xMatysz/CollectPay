@@ -12,12 +12,12 @@ public abstract class IntegrationTestBase : IClassFixture<WebApiFactory>, IAsync
 {
 	private readonly Func<Task> _resetDb;
 	private readonly WebApiFactory _factory;
-	private CollectPayDbContext _dbContext;
 	private IServiceScope _scope;
 
 	private IServiceProvider ServiceProvider { get; set; }
 
 	protected ISender Sender { get; set; }
+	protected CollectPayDbContext DbContext { get; private set; }
 	protected IBillRepository BillRepository { get; set; }
 	protected IUnitOfWork UnitOfWork { get; set; }
 	protected IUserRepository UserRepository { get; set; }
@@ -33,34 +33,17 @@ public abstract class IntegrationTestBase : IClassFixture<WebApiFactory>, IAsync
 
 	public async Task DisposeAsync() => await _resetDb();
 
-	protected void AssumeEntityInDb<TEntity>(params TEntity[] entities)
-		where TEntity : Entity
-	{
-		foreach (var entity in entities)
-		{
-			_dbContext.Add(entity);
-		}
-
-		UnitOfWork.SaveChangesAsync().GetAwaiter().GetResult();
-		RestartScope();
-	}
 
 	protected async Task AssumeEntityInDbAsync<TEntity>(params TEntity[] entities)
 		where TEntity : Entity
 	{
 		foreach (var entity in entities)
 		{
-			await _dbContext.AddAsync(entity);
+			await DbContext.AddAsync(entity);
 		}
 
 		await UnitOfWork.SaveChangesAsync();
 		RestartScope();
-	}
-
-	protected Task<TEntity[]> GetAllFromDb<TEntity>()
-		where TEntity : Entity
-	{
-		return _dbContext.Set<TEntity>().ToArrayAsync();
 	}
 
 	private void RestartScope()
@@ -68,7 +51,7 @@ public abstract class IntegrationTestBase : IClassFixture<WebApiFactory>, IAsync
 		_scope = _factory.Services.CreateScope();
 		ServiceProvider = _scope.ServiceProvider;
 
-		_dbContext = ServiceProvider.GetRequiredService<CollectPayDbContext>();
+		DbContext = ServiceProvider.GetRequiredService<CollectPayDbContext>();
 
 		Sender = ServiceProvider.GetRequiredService<ISender>();
 
