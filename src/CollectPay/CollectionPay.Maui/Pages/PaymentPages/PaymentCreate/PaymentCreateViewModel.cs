@@ -30,7 +30,6 @@ public partial class PaymentCreateViewModel : ViewModelBase
 	[RelayCommand]
 	private void Clear()
 	{
-		Payment.Image = null;
 		Payment.Name = null;
 		Payment.Amount = 0m;
 		Payment.Currency = null;

@@ -7,4 +7,9 @@ public partial class RegisterPage
 	{
 		InitializeComponent();
 	}
+
+	protected override void OnAppearing()
+	{
+		ViewModel.ClearModel();
+	}
 }

@@ -22,7 +22,7 @@ public class GetDebtsQueryHandler : IQueryHandler<GetDebtsQuery, Debt[]>
 	{
 		var bill = await _billRepository.GetByIdAsync(query.BillId, cancellationToken);
 
-		if (bill is null || !bill.Debtors.Contains(query.BillId))
+		if (bill is null || !bill.Debtors.Contains(query.UserId))
 		{
 			return BillErrors.BillNotFound;
 		}

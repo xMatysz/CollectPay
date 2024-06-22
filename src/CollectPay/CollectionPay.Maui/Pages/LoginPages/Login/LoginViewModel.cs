@@ -38,4 +38,11 @@ public partial class LoginViewModel : ViewModelBase
 			await _shellService.GoToAsync(AppShell.GetRoute<BillListPage>());
 		}
 	}
+
+	public void ClearModel()
+	{
+		Model.Login = string.Empty;
+		Model.Password = string.Empty;
+		OnPropertyChanged(nameof(Model));
+	}
 }

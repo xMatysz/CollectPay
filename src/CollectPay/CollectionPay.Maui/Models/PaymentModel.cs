@@ -2,7 +2,6 @@
 
 public class PaymentModel
 {
-	public ImageSource Image { get; set; }
 	public string Name { get; set; }
 	public decimal Amount { get; set; }
 	public string Currency { get; set; }

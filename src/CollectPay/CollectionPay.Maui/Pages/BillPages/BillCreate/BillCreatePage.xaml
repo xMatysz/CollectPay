@@ -19,14 +19,8 @@
                 Margin="5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
-                    <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
                 <Entry
-                    Grid.Row="0"
-                    Placeholder="Bill image"
-                    Text="{Binding Model.Image}"/>
-                <Entry
-                    Grid.Row="1"
                     Placeholder="Bill name"
                     Text="{Binding Model.Name}"/>
             </Grid>

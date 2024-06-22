@@ -7,4 +7,9 @@ public partial class LoginPage
 	{
 		InitializeComponent();
 	}
+
+	protected override void OnAppearing()
+	{
+		ViewModel.ClearModel();
+	}
 }

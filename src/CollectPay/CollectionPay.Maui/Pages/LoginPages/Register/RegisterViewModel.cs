@@ -41,4 +41,12 @@ public partial class RegisterViewModel : ViewModelBase
 	{
 		await Shell.Current.GoToAsync(AppShell.GetRoute<LoginPage>());
 	}
+
+	public void ClearModel()
+	{
+		Model.Login = string.Empty;
+		Model.Password = string.Empty;
+		Model.ConfirmPassword = string.Empty;
+		OnPropertyChanged(nameof(Model));
+	}
 }

@@ -37,4 +37,18 @@ public class WhenHandlingGetDebtsQuery : UnitTestBase
 		result.IsError.Should().BeTrue();
 		result.FirstError.Should().Be(BillErrors.BillNotFound);
 	}
+
+	[Fact]
+	public async Task Should_Return_WhenUserIsAttached()
+	{
+		var debtor = Guid.NewGuid();
+		var bill = BillBuilder.Default().WithDebtors([debtor]).Build();
+		BillRepository.GetByIdAsync(Arg.Any<Guid>())
+			.ReturnsForAnyArgs(bill);
+		var query = new GetDebtsQuery(debtor, Guid.NewGuid());
+
+		var result = await _handler.Handle(query,CancellationToken.None);
+
+		result.IsError.Should().BeFalse();
+	}
 }

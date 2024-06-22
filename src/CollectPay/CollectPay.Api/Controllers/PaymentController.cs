@@ -34,12 +34,13 @@ public class PaymentController : ApiController
 	[HttpPost(PaymentRoutes.Create)]
 	public async Task<IActionResult> CreatePayment([FromBody] CreatePaymentRequest request)
 	{
+		var user = HttpContext.GetUserId();
 		var command = new CreatePaymentCommand(
 			request.Name,
 			request.BillId,
-			HttpContext.GetUserId(),
+			user,
 			Amount.Create(request.Amount, request.Currency).Value,
-			request.Debtors);
+			request.Debtors.Concat([user]).ToArray());
 
 		var result = await Sender.Send(command);
 

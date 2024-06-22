@@ -90,7 +90,8 @@ public partial class PaymentListViewModel : ViewModelBase, IHaveDataToLoad, IQue
 
 		if (!response.IsSuccessStatusCode)
 		{
-			await Shell.Current.DisplayAlert("Error", "SomethingWrong", "Ok");
+			var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+			await Shell.Current.DisplayAlert(problem.Title, problem.Detail, "Ok");
 			return;
 		}
 
@@ -116,7 +117,8 @@ public partial class PaymentListViewModel : ViewModelBase, IHaveDataToLoad, IQue
 
 		if (!response.IsSuccessStatusCode)
 		{
-			await Shell.Current.DisplayAlert("Error", "SomethingWrong", "Ok");
+			var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+			await Shell.Current.DisplayAlert(problem.Title, problem.Detail, "Ok");
 			return;
 		}
 

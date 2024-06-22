@@ -20,19 +20,26 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="50"/>
-                    <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
                 <Entry
                     Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
                     Placeholder="Name"
                     Text="{Binding Payment.Name}"/>
                 <Entry
                     Grid.Row="1"
+                    Grid.Column="0"
                     Placeholder="Amount"
                     Text="{Binding Payment.Amount}"
                     Keyboard="Numeric"/>
                 <Entry
-                    Grid.Row="2"
+                    Grid.Row="1"
+                    Grid.Column="1"
                     Placeholder="Currency"
                     Text="{Binding Payment.Currency}"
                     MaxLength="3"/>
