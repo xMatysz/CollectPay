@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using CollectPay.Domain.BillAggregate;
+﻿using CollectPay.Domain.BillAggregate;
 using CollectPay.Domain.BillAggregate.Entities;
 
 namespace CollectPay.Tests.Shared.Builders;

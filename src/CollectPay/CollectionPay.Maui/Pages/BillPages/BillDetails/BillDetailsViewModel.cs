@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using CollectionPay.Contracts;
 using CollectionPay.Contracts.Requests.Bill;
-using CollectionPay.Contracts.Routes;
 using CollectionPay.Maui.Abstraction;
 using CollectionPay.Maui.Models;
 using CollectionPay.Maui.Pages.BillPages.BillList;

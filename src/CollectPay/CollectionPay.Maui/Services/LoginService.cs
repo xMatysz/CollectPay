@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
+using CollectionPay.Contracts;
 using CollectionPay.Contracts.Requests.User;
 using CollectionPay.Contracts.Responses;
-using CollectionPay.Contracts.Routes;
 using CollectionPay.Maui.Abstraction;
 using CollectionPay.Maui.Models;
 

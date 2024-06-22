@@ -1,5 +1,5 @@
-﻿using CollectionPay.Contracts.Requests.Payment;
-using CollectionPay.Contracts.Routes;
+﻿using CollectionPay.Contracts;
+using CollectionPay.Contracts.Requests.Payment;
 using CollectionPay.Maui.Abstraction;
 using CollectionPay.Maui.Models;
 using CollectionPay.Maui.Services;

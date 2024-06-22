@@ -1,6 +1,6 @@
-﻿using CollectionPay.Contracts.Requests.User;
+﻿using CollectionPay.Contracts;
+using CollectionPay.Contracts.Requests.User;
 using CollectionPay.Contracts.Responses;
-using CollectionPay.Contracts.Routes;
 using CollectPay.Application.UserAggregate.Login;
 using CollectPay.Application.UserAggregate.Register;
 using MediatR;

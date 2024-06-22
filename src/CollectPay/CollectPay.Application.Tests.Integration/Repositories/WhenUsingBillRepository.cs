@@ -1,5 +1,4 @@
-﻿using CollectPay.Application.Dtos;
-using CollectPay.Tests.Integration.Shared;
+﻿using CollectPay.Tests.Integration.Shared;
 
 namespace CollectPay.Application.Tests.Integration.Repositories;
 

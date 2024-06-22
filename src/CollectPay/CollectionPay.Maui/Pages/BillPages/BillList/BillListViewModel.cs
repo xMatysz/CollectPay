@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Net.Http.Json;
+using CollectionPay.Contracts;
 using CollectionPay.Contracts.Responses;
-using CollectionPay.Contracts.Routes;
 using CollectionPay.Maui.Abstraction;
 using CollectionPay.Maui.Models;
 using CollectionPay.Maui.Pages.BillPages.BillCreate;

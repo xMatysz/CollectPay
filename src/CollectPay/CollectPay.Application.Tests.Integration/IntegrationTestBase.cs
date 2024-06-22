@@ -3,7 +3,6 @@ using CollectPay.Domain.Common.Models;
 using CollectPay.Persistence;
 using CollectPay.Tests.Integration.Shared;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CollectPay.Application.Tests.Integration;

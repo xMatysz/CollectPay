@@ -1,6 +1,6 @@
-﻿using CollectionPay.Contracts.Requests.Payment;
+﻿using CollectionPay.Contracts;
+using CollectionPay.Contracts.Requests.Payment;
 using CollectionPay.Contracts.Responses;
-using CollectionPay.Contracts.Routes;
 using CollectPay.Api.Authentication;
 using CollectPay.Application.BillAggregate.Commands.Payments.CreatePayment;
 using CollectPay.Application.BillAggregate.Commands.Payments.RemovePayment;
