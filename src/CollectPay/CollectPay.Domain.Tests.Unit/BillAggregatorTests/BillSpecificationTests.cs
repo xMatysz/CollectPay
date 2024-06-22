@@ -25,7 +25,7 @@ public class BillSpecificationTests
 	}
 
 	[Fact]
-	public void AddPayments_Success_WhenPaymentHaveDifferentId()
+	public void AddPayments_Should_AddPayments()
 	{
 		var payment = PaymentBuilder
 			.Default()
@@ -112,5 +112,37 @@ public class BillSpecificationTests
 
 		result.IsError.Should().BeTrue();
 		result.FirstError.Should().Be(BillErrors.CannotRemoveCreatorFromDebtors);
+	}
+
+	[Fact]
+	public void Update_Should_UpdateName()
+	{
+		const string newName = "Vacation";
+
+		_bill.Update(newName, [], []);
+
+		_bill.Name.Should().Be(newName);
+	}
+
+	[Fact]
+	public void Update_Should_AddDebtors()
+	{
+		var newDebtor = Guid.NewGuid();
+
+		_bill.Update(_bill.Name, [newDebtor], []);
+
+		_bill.Debtors.Should().Contain(newDebtor);
+	}
+
+	[Fact]
+	public void Update_Should_RemoveDebtors()
+	{
+		var existingDebtor = Guid.NewGuid();
+		_bill.Update(_bill.Name, [existingDebtor], []);
+		_bill.Debtors.Should().Contain(existingDebtor);
+
+		_bill.Update(_bill.Name, [], [existingDebtor]);
+
+		_bill.Debtors.Should().NotContain(existingDebtor);
 	}
 }
